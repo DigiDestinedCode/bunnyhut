@@ -1,73 +1,82 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.repository.VisitRepository;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
 public class VisitService {
 
-    private final PatrocinadorRepository patrocinadorRepository;
+    private final VisitRepository visitRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository,
+    public VisitService(VisitRepository visitRepository,
                          ModelMapper modelMapper) {
-        this.patrocinadorRepository = patrocinadorRepository;
+        this.visitRepository = visitRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<PatrocinadorDTOResponse> listarPatrocinadores() {
-        return patrocinadorRepository.listarPatrocinadores()
+    public List<VisitDTOResponse> listVisits() {
+        return visitRepository.listVisits()
                 .stream()
-                .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
+                .map(visit -> modelMapper.map(visit, VisitDTOResponse.class))
                 .toList()
                 ;
     }
 
-    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
-        return (patrocinador != null) ? modelMapper.map(patrocinador, PatrocinadorDTOResponse.class) : null;
+    public VisitDTOResponse listarPorVisitId(Integer visitId) {
+        Visit visit = visitRepository.obterVisitPeloId(visitId);
+        return (visit != null) ? modelMapper.map(visit, VisitDTOResponse.class) : null;
     }
 
     @Transactional
-    public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-        Patrocinador PatrocinadorSave = this.patrocinadorRepository.save(patrocinador);
-        return modelMapper.map(PatrocinadorSave, PatrocinadorDTOResponse.class);
+    public VisitDTOResponse criarVisit(VisitDTORequest visitDTORequest) {
+        Visit visit = modelMapper.map(visitDTORequest, Visit.class);
+        Visit VisitSave = this.visitRepository.save(visit);
+        return modelMapper.map(VisitSave, VisitDTOResponse.class);
     }
 
     @Transactional
-    public PatrocinadorDTOResponse atualizarPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+    public VisitDTOResponse atualizarVisit(Integer visitId, VisitDTORequest visitDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Visit visit = visitRepository.obterVisitPeloId(visitId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza dados do patrocinador a partir do DTO
-            modelMapper.map(patrocinadorDTORequest, patrocinador);
+        if (visit != null) {
+            // atualiza dados do visit a partir do DTO
+            modelMapper.map(visitDTORequest, visit);
             // atualiza a categoria vinculada
-            Patrocinador tempResponse = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(tempResponse, PatrocinadorDTOResponse.class);
+            Visit tempResponse = visitRepository.save(visit);
+            return modelMapper.map(tempResponse, VisitDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza visit inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    public PatrocinadorDTOUpdateResponse atualizarStatusPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTOUpdateRequest) {
+    public VisitDTOUpdateResponse atualizarStatusVisit(Integer visitId, VisitDTORequest visitDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Visit visit = visitRepository.obterVisitPeloId(visitId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza o status do Patrocinador a partir do DTO
-            patrocinador.setStatus(patrocinadorDTOUpdateRequest.getStatus());
-            Patrocinador PatrocinadorSave = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(PatrocinadorSave, PatrocinadorDTOUpdateResponse.class);
+        if (visit != null) {
+            // atualiza o status do Visit a partir do DTO
+            visit.setStatus(visitDTOUpdateRequest.getStatus());
+            Visit VisitSave = visitRepository.save(visit);
+            return modelMapper.map(VisitSave, VisitDTOUpdateResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza visit inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void apagarPatrocinador(Integer patrocinadorId) {
-        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
+    public void apagarVisit(Integer visitId) {
+        visitRepository.apagadoLogicoVisit(visitId);
     }
 }
 

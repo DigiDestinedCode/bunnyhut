@@ -1,73 +1,82 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.repository.RabbitRepository;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
 public class RabbitService {
 
-    private final PatrocinadorRepository patrocinadorRepository;
+    private final RabbitRepository rabbitRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository,
+    public RabbitService(RabbitRepository rabbitRepository,
                          ModelMapper modelMapper) {
-        this.patrocinadorRepository = patrocinadorRepository;
+        this.rabbitRepository = rabbitRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<PatrocinadorDTOResponse> listarPatrocinadores() {
-        return patrocinadorRepository.listarPatrocinadores()
+    public List<RabbitDTOResponse> listarRabbites() {
+        return rabbitRepository.listarRabbites()
                 .stream()
-                .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
+                .map(rabbit -> modelMapper.map(rabbit, RabbitDTOResponse.class))
                 .toList()
                 ;
     }
 
-    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
-        return (patrocinador != null) ? modelMapper.map(patrocinador, PatrocinadorDTOResponse.class) : null;
+    public RabbitDTOResponse listarPorRabbitId(Integer rabbitId) {
+        Rabbit rabbit = rabbitRepository.obterRabbitPeloId(rabbitId);
+        return (rabbit != null) ? modelMapper.map(rabbit, RabbitDTOResponse.class) : null;
     }
 
     @Transactional
-    public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-        Patrocinador PatrocinadorSave = this.patrocinadorRepository.save(patrocinador);
-        return modelMapper.map(PatrocinadorSave, PatrocinadorDTOResponse.class);
+    public RabbitDTOResponse criarRabbit(RabbitDTORequest rabbitDTORequest) {
+        Rabbit rabbit = modelMapper.map(rabbitDTORequest, Rabbit.class);
+        Rabbit RabbitSave = this.rabbitRepository.save(rabbit);
+        return modelMapper.map(RabbitSave, RabbitDTOResponse.class);
     }
 
     @Transactional
-    public PatrocinadorDTOResponse atualizarPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+    public RabbitDTOResponse atualizarRabbit(Integer rabbitId, RabbitDTORequest rabbitDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Rabbit rabbit = rabbitRepository.obterRabbitPeloId(rabbitId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza dados do patrocinador a partir do DTO
-            modelMapper.map(patrocinadorDTORequest, patrocinador);
+        if (rabbit != null) {
+            // atualiza dados do rabbit a partir do DTO
+            modelMapper.map(rabbitDTORequest, rabbit);
             // atualiza a categoria vinculada
-            Patrocinador tempResponse = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(tempResponse, PatrocinadorDTOResponse.class);
+            Rabbit tempResponse = rabbitRepository.save(rabbit);
+            return modelMapper.map(tempResponse, RabbitDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza rabbit inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    public PatrocinadorDTOUpdateResponse atualizarStatusPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTOUpdateRequest) {
+    public RabbitDTOUpdateResponse atualizarStatusRabbit(Integer rabbitId, RabbitDTORequest rabbitDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Rabbit rabbit = rabbitRepository.obterRabbitPeloId(rabbitId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza o status do Patrocinador a partir do DTO
-            patrocinador.setStatus(patrocinadorDTOUpdateRequest.getStatus());
-            Patrocinador PatrocinadorSave = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(PatrocinadorSave, PatrocinadorDTOUpdateResponse.class);
+        if (rabbit != null) {
+            // atualiza o status do Rabbit a partir do DTO
+            rabbit.setStatus(rabbitDTOUpdateRequest.getStatus());
+            Rabbit RabbitSave = rabbitRepository.save(rabbit);
+            return modelMapper.map(RabbitSave, RabbitDTOUpdateResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza rabbit inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void apagarPatrocinador(Integer patrocinadorId) {
-        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
+    public void apagarRabbit(Integer rabbitId) {
+        rabbitRepository.apagadoLogicoRabbit(rabbitId);
     }
 }
 

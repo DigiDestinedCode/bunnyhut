@@ -1,4 +1,24 @@
 package com.senac.bunnyhut.repository;
 
-public interface RabbitRepository {
+
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+
+public interface RabbitRepository extends JpaRepository<Rabbit, Integer> {
+    @Modifying
+    @Transactional
+    @Query("UPDATE Rabbit p SET p.status = -1 WHERE p.id = :id")
+    void apagadoLogicoRabbit(@Param("id") Integer rabbitId);
+
+    @Query("SELECT p from Rabbit p WHERE p.status >= 0")
+    List<Rabbit> listarRabbits();
+
+    @Query("SELECT p from Rabbit p where p.id=:id AND p.status >=0")
+    Rabbit obterRabbitPeloId(@Param("id") Integer rabbitId);
 }

@@ -1,4 +1,24 @@
 package com.senac.bunnyhut.repository;
 
-public interface Transaction_CoinRepository {
+
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
+
+public interface Transaction_CoinRepository extends JpaRepository<Transaction_Coin, Integer> {
+    @Modifying
+    @Transactional
+    @Query("UPDATE Transaction_Coin p SET p.status = -1 WHERE p.id = :id")
+    void apagadoLogicoTransaction_Coin(@Param("id") Integer transaction_coinId);
+
+    @Query("SELECT p from Transaction_Coin p WHERE p.status >= 0")
+    List<Transaction_Coin> listarTransaction_Coins();
+
+    @Query("SELECT p from Transaction_Coin p where p.id=:id AND p.status >=0")
+    Transaction_Coin obterTransaction_CoinPeloId(@Param("id") Integer transaction_coinId);
 }

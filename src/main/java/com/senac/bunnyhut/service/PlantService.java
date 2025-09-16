@@ -1,73 +1,82 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.repository.PlantRepository;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
 public class PlantService {
 
-    private final PatrocinadorRepository patrocinadorRepository;
+    private final PlantRepository plantRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository,
+    public PlantService(PlantRepository plantRepository,
                          ModelMapper modelMapper) {
-        this.patrocinadorRepository = patrocinadorRepository;
+        this.plantRepository = plantRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<PatrocinadorDTOResponse> listarPatrocinadores() {
-        return patrocinadorRepository.listarPatrocinadores()
+    public List<PlantDTOResponse> listarPlantes() {
+        return plantRepository.listarPlantes()
                 .stream()
-                .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
+                .map(plant -> modelMapper.map(plant, PlantDTOResponse.class))
                 .toList()
                 ;
     }
 
-    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
-        return (patrocinador != null) ? modelMapper.map(patrocinador, PatrocinadorDTOResponse.class) : null;
+    public PlantDTOResponse listarPorPlantId(Integer plantId) {
+        Plant plant = plantRepository.obterPlantPeloId(plantId);
+        return (plant != null) ? modelMapper.map(plant, PlantDTOResponse.class) : null;
     }
 
     @Transactional
-    public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-        Patrocinador PatrocinadorSave = this.patrocinadorRepository.save(patrocinador);
-        return modelMapper.map(PatrocinadorSave, PatrocinadorDTOResponse.class);
+    public PlantDTOResponse criarPlant(PlantDTORequest plantDTORequest) {
+        Plant plant = modelMapper.map(plantDTORequest, Plant.class);
+        Plant PlantSave = this.plantRepository.save(plant);
+        return modelMapper.map(PlantSave, PlantDTOResponse.class);
     }
 
     @Transactional
-    public PatrocinadorDTOResponse atualizarPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+    public PlantDTOResponse atualizarPlant(Integer plantId, PlantDTORequest plantDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Plant plant = plantRepository.obterPlantPeloId(plantId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza dados do patrocinador a partir do DTO
-            modelMapper.map(patrocinadorDTORequest, patrocinador);
+        if (plant != null) {
+            // atualiza dados do plant a partir do DTO
+            modelMapper.map(plantDTORequest, plant);
             // atualiza a categoria vinculada
-            Patrocinador tempResponse = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(tempResponse, PatrocinadorDTOResponse.class);
+            Plant tempResponse = plantRepository.save(plant);
+            return modelMapper.map(tempResponse, PlantDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza plant inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    public PatrocinadorDTOUpdateResponse atualizarStatusPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTOUpdateRequest) {
+    public PlantDTOUpdateResponse atualizarStatusPlant(Integer plantId, PlantDTORequest plantDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Plant plant = plantRepository.obterPlantPeloId(plantId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza o status do Patrocinador a partir do DTO
-            patrocinador.setStatus(patrocinadorDTOUpdateRequest.getStatus());
-            Patrocinador PatrocinadorSave = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(PatrocinadorSave, PatrocinadorDTOUpdateResponse.class);
+        if (plant != null) {
+            // atualiza o status do Plant a partir do DTO
+            plant.setStatus(plantDTOUpdateRequest.getStatus());
+            Plant PlantSave = plantRepository.save(plant);
+            return modelMapper.map(PlantSave, PlantDTOUpdateResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza plant inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void apagarPatrocinador(Integer patrocinadorId) {
-        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
+    public void apagarPlant(Integer plantId) {
+        plantRepository.apagadoLogicoPlant(plantId);
     }
 }
 

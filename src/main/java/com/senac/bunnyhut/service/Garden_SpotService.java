@@ -1,73 +1,82 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.repository.Garden_SpotRepository;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
 public class Garden_SpotService {
 
-    private final PatrocinadorRepository patrocinadorRepository;
+    private final Garden_SpotRepository garden_spotRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository,
+    public Garden_SpotService(Garden_SpotRepository garden_spotRepository,
                          ModelMapper modelMapper) {
-        this.patrocinadorRepository = patrocinadorRepository;
+        this.garden_spotRepository = garden_spotRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<PatrocinadorDTOResponse> listarPatrocinadores() {
-        return patrocinadorRepository.listarPatrocinadores()
+    public List<Garden_SpotDTOResponse> listarGarden_Spotes() {
+        return garden_spotRepository.listarGarden_Spotes()
                 .stream()
-                .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
+                .map(garden_spot -> modelMapper.map(garden_spot, Garden_SpotDTOResponse.class))
                 .toList()
                 ;
     }
 
-    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
-        return (patrocinador != null) ? modelMapper.map(patrocinador, PatrocinadorDTOResponse.class) : null;
+    public Garden_SpotDTOResponse listarPorGarden_SpotId(Integer garden_spotId) {
+        Garden_Spot garden_spot = garden_spotRepository.obterGarden_SpotPeloId(garden_spotId);
+        return (garden_spot != null) ? modelMapper.map(garden_spot, Garden_SpotDTOResponse.class) : null;
     }
 
     @Transactional
-    public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-        Patrocinador PatrocinadorSave = this.patrocinadorRepository.save(patrocinador);
-        return modelMapper.map(PatrocinadorSave, PatrocinadorDTOResponse.class);
+    public Garden_SpotDTOResponse criarGarden_Spot(Garden_SpotDTORequest garden_spotDTORequest) {
+        Garden_Spot garden_spot = modelMapper.map(garden_spotDTORequest, Garden_Spot.class);
+        Garden_Spot Garden_SpotSave = this.garden_spotRepository.save(garden_spot);
+        return modelMapper.map(Garden_SpotSave, Garden_SpotDTOResponse.class);
     }
 
     @Transactional
-    public PatrocinadorDTOResponse atualizarPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+    public Garden_SpotDTOResponse atualizarGarden_Spot(Integer garden_spotId, Garden_SpotDTORequest garden_spotDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Garden_Spot garden_spot = garden_spotRepository.obterGarden_SpotPeloId(garden_spotId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza dados do patrocinador a partir do DTO
-            modelMapper.map(patrocinadorDTORequest, patrocinador);
+        if (garden_spot != null) {
+            // atualiza dados do garden_spot a partir do DTO
+            modelMapper.map(garden_spotDTORequest, garden_spot);
             // atualiza a categoria vinculada
-            Patrocinador tempResponse = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(tempResponse, PatrocinadorDTOResponse.class);
+            Garden_Spot tempResponse = garden_spotRepository.save(garden_spot);
+            return modelMapper.map(tempResponse, Garden_SpotDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza garden_spot inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    public PatrocinadorDTOUpdateResponse atualizarStatusPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTOUpdateRequest) {
+    public Garden_SpotDTOUpdateResponse atualizarStatusGarden_Spot(Integer garden_spotId, Garden_SpotDTORequest garden_spotDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Garden_Spot garden_spot = garden_spotRepository.obterGarden_SpotPeloId(garden_spotId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza o status do Patrocinador a partir do DTO
-            patrocinador.setStatus(patrocinadorDTOUpdateRequest.getStatus());
-            Patrocinador PatrocinadorSave = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(PatrocinadorSave, PatrocinadorDTOUpdateResponse.class);
+        if (garden_spot != null) {
+            // atualiza o status do Garden_Spot a partir do DTO
+            garden_spot.setStatus(garden_spotDTOUpdateRequest.getStatus());
+            Garden_Spot Garden_SpotSave = garden_spotRepository.save(garden_spot);
+            return modelMapper.map(Garden_SpotSave, Garden_SpotDTOUpdateResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza garden_spot inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void apagarPatrocinador(Integer patrocinadorId) {
-        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
+    public void apagarGarden_Spot(Integer garden_spotId) {
+        garden_spotRepository.apagadoLogicoGarden_Spot(garden_spotId);
     }
 }
 

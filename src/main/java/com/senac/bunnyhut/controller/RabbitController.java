@@ -1,77 +1,82 @@
 package com.senac.bunnyhut.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 public class RabbitController {
 
-    private final JogoService jogoService;
+    private final RabbitService rabbitService;
 
-    public JogoController(JogoService jogoService) {
-        this.jogoService = jogoService;
+    public RabbitController(RabbitService rabbitService) {
+        this.rabbitService = rabbitService;
     }
 
     @GetMapping("/listar")
     @Operation(
-            summary = "Listar jogos",
-            description = "Endpoint para listar todos os jogos"
+            summary = "Listar rabbits",
+            description = "Endpoint para listar todos os rabbits"
     )
-    public ResponseEntity<List<JogoDTOResponse>> listarJogos() {
-        return ResponseEntity.ok(jogoService.listarJogos());
+    public ResponseEntity<List<RabbitDTOResponse>> listarRabbits() {
+        return ResponseEntity.ok(rabbitService.listarRabbits());
     }
 
-    @GetMapping("/listarPorJogoId/{jogoId}")
+    @GetMapping("/listarPorRabbitId/{rabbitId}")
     @Operation(
-            summary = "Listar jogo pelo id de jogo",
-            description = "Endpoint para listar jogo por Id de jogo"
+            summary = "Listar rabbit pelo id de rabbit",
+            description = "Endpoint para listar rabbit por Id de rabbit"
     )
-    public ResponseEntity<JogoDTOResponse> listarPorJogoId(@PathVariable("jogoId") Integer jogoId) {
-        JogoDTOResponse jogo = jogoService.listarPorJogoId(jogoId);
-        if (jogo == null) {
+    public ResponseEntity<RabbitDTOResponse> listarPorRabbitId(@PathVariable("rabbitId") Integer rabbitId) {
+        RabbitDTOResponse rabbit = rabbitService.listarPorRabbitId(rabbitId);
+        if (rabbit == null) {
             return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.ok(jogo);
+            return ResponseEntity.ok(rabbit);
         }
     }
     @PostMapping("/criar")
     @Operation(
-            summary = "Criar novo jogo",
-            description = "Endpoint para criar um novo registro de jogo"
+            summary = "Criar novo rabbit",
+            description = "Endpoint para criar um novo registro de rabbit"
     )
-    public ResponseEntity<JogoDTOResponse> criarJogo(
-            @Valid @RequestBody JogoDTORequest jogo
+    public ResponseEntity<RabbitDTOResponse> criarRabbit(
+            @Valid @RequestBody RabbitDTORequest rabbit
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.criarJogo(jogo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(rabbitService.criarRabbit(rabbit));
     }
 
-    @PutMapping("/atualizar/{jogoId}")
+    @PutMapping("/atualizar/{rabbitId}")
     @Operation(
-            summary = "Atualizar todos os dados do jogo",
-            description = "Endpoint para atualizar o registro de jogo"
+            summary = "Atualizar todos os dados do rabbit",
+            description = "Endpoint para atualizar o registro de rabbit"
     )
-    public ResponseEntity<JogoDTOResponse> atualizarJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTORequest
+    public ResponseEntity<RabbitDTOResponse> atualizarRabbit(
+            @PathVariable("rabbitId") Integer rabbitId,
+            @Valid @RequestBody RabbitDTORequest rabbitDTORequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarJogo(jogoId, jogoDTORequest));
+        return ResponseEntity.ok(rabbitService.atualizarRabbit(rabbitId, rabbitDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{jogoId}")
+    @PatchMapping("/atualizarStatus/{rabbitId}")
     @Operation(
-            summary = "Atualizar campo status do jogo",
-            description = "Endpoint para atualizar apenas o status do jogo"
+            summary = "Atualizar campo status do rabbit",
+            description = "Endpoint para atualizar apenas o status do rabbit"
     )
-    public ResponseEntity<JogoDTOUpdateResponse> atualizarStatusJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTOUpdateRequest
+    public ResponseEntity<RabbitDTOUpdateResponse> atualizarStatusRabbit(
+            @PathVariable("rabbitId") Integer rabbitId,
+            @Valid @RequestBody RabbitDTORequest rabbitDTOUpdateRequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarStatusJogo(jogoId, jogoDTOUpdateRequest));
+        return ResponseEntity.ok(rabbitService.atualizarStatusRabbit(rabbitId, rabbitDTOUpdateRequest));
     }
 
-    @DeleteMapping("/apagar/{jogoId}")
+    @DeleteMapping("/apagar/{rabbitId}")
     @Operation(
-            summary = "Apagar registro do jogo",
-            description = "Endpoint para apagar registro do jogo"
+            summary = "Apagar registro do rabbit",
+            description = "Endpoint para apagar registro do rabbit"
     )
-    public ResponseEntity<Void> apagarJogo(@PathVariable("jogoId") Integer jogoId) {
-        jogoService.apagarJogo(jogoId);
+    public ResponseEntity<Void> apagarRabbit(@PathVariable("rabbitId") Integer rabbitId) {
+        rabbitService.apagarRabbit(rabbitId);
         return ResponseEntity.noContent().build();
     }
 }

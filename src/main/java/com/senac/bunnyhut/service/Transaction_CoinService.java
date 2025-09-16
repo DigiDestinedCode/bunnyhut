@@ -1,73 +1,82 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.repository.Transaction_CoinRepository;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
 public class Transaction_CoinService {
 
-    private final PatrocinadorRepository patrocinadorRepository;
+    private final Transaction_CoinRepository transaction_coinRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository,
+    public Transaction_CoinService(Transaction_CoinRepository transaction_coinRepository,
                          ModelMapper modelMapper) {
-        this.patrocinadorRepository = patrocinadorRepository;
+        this.transaction_coinRepository = transaction_coinRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<PatrocinadorDTOResponse> listarPatrocinadores() {
-        return patrocinadorRepository.listarPatrocinadores()
+    public List<Transaction_CoinDTOResponse> listarTransaction_Coines() {
+        return transaction_coinRepository.listarTransaction_Coines()
                 .stream()
-                .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
+                .map(transaction_coin -> modelMapper.map(transaction_coin, Transaction_CoinDTOResponse.class))
                 .toList()
                 ;
     }
 
-    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
-        return (patrocinador != null) ? modelMapper.map(patrocinador, PatrocinadorDTOResponse.class) : null;
+    public Transaction_CoinDTOResponse listarPorTransaction_CoinId(Integer transaction_coinId) {
+        Transaction_Coin transaction_coin = transaction_coinRepository.obterTransaction_CoinPeloId(transaction_coinId);
+        return (transaction_coin != null) ? modelMapper.map(transaction_coin, Transaction_CoinDTOResponse.class) : null;
     }
 
     @Transactional
-    public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-        Patrocinador PatrocinadorSave = this.patrocinadorRepository.save(patrocinador);
-        return modelMapper.map(PatrocinadorSave, PatrocinadorDTOResponse.class);
+    public Transaction_CoinDTOResponse criarTransaction_Coin(Transaction_CoinDTORequest transaction_coinDTORequest) {
+        Transaction_Coin transaction_coin = modelMapper.map(transaction_coinDTORequest, Transaction_Coin.class);
+        Transaction_Coin Transaction_CoinSave = this.transaction_coinRepository.save(transaction_coin);
+        return modelMapper.map(Transaction_CoinSave, Transaction_CoinDTOResponse.class);
     }
 
     @Transactional
-    public PatrocinadorDTOResponse atualizarPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+    public Transaction_CoinDTOResponse atualizarTransaction_Coin(Integer transaction_coinId, Transaction_CoinDTORequest transaction_coinDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Transaction_Coin transaction_coin = transaction_coinRepository.obterTransaction_CoinPeloId(transaction_coinId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza dados do patrocinador a partir do DTO
-            modelMapper.map(patrocinadorDTORequest, patrocinador);
+        if (transaction_coin != null) {
+            // atualiza dados do transaction_coin a partir do DTO
+            modelMapper.map(transaction_coinDTORequest, transaction_coin);
             // atualiza a categoria vinculada
-            Patrocinador tempResponse = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(tempResponse, PatrocinadorDTOResponse.class);
+            Transaction_Coin tempResponse = transaction_coinRepository.save(transaction_coin);
+            return modelMapper.map(tempResponse, Transaction_CoinDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza transaction_coin inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    public PatrocinadorDTOUpdateResponse atualizarStatusPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTOUpdateRequest) {
+    public Transaction_CoinDTOUpdateResponse atualizarStatusTransaction_Coin(Integer transaction_coinId, Transaction_CoinDTORequest transaction_coinDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Transaction_Coin transaction_coin = transaction_coinRepository.obterTransaction_CoinPeloId(transaction_coinId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza o status do Patrocinador a partir do DTO
-            patrocinador.setStatus(patrocinadorDTOUpdateRequest.getStatus());
-            Patrocinador PatrocinadorSave = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(PatrocinadorSave, PatrocinadorDTOUpdateResponse.class);
+        if (transaction_coin != null) {
+            // atualiza o status do Transaction_Coin a partir do DTO
+            transaction_coin.setStatus(transaction_coinDTOUpdateRequest.getStatus());
+            Transaction_Coin Transaction_CoinSave = transaction_coinRepository.save(transaction_coin);
+            return modelMapper.map(Transaction_CoinSave, Transaction_CoinDTOUpdateResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza transaction_coin inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void apagarPatrocinador(Integer patrocinadorId) {
-        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
+    public void apagarTransaction_Coin(Integer transaction_coinId) {
+        transaction_coinRepository.apagadoLogicoTransaction_Coin(transaction_coinId);
     }
 }
 

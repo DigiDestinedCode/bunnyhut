@@ -1,73 +1,81 @@
 package com.senac.bunnyhut.service;
 
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
 public class Background_SlotService {
 
-    private final PatrocinadorRepository patrocinadorRepository;
+    private final Background_SlotRepository background_slotRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository,
+    public Background_SlotService(Background_SlotRepository background_slotRepository,
                          ModelMapper modelMapper) {
-        this.patrocinadorRepository = patrocinadorRepository;
+        this.background_slotRepository = background_slotRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<PatrocinadorDTOResponse> listarPatrocinadores() {
-        return patrocinadorRepository.listarPatrocinadores()
+    public List<Background_SlotDTOResponse> listarBackground_Slotes() {
+        return background_slotRepository.listarBackground_Slotes()
                 .stream()
-                .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
+                .map(background_slot -> modelMapper.map(background_slot, Background_SlotDTOResponse.class))
                 .toList()
                 ;
     }
 
-    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
-        return (patrocinador != null) ? modelMapper.map(patrocinador, PatrocinadorDTOResponse.class) : null;
+    public Background_SlotDTOResponse listarPorBackground_SlotId(Integer background_slotId) {
+        Background_Slot background_slot = background_slotRepository.obterBackground_SlotPeloId(background_slotId);
+        return (background_slot != null) ? modelMapper.map(background_slot, Background_SlotDTOResponse.class) : null;
     }
 
     @Transactional
-    public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-        Patrocinador PatrocinadorSave = this.patrocinadorRepository.save(patrocinador);
-        return modelMapper.map(PatrocinadorSave, PatrocinadorDTOResponse.class);
+    public Background_SlotDTOResponse criarBackground_Slot(Background_SlotDTORequest background_slotDTORequest) {
+        Background_Slot background_slot = modelMapper.map(background_slotDTORequest, Background_Slot.class);
+        Background_Slot Background_SlotSave = this.background_slotRepository.save(background_slot);
+        return modelMapper.map(Background_SlotSave, Background_SlotDTOResponse.class);
     }
 
     @Transactional
-    public PatrocinadorDTOResponse atualizarPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+    public Background_SlotDTOResponse atualizarBackground_Slot(Integer background_slotId, Background_SlotDTORequest background_slotDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Background_Slot background_slot = background_slotRepository.obterBackground_SlotPeloId(background_slotId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza dados do patrocinador a partir do DTO
-            modelMapper.map(patrocinadorDTORequest, patrocinador);
+        if (background_slot != null) {
+            // atualiza dados do background_slot a partir do DTO
+            modelMapper.map(background_slotDTORequest, background_slot);
             // atualiza a categoria vinculada
-            Patrocinador tempResponse = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(tempResponse, PatrocinadorDTOResponse.class);
+            Background_Slot tempResponse = background_slotRepository.save(background_slot);
+            return modelMapper.map(tempResponse, Background_SlotDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza background_slot inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    public PatrocinadorDTOUpdateResponse atualizarStatusPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTOUpdateRequest) {
+    public Background_SlotDTOUpdateResponse atualizarStatusBackground_Slot(Integer background_slotId, Background_SlotDTORequest background_slotDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Background_Slot background_slot = background_slotRepository.obterBackground_SlotPeloId(background_slotId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza o status do Patrocinador a partir do DTO
-            patrocinador.setStatus(patrocinadorDTOUpdateRequest.getStatus());
-            Patrocinador PatrocinadorSave = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(PatrocinadorSave, PatrocinadorDTOUpdateResponse.class);
+        if (background_slot != null) {
+            // atualiza o status do Background_Slot a partir do DTO
+            background_slot.setStatus(background_slotDTOUpdateRequest.getStatus());
+            Background_Slot Background_SlotSave = background_slotRepository.save(background_slot);
+            return modelMapper.map(Background_SlotSave, Background_SlotDTOUpdateResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza background_slot inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void apagarPatrocinador(Integer patrocinadorId) {
-        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
+    public void apagarBackground_Slot(Integer background_slotId) {
+        background_slotRepository.apagadoLogicoBackground_Slot(background_slotId);
     }
 }
 

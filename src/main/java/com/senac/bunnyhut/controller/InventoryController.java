@@ -1,77 +1,82 @@
 package com.senac.bunnyhut.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 public class InventoryController {
 
-    private final JogoService jogoService;
+    private final InventoryService inventoryService;
 
-    public JogoController(JogoService jogoService) {
-        this.jogoService = jogoService;
+    public InventoryController(InventoryService inventoryService) {
+        this.inventoryService = inventoryService;
     }
 
     @GetMapping("/listar")
     @Operation(
-            summary = "Listar jogos",
-            description = "Endpoint para listar todos os jogos"
+            summary = "Listar inventorys",
+            description = "Endpoint para listar todos os inventorys"
     )
-    public ResponseEntity<List<JogoDTOResponse>> listarJogos() {
-        return ResponseEntity.ok(jogoService.listarJogos());
+    public ResponseEntity<List<InventoryDTOResponse>> listarInventorys() {
+        return ResponseEntity.ok(inventoryService.listarInventorys());
     }
 
-    @GetMapping("/listarPorJogoId/{jogoId}")
+    @GetMapping("/listarPorInventoryId/{inventoryId}")
     @Operation(
-            summary = "Listar jogo pelo id de jogo",
-            description = "Endpoint para listar jogo por Id de jogo"
+            summary = "Listar inventory pelo id de inventory",
+            description = "Endpoint para listar inventory por Id de inventory"
     )
-    public ResponseEntity<JogoDTOResponse> listarPorJogoId(@PathVariable("jogoId") Integer jogoId) {
-        JogoDTOResponse jogo = jogoService.listarPorJogoId(jogoId);
-        if (jogo == null) {
+    public ResponseEntity<InventoryDTOResponse> listarPorInventoryId(@PathVariable("inventoryId") Integer inventoryId) {
+        InventoryDTOResponse inventory = inventoryService.listarPorInventoryId(inventoryId);
+        if (inventory == null) {
             return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.ok(jogo);
+            return ResponseEntity.ok(inventory);
         }
     }
     @PostMapping("/criar")
     @Operation(
-            summary = "Criar novo jogo",
-            description = "Endpoint para criar um novo registro de jogo"
+            summary = "Criar novo inventory",
+            description = "Endpoint para criar um novo registro de inventory"
     )
-    public ResponseEntity<JogoDTOResponse> criarJogo(
-            @Valid @RequestBody JogoDTORequest jogo
+    public ResponseEntity<InventoryDTOResponse> criarInventory(
+            @Valid @RequestBody InventoryDTORequest inventory
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.criarJogo(jogo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(inventoryService.criarInventory(inventory));
     }
 
-    @PutMapping("/atualizar/{jogoId}")
+    @PutMapping("/atualizar/{inventoryId}")
     @Operation(
-            summary = "Atualizar todos os dados do jogo",
-            description = "Endpoint para atualizar o registro de jogo"
+            summary = "Atualizar todos os dados do inventory",
+            description = "Endpoint para atualizar o registro de inventory"
     )
-    public ResponseEntity<JogoDTOResponse> atualizarJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTORequest
+    public ResponseEntity<InventoryDTOResponse> atualizarInventory(
+            @PathVariable("inventoryId") Integer inventoryId,
+            @Valid @RequestBody InventoryDTORequest inventoryDTORequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarJogo(jogoId, jogoDTORequest));
+        return ResponseEntity.ok(inventoryService.atualizarInventory(inventoryId, inventoryDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{jogoId}")
+    @PatchMapping("/atualizarStatus/{inventoryId}")
     @Operation(
-            summary = "Atualizar campo status do jogo",
-            description = "Endpoint para atualizar apenas o status do jogo"
+            summary = "Atualizar campo status do inventory",
+            description = "Endpoint para atualizar apenas o status do inventory"
     )
-    public ResponseEntity<JogoDTOUpdateResponse> atualizarStatusJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTOUpdateRequest
+    public ResponseEntity<InventoryDTOUpdateResponse> atualizarStatusInventory(
+            @PathVariable("inventoryId") Integer inventoryId,
+            @Valid @RequestBody InventoryDTORequest inventoryDTOUpdateRequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarStatusJogo(jogoId, jogoDTOUpdateRequest));
+        return ResponseEntity.ok(inventoryService.atualizarStatusInventory(inventoryId, inventoryDTOUpdateRequest));
     }
 
-    @DeleteMapping("/apagar/{jogoId}")
+    @DeleteMapping("/apagar/{inventoryId}")
     @Operation(
-            summary = "Apagar registro do jogo",
-            description = "Endpoint para apagar registro do jogo"
+            summary = "Apagar registro do inventory",
+            description = "Endpoint para apagar registro do inventory"
     )
-    public ResponseEntity<Void> apagarJogo(@PathVariable("jogoId") Integer jogoId) {
-        jogoService.apagarJogo(jogoId);
+    public ResponseEntity<Void> apagarInventory(@PathVariable("inventoryId") Integer inventoryId) {
+        inventoryService.apagarInventory(inventoryId);
         return ResponseEntity.noContent().build();
     }
 }

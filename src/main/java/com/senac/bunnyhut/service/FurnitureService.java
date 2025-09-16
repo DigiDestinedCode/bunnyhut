@@ -1,73 +1,82 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.repository.FurnitureRepository;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
 public class FurnitureService {
 
-    private final PatrocinadorRepository patrocinadorRepository;
+    private final FurnitureRepository furnitureRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository,
+    public FurnitureService(FurnitureRepository furnitureRepository,
                          ModelMapper modelMapper) {
-        this.patrocinadorRepository = patrocinadorRepository;
+        this.furnitureRepository = furnitureRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<PatrocinadorDTOResponse> listarPatrocinadores() {
-        return patrocinadorRepository.listarPatrocinadores()
+    public List<FurnitureDTOResponse> listarFurniturees() {
+        return furnitureRepository.listarFurniturees()
                 .stream()
-                .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
+                .map(furniture -> modelMapper.map(furniture, FurnitureDTOResponse.class))
                 .toList()
                 ;
     }
 
-    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
-        return (patrocinador != null) ? modelMapper.map(patrocinador, PatrocinadorDTOResponse.class) : null;
+    public FurnitureDTOResponse listarPorFurnitureId(Integer furnitureId) {
+        Furniture furniture = furnitureRepository.obterFurniturePeloId(furnitureId);
+        return (furniture != null) ? modelMapper.map(furniture, FurnitureDTOResponse.class) : null;
     }
 
     @Transactional
-    public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-        Patrocinador PatrocinadorSave = this.patrocinadorRepository.save(patrocinador);
-        return modelMapper.map(PatrocinadorSave, PatrocinadorDTOResponse.class);
+    public FurnitureDTOResponse criarFurniture(FurnitureDTORequest furnitureDTORequest) {
+        Furniture furniture = modelMapper.map(furnitureDTORequest, Furniture.class);
+        Furniture FurnitureSave = this.furnitureRepository.save(furniture);
+        return modelMapper.map(FurnitureSave, FurnitureDTOResponse.class);
     }
 
     @Transactional
-    public PatrocinadorDTOResponse atualizarPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+    public FurnitureDTOResponse atualizarFurniture(Integer furnitureId, FurnitureDTORequest furnitureDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Furniture furniture = furnitureRepository.obterFurniturePeloId(furnitureId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza dados do patrocinador a partir do DTO
-            modelMapper.map(patrocinadorDTORequest, patrocinador);
+        if (furniture != null) {
+            // atualiza dados do furniture a partir do DTO
+            modelMapper.map(furnitureDTORequest, furniture);
             // atualiza a categoria vinculada
-            Patrocinador tempResponse = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(tempResponse, PatrocinadorDTOResponse.class);
+            Furniture tempResponse = furnitureRepository.save(furniture);
+            return modelMapper.map(tempResponse, FurnitureDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza furniture inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    public PatrocinadorDTOUpdateResponse atualizarStatusPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTOUpdateRequest) {
+    public FurnitureDTOUpdateResponse atualizarStatusFurniture(Integer furnitureId, FurnitureDTORequest furnitureDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Furniture furniture = furnitureRepository.obterFurniturePeloId(furnitureId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza o status do Patrocinador a partir do DTO
-            patrocinador.setStatus(patrocinadorDTOUpdateRequest.getStatus());
-            Patrocinador PatrocinadorSave = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(PatrocinadorSave, PatrocinadorDTOUpdateResponse.class);
+        if (furniture != null) {
+            // atualiza o status do Furniture a partir do DTO
+            furniture.setStatus(furnitureDTOUpdateRequest.getStatus());
+            Furniture FurnitureSave = furnitureRepository.save(furniture);
+            return modelMapper.map(FurnitureSave, FurnitureDTOUpdateResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza furniture inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void apagarPatrocinador(Integer patrocinadorId) {
-        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
+    public void apagarFurniture(Integer furnitureId) {
+        furnitureRepository.apagadoLogicoFurniture(furnitureId);
     }
 }
 

@@ -1,7 +1,14 @@
 package com.senac.bunnyhut.entity;
 
-public class Background {
-    private int background_id;
+import jakarta.persistence.*;
 
-    private String background_theme;
+@Entity
+@Table(name="background")
+public class Background {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "background_id")
+    private Integer id;
+    @Column(name = "background_theme")
+    private String theme;
 }

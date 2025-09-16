@@ -1,77 +1,82 @@
 package com.senac.bunnyhut.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 public class GardenController {
 
-    private final JogoService jogoService;
+    private final GardenService gardenService;
 
-    public JogoController(JogoService jogoService) {
-        this.jogoService = jogoService;
+    public GardenController(GardenService gardenService) {
+        this.gardenService = gardenService;
     }
 
     @GetMapping("/listar")
     @Operation(
-            summary = "Listar jogos",
-            description = "Endpoint para listar todos os jogos"
+            summary = "Listar gardens",
+            description = "Endpoint para listar todos os gardens"
     )
-    public ResponseEntity<List<JogoDTOResponse>> listarJogos() {
-        return ResponseEntity.ok(jogoService.listarJogos());
+    public ResponseEntity<List<GardenDTOResponse>> listarGardens() {
+        return ResponseEntity.ok(gardenService.listarGardens());
     }
 
-    @GetMapping("/listarPorJogoId/{jogoId}")
+    @GetMapping("/listarPorGardenId/{gardenId}")
     @Operation(
-            summary = "Listar jogo pelo id de jogo",
-            description = "Endpoint para listar jogo por Id de jogo"
+            summary = "Listar garden pelo id de garden",
+            description = "Endpoint para listar garden por Id de garden"
     )
-    public ResponseEntity<JogoDTOResponse> listarPorJogoId(@PathVariable("jogoId") Integer jogoId) {
-        JogoDTOResponse jogo = jogoService.listarPorJogoId(jogoId);
-        if (jogo == null) {
+    public ResponseEntity<GardenDTOResponse> listarPorGardenId(@PathVariable("gardenId") Integer gardenId) {
+        GardenDTOResponse garden = gardenService.listarPorGardenId(gardenId);
+        if (garden == null) {
             return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.ok(jogo);
+            return ResponseEntity.ok(garden);
         }
     }
     @PostMapping("/criar")
     @Operation(
-            summary = "Criar novo jogo",
-            description = "Endpoint para criar um novo registro de jogo"
+            summary = "Criar novo garden",
+            description = "Endpoint para criar um novo registro de garden"
     )
-    public ResponseEntity<JogoDTOResponse> criarJogo(
-            @Valid @RequestBody JogoDTORequest jogo
+    public ResponseEntity<GardenDTOResponse> criarGarden(
+            @Valid @RequestBody GardenDTORequest garden
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.criarJogo(jogo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(gardenService.criarGarden(garden));
     }
 
-    @PutMapping("/atualizar/{jogoId}")
+    @PutMapping("/atualizar/{gardenId}")
     @Operation(
-            summary = "Atualizar todos os dados do jogo",
-            description = "Endpoint para atualizar o registro de jogo"
+            summary = "Atualizar todos os dados do garden",
+            description = "Endpoint para atualizar o registro de garden"
     )
-    public ResponseEntity<JogoDTOResponse> atualizarJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTORequest
+    public ResponseEntity<GardenDTOResponse> atualizarGarden(
+            @PathVariable("gardenId") Integer gardenId,
+            @Valid @RequestBody GardenDTORequest gardenDTORequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarJogo(jogoId, jogoDTORequest));
+        return ResponseEntity.ok(gardenService.atualizarGarden(gardenId, gardenDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{jogoId}")
+    @PatchMapping("/atualizarStatus/{gardenId}")
     @Operation(
-            summary = "Atualizar campo status do jogo",
-            description = "Endpoint para atualizar apenas o status do jogo"
+            summary = "Atualizar campo status do garden",
+            description = "Endpoint para atualizar apenas o status do garden"
     )
-    public ResponseEntity<JogoDTOUpdateResponse> atualizarStatusJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTOUpdateRequest
+    public ResponseEntity<GardenDTOUpdateResponse> atualizarStatusGarden(
+            @PathVariable("gardenId") Integer gardenId,
+            @Valid @RequestBody GardenDTORequest gardenDTOUpdateRequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarStatusJogo(jogoId, jogoDTOUpdateRequest));
+        return ResponseEntity.ok(gardenService.atualizarStatusGarden(gardenId, gardenDTOUpdateRequest));
     }
 
-    @DeleteMapping("/apagar/{jogoId}")
+    @DeleteMapping("/apagar/{gardenId}")
     @Operation(
-            summary = "Apagar registro do jogo",
-            description = "Endpoint para apagar registro do jogo"
+            summary = "Apagar registro do garden",
+            description = "Endpoint para apagar registro do garden"
     )
-    public ResponseEntity<Void> apagarJogo(@PathVariable("jogoId") Integer jogoId) {
-        jogoService.apagarJogo(jogoId);
+    public ResponseEntity<Void> apagarGarden(@PathVariable("gardenId") Integer gardenId) {
+        gardenService.apagarGarden(gardenId);
         return ResponseEntity.noContent().build();
     }
 }

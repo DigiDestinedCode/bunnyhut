@@ -1,77 +1,82 @@
 package com.senac.bunnyhut.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 public class FurnitureController {
 
-    private final JogoService jogoService;
+    private final FurnitureService furnitureService;
 
-    public JogoController(JogoService jogoService) {
-        this.jogoService = jogoService;
+    public FurnitureController(FurnitureService furnitureService) {
+        this.furnitureService = furnitureService;
     }
 
     @GetMapping("/listar")
     @Operation(
-            summary = "Listar jogos",
-            description = "Endpoint para listar todos os jogos"
+            summary = "Listar furnitures",
+            description = "Endpoint para listar todos os furnitures"
     )
-    public ResponseEntity<List<JogoDTOResponse>> listarJogos() {
-        return ResponseEntity.ok(jogoService.listarJogos());
+    public ResponseEntity<List<FurnitureDTOResponse>> listarFurnitures() {
+        return ResponseEntity.ok(furnitureService.listarFurnitures());
     }
 
-    @GetMapping("/listarPorJogoId/{jogoId}")
+    @GetMapping("/listarPorFurnitureId/{furnitureId}")
     @Operation(
-            summary = "Listar jogo pelo id de jogo",
-            description = "Endpoint para listar jogo por Id de jogo"
+            summary = "Listar furniture pelo id de furniture",
+            description = "Endpoint para listar furniture por Id de furniture"
     )
-    public ResponseEntity<JogoDTOResponse> listarPorJogoId(@PathVariable("jogoId") Integer jogoId) {
-        JogoDTOResponse jogo = jogoService.listarPorJogoId(jogoId);
-        if (jogo == null) {
+    public ResponseEntity<FurnitureDTOResponse> listarPorFurnitureId(@PathVariable("furnitureId") Integer furnitureId) {
+        FurnitureDTOResponse furniture = furnitureService.listarPorFurnitureId(furnitureId);
+        if (furniture == null) {
             return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.ok(jogo);
+            return ResponseEntity.ok(furniture);
         }
     }
     @PostMapping("/criar")
     @Operation(
-            summary = "Criar novo jogo",
-            description = "Endpoint para criar um novo registro de jogo"
+            summary = "Criar novo furniture",
+            description = "Endpoint para criar um novo registro de furniture"
     )
-    public ResponseEntity<JogoDTOResponse> criarJogo(
-            @Valid @RequestBody JogoDTORequest jogo
+    public ResponseEntity<FurnitureDTOResponse> criarFurniture(
+            @Valid @RequestBody FurnitureDTORequest furniture
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.criarJogo(jogo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(furnitureService.criarFurniture(furniture));
     }
 
-    @PutMapping("/atualizar/{jogoId}")
+    @PutMapping("/atualizar/{furnitureId}")
     @Operation(
-            summary = "Atualizar todos os dados do jogo",
-            description = "Endpoint para atualizar o registro de jogo"
+            summary = "Atualizar todos os dados do furniture",
+            description = "Endpoint para atualizar o registro de furniture"
     )
-    public ResponseEntity<JogoDTOResponse> atualizarJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTORequest
+    public ResponseEntity<FurnitureDTOResponse> atualizarFurniture(
+            @PathVariable("furnitureId") Integer furnitureId,
+            @Valid @RequestBody FurnitureDTORequest furnitureDTORequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarJogo(jogoId, jogoDTORequest));
+        return ResponseEntity.ok(furnitureService.atualizarFurniture(furnitureId, furnitureDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{jogoId}")
+    @PatchMapping("/atualizarStatus/{furnitureId}")
     @Operation(
-            summary = "Atualizar campo status do jogo",
-            description = "Endpoint para atualizar apenas o status do jogo"
+            summary = "Atualizar campo status do furniture",
+            description = "Endpoint para atualizar apenas o status do furniture"
     )
-    public ResponseEntity<JogoDTOUpdateResponse> atualizarStatusJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTOUpdateRequest
+    public ResponseEntity<FurnitureDTOUpdateResponse> atualizarStatusFurniture(
+            @PathVariable("furnitureId") Integer furnitureId,
+            @Valid @RequestBody FurnitureDTORequest furnitureDTOUpdateRequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarStatusJogo(jogoId, jogoDTOUpdateRequest));
+        return ResponseEntity.ok(furnitureService.atualizarStatusFurniture(furnitureId, furnitureDTOUpdateRequest));
     }
 
-    @DeleteMapping("/apagar/{jogoId}")
+    @DeleteMapping("/apagar/{furnitureId}")
     @Operation(
-            summary = "Apagar registro do jogo",
-            description = "Endpoint para apagar registro do jogo"
+            summary = "Apagar registro do furniture",
+            description = "Endpoint para apagar registro do furniture"
     )
-    public ResponseEntity<Void> apagarJogo(@PathVariable("jogoId") Integer jogoId) {
-        jogoService.apagarJogo(jogoId);
+    public ResponseEntity<Void> apagarFurniture(@PathVariable("furnitureId") Integer furnitureId) {
+        furnitureService.apagarFurniture(furnitureId);
         return ResponseEntity.noContent().build();
     }
 }

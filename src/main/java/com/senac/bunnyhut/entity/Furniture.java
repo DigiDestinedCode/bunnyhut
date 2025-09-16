@@ -1,6 +1,14 @@
 package com.senac.bunnyhut.entity;
 
-public class Furniture {
+import jakarta.persistence.*;
 
-    private int furniture_id;
+@Entity
+@Table(name="furniture")
+public class Furniture {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "furniture_id")
+    private Integer id;
+    @Column(name = "furniture_slot")
+    private String slot;
 }

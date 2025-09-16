@@ -1,73 +1,82 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.repository.InventoryRepository;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+@Service
 public class InventoryService {
 
-    private final PatrocinadorRepository patrocinadorRepository;
+    private final InventoryRepository inventoryRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public PatrocinadorService(PatrocinadorRepository patrocinadorRepository,
+    public InventoryService(InventoryRepository inventoryRepository,
                          ModelMapper modelMapper) {
-        this.patrocinadorRepository = patrocinadorRepository;
+        this.inventoryRepository = inventoryRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<PatrocinadorDTOResponse> listarPatrocinadores() {
-        return patrocinadorRepository.listarPatrocinadores()
+    public List<InventoryDTOResponse> listarInventoryes() {
+        return inventoryRepository.listarInventoryes()
                 .stream()
-                .map(patrocinador -> modelMapper.map(patrocinador, PatrocinadorDTOResponse.class))
+                .map(inventory -> modelMapper.map(inventory, InventoryDTOResponse.class))
                 .toList()
                 ;
     }
 
-    public PatrocinadorDTOResponse listarPorPatrocinadorId(Integer patrocinadorId) {
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
-        return (patrocinador != null) ? modelMapper.map(patrocinador, PatrocinadorDTOResponse.class) : null;
+    public InventoryDTOResponse listarPorInventoryId(Integer inventoryId) {
+        Inventory inventory = inventoryRepository.obterInventoryPeloId(inventoryId);
+        return (inventory != null) ? modelMapper.map(inventory, InventoryDTOResponse.class) : null;
     }
 
     @Transactional
-    public PatrocinadorDTOResponse criarPatrocinador(PatrocinadorDTORequest patrocinadorDTORequest) {
-        Patrocinador patrocinador = modelMapper.map(patrocinadorDTORequest, Patrocinador.class);
-        Patrocinador PatrocinadorSave = this.patrocinadorRepository.save(patrocinador);
-        return modelMapper.map(PatrocinadorSave, PatrocinadorDTOResponse.class);
+    public InventoryDTOResponse criarInventory(InventoryDTORequest inventoryDTORequest) {
+        Inventory inventory = modelMapper.map(inventoryDTORequest, Inventory.class);
+        Inventory InventorySave = this.inventoryRepository.save(inventory);
+        return modelMapper.map(InventorySave, InventoryDTOResponse.class);
     }
 
     @Transactional
-    public PatrocinadorDTOResponse atualizarPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTORequest) {
+    public InventoryDTOResponse atualizarInventory(Integer inventoryId, InventoryDTORequest inventoryDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Inventory inventory = inventoryRepository.obterInventoryPeloId(inventoryId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza dados do patrocinador a partir do DTO
-            modelMapper.map(patrocinadorDTORequest, patrocinador);
+        if (inventory != null) {
+            // atualiza dados do inventory a partir do DTO
+            modelMapper.map(inventoryDTORequest, inventory);
             // atualiza a categoria vinculada
-            Patrocinador tempResponse = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(tempResponse, PatrocinadorDTOResponse.class);
+            Inventory tempResponse = inventoryRepository.save(inventory);
+            return modelMapper.map(tempResponse, InventoryDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza inventory inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    public PatrocinadorDTOUpdateResponse atualizarStatusPatrocinador(Integer patrocinadorId, PatrocinadorDTORequest patrocinadorDTOUpdateRequest) {
+    public InventoryDTOUpdateResponse atualizarStatusInventory(Integer inventoryId, InventoryDTORequest inventoryDTOUpdateRequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Patrocinador patrocinador = patrocinadorRepository.obterPatrocinadorPeloId(patrocinadorId);
+        Inventory inventory = inventoryRepository.obterInventoryPeloId(inventoryId);
         //se encontra o registro a ser atualizado
-        if (patrocinador != null) {
-            // atualiza o status do Patrocinador a partir do DTO
-            patrocinador.setStatus(patrocinadorDTOUpdateRequest.getStatus());
-            Patrocinador PatrocinadorSave = patrocinadorRepository.save(patrocinador);
-            return modelMapper.map(PatrocinadorSave, PatrocinadorDTOUpdateResponse.class);
+        if (inventory != null) {
+            // atualiza o status do Inventory a partir do DTO
+            inventory.setStatus(inventoryDTOUpdateRequest.getStatus());
+            Inventory InventorySave = inventoryRepository.save(inventory);
+            return modelMapper.map(InventorySave, InventoryDTOUpdateResponse.class);
         } else {
-            // Error 400 caso tente atualiza patrocinador inexistente.
+            // Error 400 caso tente atualiza inventory inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void apagarPatrocinador(Integer patrocinadorId) {
-        patrocinadorRepository.apagadoLogicoPatrocinador(patrocinadorId);
+    public void apagarInventory(Integer inventoryId) {
+        inventoryRepository.apagadoLogicoInventory(inventoryId);
     }
 }
 

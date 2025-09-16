@@ -1,6 +1,13 @@
 package com.senac.bunnyhut.entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="background_slot")
 public class Background_Slot {
-    private int background_slots_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "background_slots_id")
+    private int id;
 
 }

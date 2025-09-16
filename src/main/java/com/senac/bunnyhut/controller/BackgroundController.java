@@ -1,77 +1,81 @@
 package com.senac.bunnyhut.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 public class BackgroundController {
 
-    private final JogoService jogoService;
+    private final BackgroundService backgroundService;
 
-    public JogoController(JogoService jogoService) {
-        this.jogoService = jogoService;
+    public BackgroundController(BackgroundService backgroundService) {
+        this.backgroundService = backgroundService;
     }
 
     @GetMapping("/listar")
     @Operation(
-            summary = "Listar jogos",
-            description = "Endpoint para listar todos os jogos"
+            summary = "Listar backgrounds",
+            description = "Endpoint para listar todos os backgrounds"
     )
-    public ResponseEntity<List<JogoDTOResponse>> listarJogos() {
-        return ResponseEntity.ok(jogoService.listarJogos());
+    public ResponseEntity<List<BackgroundDTOResponse>> listarBackgrounds() {
+        return ResponseEntity.ok(backgroundService.listarBackgrounds());
     }
 
-    @GetMapping("/listarPorJogoId/{jogoId}")
+    @GetMapping("/listarPorBackgroundId/{backgroundId}")
     @Operation(
-            summary = "Listar jogo pelo id de jogo",
-            description = "Endpoint para listar jogo por Id de jogo"
+            summary = "Listar background pelo id de background",
+            description = "Endpoint para listar background por Id de background"
     )
-    public ResponseEntity<JogoDTOResponse> listarPorJogoId(@PathVariable("jogoId") Integer jogoId) {
-        JogoDTOResponse jogo = jogoService.listarPorJogoId(jogoId);
-        if (jogo == null) {
+    public ResponseEntity<BackgroundDTOResponse> listarPorBackgroundId(@PathVariable("backgroundId") Integer backgroundId) {
+        BackgroundDTOResponse background = backgroundService.listarPorBackgroundId(backgroundId);
+        if (background == null) {
             return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.ok(jogo);
+            return ResponseEntity.ok(background);
         }
     }
     @PostMapping("/criar")
     @Operation(
-            summary = "Criar novo jogo",
-            description = "Endpoint para criar um novo registro de jogo"
+            summary = "Criar novo background",
+            description = "Endpoint para criar um novo registro de background"
     )
-    public ResponseEntity<JogoDTOResponse> criarJogo(
-            @Valid @RequestBody JogoDTORequest jogo
+    public ResponseEntity<BackgroundDTOResponse> criarBackground(
+            @Valid @RequestBody BackgroundDTORequest background
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(jogoService.criarJogo(jogo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(backgroundService.criarBackground(background));
     }
 
-    @PutMapping("/atualizar/{jogoId}")
+    @PutMapping("/atualizar/{backgroundId}")
     @Operation(
-            summary = "Atualizar todos os dados do jogo",
-            description = "Endpoint para atualizar o registro de jogo"
+            summary = "Atualizar todos os dados do background",
+            description = "Endpoint para atualizar o registro de background"
     )
-    public ResponseEntity<JogoDTOResponse> atualizarJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTORequest
+    public ResponseEntity<BackgroundDTOResponse> atualizarBackground(
+            @PathVariable("backgroundId") Integer backgroundId,
+            @Valid @RequestBody BackgroundDTORequest backgroundDTORequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarJogo(jogoId, jogoDTORequest));
+        return ResponseEntity.ok(backgroundService.atualizarBackground(backgroundId, backgroundDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{jogoId}")
+    @PatchMapping("/atualizarStatus/{backgroundId}")
     @Operation(
-            summary = "Atualizar campo status do jogo",
-            description = "Endpoint para atualizar apenas o status do jogo"
+            summary = "Atualizar campo status do background",
+            description = "Endpoint para atualizar apenas o status do background"
     )
-    public ResponseEntity<JogoDTOUpdateResponse> atualizarStatusJogo(
-            @PathVariable("jogoId") Integer jogoId,
-            @Valid @RequestBody JogoDTORequest jogoDTOUpdateRequest
+    public ResponseEntity<BackgroundDTOUpdateResponse> atualizarStatusBackground(
+            @PathVariable("backgroundId") Integer backgroundId,
+            @Valid @RequestBody BackgroundDTORequest backgroundDTOUpdateRequest
     ) {
-        return ResponseEntity.ok(jogoService.atualizarStatusJogo(jogoId, jogoDTOUpdateRequest));
+        return ResponseEntity.ok(backgroundService.atualizarStatusBackground(backgroundId, backgroundDTOUpdateRequest));
     }
 
-    @DeleteMapping("/apagar/{jogoId}")
+    @DeleteMapping("/apagar/{backgroundId}")
     @Operation(
-            summary = "Apagar registro do jogo",
-            description = "Endpoint para apagar registro do jogo"
+            summary = "Apagar registro do background",
+            description = "Endpoint para apagar registro do background"
     )
-    public ResponseEntity<Void> apagarJogo(@PathVariable("jogoId") Integer jogoId) {
-        jogoService.apagarJogo(jogoId);
+    public ResponseEntity<Void> apagarBackground(@PathVariable("backgroundId") Integer backgroundId) {
+        backgroundService.apagarBackground(backgroundId);
         return ResponseEntity.noContent().build();
     }
 }
