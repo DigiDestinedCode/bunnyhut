@@ -1,4 +1,4 @@
 package com.senac.bunnyhut.dto.response;
 
-public class InventoryDTOResponse {
+public class InventoryDTOUpdateResponse {
 }

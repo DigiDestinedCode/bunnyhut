@@ -1,5 +1,9 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.request.VisitDTORequest;
+import com.senac.bunnyhut.dto.response.VisitDTOResponse;
+import com.senac.bunnyhut.dto.response.VisitDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Visit;
 import com.senac.bunnyhut.repository.VisitRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;

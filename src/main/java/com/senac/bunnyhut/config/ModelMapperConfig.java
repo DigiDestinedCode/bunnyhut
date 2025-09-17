@@ -1,4 +1,4 @@
-package com.senac.bunnyhut.service;
+package com.senac.bunnyhut.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

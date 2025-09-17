@@ -1,5 +1,9 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.request.RabbitDTORequest;
+import com.senac.bunnyhut.dto.response.RabbitDTOResponse;
+import com.senac.bunnyhut.dto.response.RabbitDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Rabbit;
 import com.senac.bunnyhut.repository.RabbitRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -7,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class RabbitService {
@@ -22,8 +28,8 @@ public class RabbitService {
         this.modelMapper = modelMapper;
     }
 
-    public List<RabbitDTOResponse> listarRabbites() {
-        return rabbitRepository.listarRabbites()
+    public List<RabbitDTOResponse> listRabbits() {
+        return rabbitRepository.listRabbits()
                 .stream()
                 .map(rabbit -> modelMapper.map(rabbit, RabbitDTOResponse.class))
                 .toList()

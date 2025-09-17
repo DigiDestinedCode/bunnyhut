@@ -1,2 +1,4 @@
-package com.senac.bunnyhut.dto.request;public class BackgroundDTORequest {
+package com.senac.bunnyhut.dto.request;
+
+public class BackgroundDTORequest {
 }

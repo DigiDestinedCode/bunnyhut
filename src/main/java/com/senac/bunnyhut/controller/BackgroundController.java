@@ -1,9 +1,17 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.BackgroundDTORequest;
+import com.senac.bunnyhut.dto.response.BackgroundDTOResponse;
+import com.senac.bunnyhut.dto.response.BackgroundDTOUpdateResponse;
+import com.senac.bunnyhut.service.BackgroundService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 public class BackgroundController {
 
     private final BackgroundService backgroundService;
@@ -18,7 +26,7 @@ public class BackgroundController {
             description = "Endpoint para listar todos os backgrounds"
     )
     public ResponseEntity<List<BackgroundDTOResponse>> listarBackgrounds() {
-        return ResponseEntity.ok(backgroundService.listarBackgrounds());
+        return ResponseEntity.ok(backgroundService.listBackgrounds());
     }
 
     @GetMapping("/listarPorBackgroundId/{backgroundId}")

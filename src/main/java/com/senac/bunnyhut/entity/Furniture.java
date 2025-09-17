@@ -11,4 +11,20 @@ public class Furniture {
     private Integer id;
     @Column(name = "furniture_slot")
     private String slot;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getSlot() {
+        return slot;
+    }
+
+    public void setSlot(String slot) {
+        this.slot = slot;
+    }
 }

@@ -1,11 +1,17 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.response.Background_SlotDTOResponse;
+import com.senac.bunnyhut.dto.response.Background_SlotDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Background_Slot;
+import com.senac.bunnyhut.repository.Background_SlotRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class Background_SlotService {
@@ -21,8 +27,8 @@ public class Background_SlotService {
         this.modelMapper = modelMapper;
     }
 
-    public List<Background_SlotDTOResponse> listarBackground_Slotes() {
-        return background_slotRepository.listarBackground_Slotes()
+    public List<Background_SlotDTOResponse> listBackground_Slots() {
+        return background_slotRepository.listBackground_Slots()
                 .stream()
                 .map(background_slot -> modelMapper.map(background_slot, Background_SlotDTOResponse.class))
                 .toList()

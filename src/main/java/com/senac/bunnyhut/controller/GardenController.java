@@ -1,9 +1,16 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.GardenDTORequest;
+import com.senac.bunnyhut.dto.response.GardenDTOResponse;
+import com.senac.bunnyhut.dto.response.GardenDTOUpdateResponse;
+import com.senac.bunnyhut.service.GardenService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public class GardenController {
 
@@ -19,7 +26,7 @@ public class GardenController {
             description = "Endpoint para listar todos os gardens"
     )
     public ResponseEntity<List<GardenDTOResponse>> listarGardens() {
-        return ResponseEntity.ok(gardenService.listarGardens());
+        return ResponseEntity.ok(gardenService.listGardens());
     }
 
     @GetMapping("/listarPorGardenId/{gardenId}")

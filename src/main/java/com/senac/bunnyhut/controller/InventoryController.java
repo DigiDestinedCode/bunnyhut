@@ -1,9 +1,16 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.InventoryDTORequest;
+import com.senac.bunnyhut.dto.response.InventoryDTOResponse;
+import com.senac.bunnyhut.dto.response.InventoryDTOUpdateResponse;
+import com.senac.bunnyhut.service.InventoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public class InventoryController {
 
@@ -18,8 +25,8 @@ public class InventoryController {
             summary = "Listar inventorys",
             description = "Endpoint para listar todos os inventorys"
     )
-    public ResponseEntity<List<InventoryDTOResponse>> listarInventorys() {
-        return ResponseEntity.ok(inventoryService.listarInventorys());
+    public ResponseEntity<List<InventoryDTOResponse>> listInventories() {
+        return ResponseEntity.ok(inventoryService.listInventories());
     }
 
     @GetMapping("/listarPorInventoryId/{inventoryId}")

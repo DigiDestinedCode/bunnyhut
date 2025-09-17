@@ -1,9 +1,16 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.PlantDTORequest;
+import com.senac.bunnyhut.dto.response.PlantDTOResponse;
+import com.senac.bunnyhut.dto.response.PlantDTOUpdateResponse;
+import com.senac.bunnyhut.service.PlantService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public class PlantController {
 
@@ -18,8 +25,8 @@ public class PlantController {
             summary = "Listar plants",
             description = "Endpoint para listar todos os plants"
     )
-    public ResponseEntity<List<PlantDTOResponse>> listarPlants() {
-        return ResponseEntity.ok(plantService.listarPlants());
+    public ResponseEntity<List<PlantDTOResponse>> listPlants() {
+        return ResponseEntity.ok(plantService.listPlants());
     }
 
     @GetMapping("/listarPorPlantId/{plantId}")

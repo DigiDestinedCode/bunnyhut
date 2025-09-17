@@ -1,9 +1,16 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.FurnitureDTORequest;
+import com.senac.bunnyhut.dto.response.FurnitureDTOResponse;
+import com.senac.bunnyhut.dto.response.FurnitureDTOUpdateResponse;
+import com.senac.bunnyhut.service.FurnitureService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public class FurnitureController {
 
@@ -18,8 +25,8 @@ public class FurnitureController {
             summary = "Listar furnitures",
             description = "Endpoint para listar todos os furnitures"
     )
-    public ResponseEntity<List<FurnitureDTOResponse>> listarFurnitures() {
-        return ResponseEntity.ok(furnitureService.listarFurnitures());
+    public ResponseEntity<List<FurnitureDTOResponse>> listFurnitures() {
+        return ResponseEntity.ok(furnitureService.listFurnitures());
     }
 
     @GetMapping("/listarPorFurnitureId/{furnitureId}")

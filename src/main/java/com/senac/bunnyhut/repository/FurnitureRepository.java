@@ -1,12 +1,15 @@
 package com.senac.bunnyhut.repository;
 
 
+import com.senac.bunnyhut.entity.Furniture;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 
@@ -17,7 +20,7 @@ public interface FurnitureRepository extends JpaRepository<Furniture, Integer> {
     void apagadoLogicoFurniture(@Param("id") Integer furnitureId);
 
     @Query("SELECT p from Furniture p WHERE p.status >= 0")
-    List<Furniture> listarFurnitures();
+    List<Furniture> listFurnitures();
 
     @Query("SELECT p from Furniture p where p.id=:id AND p.status >=0")
     Furniture obterFurniturePeloId(@Param("id") Integer furnitureId);

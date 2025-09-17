@@ -1,9 +1,16 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.Transaction_CoinDTORequest;
+import com.senac.bunnyhut.dto.response.Transaction_CoinDTOResponse;
+import com.senac.bunnyhut.dto.response.Transaction_CoinDTOUpdateResponse;
+import com.senac.bunnyhut.service.Transaction_CoinService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public class Transaction_CoinController {
 
@@ -18,8 +25,8 @@ public class Transaction_CoinController {
             summary = "Listar transaction_coins",
             description = "Endpoint para listar todos os transaction_coins"
     )
-    public ResponseEntity<List<Transaction_CoinDTOResponse>> listarTransaction_Coins() {
-        return ResponseEntity.ok(transaction_coinService.listarTransaction_Coins());
+    public ResponseEntity<List<Transaction_CoinDTOResponse>> listTransaction_Coins() {
+        return ResponseEntity.ok(transaction_coinService.listTransaction_Coins());
     }
 
     @GetMapping("/listarPorTransaction_CoinId/{transaction_coinId}")

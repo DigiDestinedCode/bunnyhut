@@ -1,5 +1,9 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.request.InventoryDTORequest;
+import com.senac.bunnyhut.dto.response.InventoryDTOResponse;
+import com.senac.bunnyhut.dto.response.InventoryDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Inventory;
 import com.senac.bunnyhut.repository.InventoryRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -22,8 +26,8 @@ public class InventoryService {
         this.modelMapper = modelMapper;
     }
 
-    public List<InventoryDTOResponse> listarInventoryes() {
-        return inventoryRepository.listarInventoryes()
+    public List<InventoryDTOResponse> listInventories() {
+        return inventoryRepository.listInventories()
                 .stream()
                 .map(inventory -> modelMapper.map(inventory, InventoryDTOResponse.class))
                 .toList()

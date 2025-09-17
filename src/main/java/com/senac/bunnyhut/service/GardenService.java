@@ -1,5 +1,9 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.request.GardenDTORequest;
+import com.senac.bunnyhut.dto.response.GardenDTOResponse;
+import com.senac.bunnyhut.dto.response.GardenDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Garden;
 import com.senac.bunnyhut.repository.GardenRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -22,8 +26,8 @@ public class GardenService {
         this.modelMapper = modelMapper;
     }
 
-    public List<GardenDTOResponse> listarGardenes() {
-        return gardenRepository.listarGardenes()
+    public List<GardenDTOResponse> listGardens() {
+        return gardenRepository.listGardens()
                 .stream()
                 .map(garden -> modelMapper.map(garden, GardenDTOResponse.class))
                 .toList()

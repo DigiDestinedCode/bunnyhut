@@ -1,5 +1,9 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.request.FurnitureDTORequest;
+import com.senac.bunnyhut.dto.response.FurnitureDTOResponse;
+import com.senac.bunnyhut.dto.response.FurnitureDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Furniture;
 import com.senac.bunnyhut.repository.FurnitureRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -22,8 +26,8 @@ public class FurnitureService {
         this.modelMapper = modelMapper;
     }
 
-    public List<FurnitureDTOResponse> listarFurniturees() {
-        return furnitureRepository.listarFurniturees()
+    public List<FurnitureDTOResponse> listFurnitures() {
+        return furnitureRepository.listFurnitures()
                 .stream()
                 .map(furniture -> modelMapper.map(furniture, FurnitureDTOResponse.class))
                 .toList()

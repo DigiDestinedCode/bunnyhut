@@ -1,5 +1,9 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.request.Transaction_CoinDTORequest;
+import com.senac.bunnyhut.dto.response.Transaction_CoinDTOResponse;
+import com.senac.bunnyhut.dto.response.Transaction_CoinDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Transaction_Coin;
 import com.senac.bunnyhut.repository.Transaction_CoinRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -22,8 +26,8 @@ public class Transaction_CoinService {
         this.modelMapper = modelMapper;
     }
 
-    public List<Transaction_CoinDTOResponse> listarTransaction_Coines() {
-        return transaction_coinRepository.listarTransaction_Coines()
+    public List<Transaction_CoinDTOResponse> listTransaction_Coins() {
+        return transaction_coinRepository.listTransaction_Coins()
                 .stream()
                 .map(transaction_coin -> modelMapper.map(transaction_coin, Transaction_CoinDTOResponse.class))
                 .toList()

@@ -1,5 +1,9 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.request.BackgroundDTORequest;
+import com.senac.bunnyhut.dto.response.BackgroundDTOResponse;
+import com.senac.bunnyhut.dto.response.BackgroundDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Background;
 import com.senac.bunnyhut.repository.BackgroundRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -7,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class BackgroundService {
@@ -22,8 +28,8 @@ public class BackgroundService {
         this.modelMapper = modelMapper;
     }
 
-    public List<BackgroundDTOResponse> listarBackgroundes() {
-        return backgroundRepository.listarBackgroundes()
+    public List<BackgroundDTOResponse> listBackgrounds() {
+        return backgroundRepository.listBackgrounds()
                 .stream()
                 .map(background -> modelMapper.map(background, BackgroundDTOResponse.class))
                 .toList()

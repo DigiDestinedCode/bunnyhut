@@ -1,9 +1,16 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.UserDTORequest;
+import com.senac.bunnyhut.dto.response.UserDTOResponse;
+import com.senac.bunnyhut.dto.response.UserDTOUpdateResponse;
+import com.senac.bunnyhut.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public class UserController {
 
@@ -18,8 +25,8 @@ public class UserController {
             summary = "Listar users",
             description = "Endpoint para listar todos os users"
     )
-    public ResponseEntity<List<UserDTOResponse>> listarUsers() {
-        return ResponseEntity.ok(userService.listarUsers());
+    public ResponseEntity<List<UserDTOResponse>> listUsers() {
+        return ResponseEntity.ok(userService.listUsers());
     }
 
     @GetMapping("/listarPorUserId/{userId}")

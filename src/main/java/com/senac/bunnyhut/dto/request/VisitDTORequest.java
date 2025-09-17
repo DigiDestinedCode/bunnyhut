@@ -1,2 +1,4 @@
-package com.senac.bunnyhut.dto.request;public class VisitDTORequest {
+package com.senac.bunnyhut.dto.request;
+
+public class VisitDTORequest {
 }

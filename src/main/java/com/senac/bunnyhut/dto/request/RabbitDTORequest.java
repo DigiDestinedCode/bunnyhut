@@ -1,2 +1,4 @@
-package com.senac.bunnyhut.dto.request;public class RabbitDTORequest {
+package com.senac.bunnyhut.dto.request;
+
+public class RabbitDTORequest {
 }

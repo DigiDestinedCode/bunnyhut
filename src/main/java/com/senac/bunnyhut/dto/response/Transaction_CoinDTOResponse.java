@@ -1,4 +1,4 @@
-package com.senac.bunnyhut.dto.request;
+package com.senac.bunnyhut.dto.response;
 
-public class Transaction_CoinDTORequest {
+public class Transaction_CoinDTOResponse {
 }

@@ -1,9 +1,16 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.VisitDTORequest;
+import com.senac.bunnyhut.dto.response.VisitDTOResponse;
+import com.senac.bunnyhut.dto.response.VisitDTOUpdateResponse;
+import com.senac.bunnyhut.service.VisitService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public class VisitController {
 
@@ -18,8 +25,8 @@ public class VisitController {
             summary = "Listar visits",
             description = "Endpoint para listar todos os visits"
     )
-    public ResponseEntity<List<VisitDTOResponse>> listarVisits() {
-        return ResponseEntity.ok(visitService.listarVisits());
+    public ResponseEntity<List<VisitDTOResponse>> listVisits() {
+        return ResponseEntity.ok(visitService.listVisits());
     }
 
     @GetMapping("/listarPorVisitId/{visitId}")

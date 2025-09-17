@@ -1,12 +1,15 @@
 package com.senac.bunnyhut.repository;
 
 
+import com.senac.bunnyhut.entity.Plant;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 
@@ -17,7 +20,7 @@ public interface PlantRepository extends JpaRepository<Plant, Integer> {
     void apagadoLogicoPlant(@Param("id") Integer plantId);
 
     @Query("SELECT p from Plant p WHERE p.status >= 0")
-    List<Plant> listarPlants();
+    List<Plant> listPlants();
 
     @Query("SELECT p from Plant p where p.id=:id AND p.status >=0")
     Plant obterPlantPeloId(@Param("id") Integer plantId);

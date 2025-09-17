@@ -1,5 +1,9 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.request.UserDTORequest;
+import com.senac.bunnyhut.dto.response.UserDTOResponse;
+import com.senac.bunnyhut.dto.response.UserDTOUpdateResponse;
+import com.senac.bunnyhut.entity.User;
 import com.senac.bunnyhut.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -22,8 +26,8 @@ public class UserService {
         this.modelMapper = modelMapper;
     }
 
-    public List<UserDTOResponse> listarUseres() {
-        return userRepository.listarUseres()
+    public List<UserDTOResponse> listUsers() {
+        return userRepository.listUsers()
                 .stream()
                 .map(user -> modelMapper.map(user, UserDTOResponse.class))
                 .toList()

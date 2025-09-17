@@ -1,9 +1,16 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.ItemDTORequest;
+import com.senac.bunnyhut.dto.response.ItemDTOResponse;
+import com.senac.bunnyhut.dto.response.ItemDTOUpdateResponse;
+import com.senac.bunnyhut.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public class ItemController {
 
@@ -18,8 +25,8 @@ public class ItemController {
             summary = "Listar items",
             description = "Endpoint para listar todos os items"
     )
-    public ResponseEntity<List<ItemDTOResponse>> listarItems() {
-        return ResponseEntity.ok(itemService.listarItems());
+    public ResponseEntity<List<ItemDTOResponse>> listItems() {
+        return ResponseEntity.ok(itemService.listItems());
     }
 
     @GetMapping("/listarPorItemId/{itemId}")

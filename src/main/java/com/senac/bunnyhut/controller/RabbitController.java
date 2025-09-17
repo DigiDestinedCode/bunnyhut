@@ -1,9 +1,16 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.RabbitDTORequest;
+import com.senac.bunnyhut.dto.response.RabbitDTOResponse;
+import com.senac.bunnyhut.dto.response.RabbitDTOUpdateResponse;
+import com.senac.bunnyhut.service.RabbitService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public class RabbitController {
 
@@ -18,8 +25,8 @@ public class RabbitController {
             summary = "Listar rabbits",
             description = "Endpoint para listar todos os rabbits"
     )
-    public ResponseEntity<List<RabbitDTOResponse>> listarRabbits() {
-        return ResponseEntity.ok(rabbitService.listarRabbits());
+    public ResponseEntity<List<RabbitDTOResponse>> listRabbits() {
+        return ResponseEntity.ok(rabbitService.listRabbits());
     }
 
     @GetMapping("/listarPorRabbitId/{rabbitId}")
