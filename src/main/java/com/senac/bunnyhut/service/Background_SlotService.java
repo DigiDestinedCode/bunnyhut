@@ -1,5 +1,6 @@
 package com.senac.bunnyhut.service;
 
+import com.senac.bunnyhut.dto.request.Background_SlotDTORequest;
 import com.senac.bunnyhut.dto.response.Background_SlotDTOResponse;
 import com.senac.bunnyhut.dto.response.Background_SlotDTOUpdateResponse;
 import com.senac.bunnyhut.entity.Background_Slot;

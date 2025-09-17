@@ -14,76 +14,76 @@ import java.util.List;
 
 public class Background_SlotController {
 
-    private final Background_SlotService background_SlotService;
+    private final Background_SlotService background_slotService;
 
-    public Background_SlotController(Background_SlotService background_SlotService) {
-        this.background_SlotService = background_SlotService;
+    public Background_SlotController(Background_SlotService background_slotService) {
+        this.background_slotService = background_slotService;
     }
 
     @GetMapping("/listar")
     @Operation(
-            summary = "Listar background_Slots",
-            description = "Endpoint para listar todos os background_Slots"
+            summary = "Listar background_slots",
+            description = "Endpoint para listar todos os background_slots"
     )
     public ResponseEntity<List<Background_SlotDTOResponse>> listBackground_Slots() {
-        return ResponseEntity.ok(background_SlotService.listBackground_Slots());
+        return ResponseEntity.ok(background_slotService.listBackground_Slots());
     }
 
-    @GetMapping("/listarPorBackground_SlotId/{background_SlotId}")
+    @GetMapping("/listarPorBackground_SlotId/{background_slotId}")
     @Operation(
-            summary = "Listar background_Slot pelo id de background_Slot",
-            description = "Endpoint para listar background_Slot por Id de background_Slot"
+            summary = "Listar background_slot pelo id de background_slot",
+            description = "Endpoint para listar background_slot por Id de background_slot"
     )
-    public ResponseEntity<Background_SlotDTOResponse> listarPorBackground_SlotId(@PathVariable("background_SlotId") Integer background_SlotId) {
-        Background_SlotDTOResponse background_Slot = background_SlotService.listarPorBackground_SlotId(background_SlotId);
-        if (background_Slot == null) {
+    public ResponseEntity<Background_SlotDTOResponse> listarPorBackground_SlotId(@PathVariable("background_slotId") Integer background_slotId) {
+        Background_SlotDTOResponse background_slot = background_slotService.listarPorBackground_SlotId(background_slotId);
+        if (background_slot == null) {
             return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.ok(background_Slot);
+            return ResponseEntity.ok(background_slot);
         }
     }
     @PostMapping("/criar")
     @Operation(
-            summary = "Criar novo background_Slot",
-            description = "Endpoint para criar um novo registro de background_Slot"
+            summary = "Criar novo background_slot",
+            description = "Endpoint para criar um novo registro de background_slot"
     )
     public ResponseEntity<Background_SlotDTOResponse> criarBackground_Slot(
-            @Valid @RequestBody Background_SlotDTORequest background_Slot
+            @Valid @RequestBody Background_SlotDTORequest background_slot
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(background_SlotService.criarBackground_Slot(background_Slot));
+        return ResponseEntity.status(HttpStatus.CREATED).body(background_slotService.criarBackground_Slot(background_slot));
     }
 
-    @PutMapping("/atualizar/{background_SlotId}")
+    @PutMapping("/atualizar/{background_slotId}")
     @Operation(
-            summary = "Atualizar todos os dados do background_Slot",
-            description = "Endpoint para atualizar o registro de background_Slot"
+            summary = "Atualizar todos os dados do background_slot",
+            description = "Endpoint para atualizar o registro de background_slot"
     )
     public ResponseEntity<Background_SlotDTOResponse> atualizarBackground_Slot(
-            @PathVariable("background_SlotId") Integer background_SlotId,
-            @Valid @RequestBody Background_SlotDTORequest background_SlotDTORequest
+            @PathVariable("background_slotId") Integer background_slotId,
+            @Valid @RequestBody Background_SlotDTORequest background_slotDTORequest
     ) {
-        return ResponseEntity.ok(background_SlotService.atualizarBackground_Slot(background_SlotId, background_SlotDTORequest));
+        return ResponseEntity.ok(background_slotService.atualizarBackground_Slot(background_slotId, background_slotDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{background_SlotId}")
+    @PatchMapping("/atualizarStatus/{background_slotId}")
     @Operation(
-            summary = "Atualizar campo status do background_Slot",
-            description = "Endpoint para atualizar apenas o status do background_Slot"
+            summary = "Atualizar campo status do background_slot",
+            description = "Endpoint para atualizar apenas o status do background_slot"
     )
     public ResponseEntity<Background_SlotDTOUpdateResponse> atualizarStatusBackground_Slot(
-            @PathVariable("background_SlotId") Integer background_SlotId,
-            @Valid @RequestBody Background_SlotDTORequest background_SlotDTOUpdateRequest
+            @PathVariable("background_slotId") Integer background_slotId,
+            @Valid @RequestBody Background_SlotDTORequest background_slotDTOUpdateRequest
     ) {
-        return ResponseEntity.ok(background_SlotService.atualizarStatusBackground_Slot(background_SlotId, background_SlotDTOUpdateRequest));
+        return ResponseEntity.ok(background_slotService.atualizarStatusBackground_Slot(background_slotId, background_slotDTOUpdateRequest));
     }
 
-    @DeleteMapping("/apagar/{background_SlotId}")
+    @DeleteMapping("/apagar/{background_slotId}")
     @Operation(
-            summary = "Apagar registro do background_Slot",
-            description = "Endpoint para apagar registro do background_Slot"
+            summary = "Apagar registro do background_slot",
+            description = "Endpoint para apagar registro do background_slot"
     )
-    public ResponseEntity<Void> apagarBackground_Slot(@PathVariable("background_SlotId") Integer background_SlotId) {
-        background_SlotService.apagarBackground_Slot(background_SlotId);
+    public ResponseEntity<Void> apagarBackground_Slot(@PathVariable("background_slotId") Integer background_slotId) {
+        background_slotService.apagarBackground_Slot(background_slotId);
         return ResponseEntity.noContent().build();
     }
 }
