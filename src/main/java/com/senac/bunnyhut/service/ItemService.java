@@ -2,6 +2,7 @@ package com.senac.bunnyhut.service;
 
 import com.senac.bunnyhut.dto.request.ItemDTORequest;
 import com.senac.bunnyhut.dto.response.ItemDTOResponse;
+import com.senac.bunnyhut.dto.response.ItemDTOUpdateResponse;
 import com.senac.bunnyhut.entity.Item;
 import com.senac.bunnyhut.repository.ItemRepository;
 import jakarta.transaction.Transactional;

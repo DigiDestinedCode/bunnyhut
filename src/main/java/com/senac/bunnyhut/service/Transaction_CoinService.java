@@ -65,24 +65,24 @@ public class Transaction_CoinService {
         }
     }
 
-    @Transactional
-    public Transaction_CoinDTOUpdateResponse atualizarStatusTransaction_Coin(Integer transaction_coinId, Transaction_CoinDTORequest transaction_coinDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Transaction_Coin transaction_coin = transaction_coinRepository.obterTransaction_CoinPeloId(transaction_coinId);
-        //se encontra o registro a ser atualizado
-        if (transaction_coin != null) {
-            // atualiza o status do Transaction_Coin a partir do DTO
-            transaction_coin.setStatus(transaction_coinDTOUpdateRequest.getStatus());
-            Transaction_Coin Transaction_CoinSave = transaction_coinRepository.save(transaction_coin);
-            return modelMapper.map(Transaction_CoinSave, Transaction_CoinDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza transaction_coin inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public Transaction_CoinDTOUpdateResponse atualizarStatusTransaction_Coin(Integer transaction_coinId, Transaction_CoinDTORequest transaction_coinDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Transaction_Coin transaction_coin = transaction_coinRepository.obterTransaction_CoinPeloId(transaction_coinId);
+//        //se encontra o registro a ser atualizado
+//        if (transaction_coin != null) {
+//            // atualiza o status do Transaction_Coin a partir do DTO
+//            transaction_coin.setStatus(transaction_coinDTOUpdateRequest.getStatus());
+//            Transaction_Coin Transaction_CoinSave = transaction_coinRepository.save(transaction_coin);
+//            return modelMapper.map(Transaction_CoinSave, Transaction_CoinDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza transaction_coin inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarTransaction_Coin(Integer transaction_coinId) {
-        transaction_coinRepository.apagadoLogicoTransaction_Coin(transaction_coinId);
-    }
+//    public void apagarTransaction_Coin(Integer transaction_coinId) {
+//        transaction_coinRepository.apagadoLogicoTransaction_Coin(transaction_coinId);
+//    }
 }
 

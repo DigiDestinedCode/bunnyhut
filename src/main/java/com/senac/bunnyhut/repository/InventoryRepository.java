@@ -14,14 +14,14 @@ import java.util.List;
 @Repository
 
 public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE Inventory p SET p.status = -1 WHERE p.id = :id")
-    void apagadoLogicoInventory(@Param("id") Integer inventoryId);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Inventory p SET p.status = -1 WHERE p.id = :id")
+//    void apagadoLogicoInventory(@Param("id") Integer inventoryId);
 
-    @Query("SELECT p from Inventory p WHERE p.status >= 0")
+    @Query("SELECT p from Inventory p")
     List<Inventory> listInventories();
 
-    @Query("SELECT p from Inventory p where p.id=:id AND p.status >=0")
+    @Query("SELECT p from Inventory p where p.id=:id")
     Inventory obterInventoryPeloId(@Param("id") Integer inventoryId);
 }

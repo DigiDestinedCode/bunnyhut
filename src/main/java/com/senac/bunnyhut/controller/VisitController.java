@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("api/visit")
 public class VisitController {
 
     private final VisitService visitService;
@@ -65,25 +67,25 @@ public class VisitController {
         return ResponseEntity.ok(visitService.atualizarVisit(visitId, visitDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{visitId}")
-    @Operation(
-            summary = "Atualizar campo status do visit",
-            description = "Endpoint para atualizar apenas o status do visit"
-    )
-    public ResponseEntity<VisitDTOUpdateResponse> atualizarStatusVisit(
-            @PathVariable("visitId") Integer visitId,
-            @Valid @RequestBody VisitDTORequest visitDTOUpdateRequest
-    ) {
-        return ResponseEntity.ok(visitService.atualizarStatusVisit(visitId, visitDTOUpdateRequest));
-    }
+//    @PatchMapping("/atualizarStatus/{visitId}")
+//    @Operation(
+//            summary = "Atualizar campo status do visit",
+//            description = "Endpoint para atualizar apenas o status do visit"
+//    )
+//    public ResponseEntity<VisitDTOUpdateResponse> atualizarStatusVisit(
+//            @PathVariable("visitId") Integer visitId,
+//            @Valid @RequestBody VisitDTORequest visitDTOUpdateRequest
+//    ) {
+//        return ResponseEntity.ok(visitService.atualizarStatusVisit(visitId, visitDTOUpdateRequest));
+//    }
 
-    @DeleteMapping("/apagar/{visitId}")
-    @Operation(
-            summary = "Apagar registro do visit",
-            description = "Endpoint para apagar registro do visit"
-    )
-    public ResponseEntity<Void> apagarVisit(@PathVariable("visitId") Integer visitId) {
-        visitService.apagarVisit(visitId);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping("/apagar/{visitId}")
+//    @Operation(
+//            summary = "Apagar registro do visit",
+//            description = "Endpoint para apagar registro do visit"
+//    )
+//    public ResponseEntity<Void> apagarVisit(@PathVariable("visitId") Integer visitId) {
+//        visitService.apagarVisit(visitId);
+//        return ResponseEntity.noContent().build();
+//    }
 }

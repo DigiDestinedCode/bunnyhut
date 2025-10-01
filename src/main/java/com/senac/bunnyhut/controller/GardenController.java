@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("api/garden")
 public class GardenController {
 
     private final GardenService gardenService;
@@ -65,25 +67,25 @@ public class GardenController {
         return ResponseEntity.ok(gardenService.atualizarGarden(gardenId, gardenDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{gardenId}")
-    @Operation(
-            summary = "Atualizar campo status do garden",
-            description = "Endpoint para atualizar apenas o status do garden"
-    )
-    public ResponseEntity<GardenDTOUpdateResponse> atualizarStatusGarden(
-            @PathVariable("gardenId") Integer gardenId,
-            @Valid @RequestBody GardenDTORequest gardenDTOUpdateRequest
-    ) {
-        return ResponseEntity.ok(gardenService.atualizarStatusGarden(gardenId, gardenDTOUpdateRequest));
-    }
+//    @PatchMapping("/atualizarStatus/{gardenId}")
+//    @Operation(
+//            summary = "Atualizar campo status do garden",
+//            description = "Endpoint para atualizar apenas o status do garden"
+//    )
+//    public ResponseEntity<GardenDTOUpdateResponse> atualizarStatusGarden(
+//            @PathVariable("gardenId") Integer gardenId,
+//            @Valid @RequestBody GardenDTORequest gardenDTOUpdateRequest
+//    ) {
+//        return ResponseEntity.ok(gardenService.atualizarStatusGarden(gardenId, gardenDTOUpdateRequest));
+//    }
 
-    @DeleteMapping("/apagar/{gardenId}")
-    @Operation(
-            summary = "Apagar registro do garden",
-            description = "Endpoint para apagar registro do garden"
-    )
-    public ResponseEntity<Void> apagarGarden(@PathVariable("gardenId") Integer gardenId) {
-        gardenService.apagarGarden(gardenId);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping("/apagar/{gardenId}")
+//    @Operation(
+//            summary = "Apagar registro do garden",
+//            description = "Endpoint para apagar registro do garden"
+//    )
+//    public ResponseEntity<Void> apagarGarden(@PathVariable("gardenId") Integer gardenId) {
+//        gardenService.apagarGarden(gardenId);
+//        return ResponseEntity.noContent().build();
+//    }
 }

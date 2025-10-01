@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("api/inventory")
 public class InventoryController {
 
     private final InventoryService inventoryService;
@@ -65,25 +67,25 @@ public class InventoryController {
         return ResponseEntity.ok(inventoryService.atualizarInventory(inventoryId, inventoryDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{inventoryId}")
-    @Operation(
-            summary = "Atualizar campo status do inventory",
-            description = "Endpoint para atualizar apenas o status do inventory"
-    )
-    public ResponseEntity<InventoryDTOUpdateResponse> atualizarStatusInventory(
-            @PathVariable("inventoryId") Integer inventoryId,
-            @Valid @RequestBody InventoryDTORequest inventoryDTOUpdateRequest
-    ) {
-        return ResponseEntity.ok(inventoryService.atualizarStatusInventory(inventoryId, inventoryDTOUpdateRequest));
-    }
+//    @PatchMapping("/atualizarStatus/{inventoryId}")
+//    @Operation(
+//            summary = "Atualizar campo status do inventory",
+//            description = "Endpoint para atualizar apenas o status do inventory"
+//    )
+//    public ResponseEntity<InventoryDTOUpdateResponse> atualizarStatusInventory(
+//            @PathVariable("inventoryId") Integer inventoryId,
+//            @Valid @RequestBody InventoryDTORequest inventoryDTOUpdateRequest
+//    ) {
+//        return ResponseEntity.ok(inventoryService.atualizarStatusInventory(inventoryId, inventoryDTOUpdateRequest));
+//    }
 
-    @DeleteMapping("/apagar/{inventoryId}")
-    @Operation(
-            summary = "Apagar registro do inventory",
-            description = "Endpoint para apagar registro do inventory"
-    )
-    public ResponseEntity<Void> apagarInventory(@PathVariable("inventoryId") Integer inventoryId) {
-        inventoryService.apagarInventory(inventoryId);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping("/apagar/{inventoryId}")
+//    @Operation(
+//            summary = "Apagar registro do inventory",
+//            description = "Endpoint para apagar registro do inventory"
+//    )
+//    public ResponseEntity<Void> apagarInventory(@PathVariable("inventoryId") Integer inventoryId) {
+//        inventoryService.apagarInventory(inventoryId);
+//        return ResponseEntity.noContent().build();
+//    }
 }

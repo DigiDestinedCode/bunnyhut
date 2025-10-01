@@ -14,14 +14,14 @@ import java.util.List;
 @Repository
 
 public interface VisitRepository extends JpaRepository<Visit, Integer> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE Visit p SET p.status = -1 WHERE p.id = :id")
-    void apagadoLogicoVisit(@Param("id") Integer visitId);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Visit p SET p.status = -1 WHERE p.id = :id")
+//    void apagadoLogicoVisit(@Param("id") Integer visitId);
 
-    @Query("SELECT p from Visit p WHERE p.status >= 0")
+    @Query("SELECT p from Visit p")
     List<Visit> listVisits();
 
-    @Query("SELECT p from Visit p where p.id=:id AND p.status >=0")
+    @Query("SELECT p from Visit p where p.id=:id")
     Visit obterVisitPeloId(@Param("id") Integer visitId);
 }

@@ -65,24 +65,24 @@ public class Garden_SpotService {
         }
     }
 
-    @Transactional
-    public Garden_SpotDTOUpdateResponse atualizarStatusGarden_Spot(Integer garden_spotId, Garden_SpotDTORequest garden_spotDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Garden_Spot garden_spot = garden_spotRepository.obterGarden_SpotPeloId(garden_spotId);
-        //se encontra o registro a ser atualizado
-        if (garden_spot != null) {
-            // atualiza o status do Garden_Spot a partir do DTO
-            garden_spot.setStatus(garden_spotDTOUpdateRequest.getStatus());
-            Garden_Spot Garden_SpotSave = garden_spotRepository.save(garden_spot);
-            return modelMapper.map(Garden_SpotSave, Garden_SpotDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza garden_spot inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public Garden_SpotDTOUpdateResponse atualizarStatusGarden_Spot(Integer garden_spotId, Garden_SpotDTORequest garden_spotDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Garden_Spot garden_spot = garden_spotRepository.obterGarden_SpotPeloId(garden_spotId);
+//        //se encontra o registro a ser atualizado
+//        if (garden_spot != null) {
+//            // atualiza o status do Garden_Spot a partir do DTO
+//            garden_spot.setStatus(garden_spotDTOUpdateRequest.getStatus());
+//            Garden_Spot Garden_SpotSave = garden_spotRepository.save(garden_spot);
+//            return modelMapper.map(Garden_SpotSave, Garden_SpotDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza garden_spot inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarGarden_Spot(Integer garden_spotId) {
-        garden_spotRepository.apagadoLogicoGarden_Spot(garden_spotId);
-    }
+//    public void apagarGarden_Spot(Integer garden_spotId) {
+//        garden_spotRepository.apagadoLogicoGarden_Spot(garden_spotId);
+//    }
 }
 

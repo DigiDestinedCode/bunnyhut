@@ -13,14 +13,14 @@ import java.util.List;
 
 @Repository
 public interface Background_SlotRepository extends JpaRepository<Background_Slot, Integer> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE Background_Slot p SET p.status = -1 WHERE p.id = :id")
-    void apagadoLogicoBackground_Slot(@Param("id") Integer background_slotId);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Background_Slot p SET p.status = -1 WHERE p.id = :id")
+//    void apagadoLogicoBackground_Slot(@Param("id") Integer background_slotId);
 
-    @Query("SELECT p from Background_Slot p WHERE p.status >= 0")
+    @Query("SELECT p from Background_Slot p")
     List<Background_Slot> listBackground_Slots();
 
-    @Query("SELECT p from Background_Slot p where p.id=:id AND p.status >=0")
+    @Query("SELECT p from Background_Slot p where p.id=:id")
     Background_Slot obterBackground_SlotPeloId(@Param("id") Integer background_slotId);
 }

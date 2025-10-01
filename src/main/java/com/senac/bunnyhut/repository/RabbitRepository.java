@@ -14,14 +14,14 @@ import java.util.List;
 @Repository
 
 public interface RabbitRepository extends JpaRepository<Rabbit, Integer> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE Rabbit p SET p.status = -1 WHERE p.id = :id")
-    void apagadoLogicoRabbit(@Param("id") Integer rabbitId);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Rabbit p SET p.status = -1 WHERE p.id = :id")
+//    void apagadoLogicoRabbit(@Param("id") Integer rabbitId);
 
-    @Query("SELECT p from Rabbit p WHERE p.status >= 0")
+    @Query("SELECT p from Rabbit p")
     List<Rabbit> listRabbits();
 
-    @Query("SELECT p from Rabbit p where p.id=:id AND p.status >=0")
+    @Query("SELECT p from Rabbit p where p.id=:id")
     Rabbit obterRabbitPeloId(@Param("id") Integer rabbitId);
 }

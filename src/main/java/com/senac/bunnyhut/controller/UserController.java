@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("api/user")
 public class UserController {
 
     private final UserService userService;
@@ -65,17 +67,17 @@ public class UserController {
         return ResponseEntity.ok(userService.atualizarUser(userId, userDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{userId}")
-    @Operation(
-            summary = "Atualizar campo status do user",
-            description = "Endpoint para atualizar apenas o status do user"
-    )
-    public ResponseEntity<UserDTOUpdateResponse> atualizarStatusUser(
-            @PathVariable("userId") Integer userId,
-            @Valid @RequestBody UserDTORequest userDTOUpdateRequest
-    ) {
-        return ResponseEntity.ok(userService.atualizarStatusUser(userId, userDTOUpdateRequest));
-    }
+//    @PatchMapping("/atualizarStatus/{userId}")
+//    @Operation(
+//            summary = "Atualizar campo status do user",
+//            description = "Endpoint para atualizar apenas o status do user"
+//    )
+//    public ResponseEntity<UserDTOUpdateResponse> atualizarStatusUser(
+//            @PathVariable("userId") Integer userId,
+//            @Valid @RequestBody UserDTORequest userDTOUpdateRequest
+//    ) {
+//        return ResponseEntity.ok(userService.atualizarStatusUser(userId, userDTOUpdateRequest));
+//    }
 
     @DeleteMapping("/apagar/{userId}")
     @Operation(

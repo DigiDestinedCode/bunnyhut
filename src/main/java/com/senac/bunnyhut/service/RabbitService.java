@@ -67,24 +67,24 @@ public class RabbitService {
         }
     }
 
-    @Transactional
-    public RabbitDTOUpdateResponse atualizarStatusRabbit(Integer rabbitId, RabbitDTORequest rabbitDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Rabbit rabbit = rabbitRepository.obterRabbitPeloId(rabbitId);
-        //se encontra o registro a ser atualizado
-        if (rabbit != null) {
-            // atualiza o status do Rabbit a partir do DTO
-            rabbit.setStatus(rabbitDTOUpdateRequest.getStatus());
-            Rabbit RabbitSave = rabbitRepository.save(rabbit);
-            return modelMapper.map(RabbitSave, RabbitDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza rabbit inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public RabbitDTOUpdateResponse atualizarStatusRabbit(Integer rabbitId, RabbitDTORequest rabbitDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Rabbit rabbit = rabbitRepository.obterRabbitPeloId(rabbitId);
+//        //se encontra o registro a ser atualizado
+//        if (rabbit != null) {
+//            // atualiza o status do Rabbit a partir do DTO
+//            rabbit.setStatus(rabbitDTOUpdateRequest.getStatus());
+//            Rabbit RabbitSave = rabbitRepository.save(rabbit);
+//            return modelMapper.map(RabbitSave, RabbitDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza rabbit inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarRabbit(Integer rabbitId) {
-        rabbitRepository.apagadoLogicoRabbit(rabbitId);
-    }
+//    public void apagarRabbit(Integer rabbitId) {
+//        rabbitRepository.apagadoLogicoRabbit(rabbitId);
+//    }
 }
 

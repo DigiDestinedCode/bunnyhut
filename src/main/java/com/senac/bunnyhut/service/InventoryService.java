@@ -65,24 +65,24 @@ public class InventoryService {
         }
     }
 
-    @Transactional
-    public InventoryDTOUpdateResponse atualizarStatusInventory(Integer inventoryId, InventoryDTORequest inventoryDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Inventory inventory = inventoryRepository.obterInventoryPeloId(inventoryId);
-        //se encontra o registro a ser atualizado
-        if (inventory != null) {
-            // atualiza o status do Inventory a partir do DTO
-            inventory.setStatus(inventoryDTOUpdateRequest.getStatus());
-            Inventory InventorySave = inventoryRepository.save(inventory);
-            return modelMapper.map(InventorySave, InventoryDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza inventory inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public InventoryDTOUpdateResponse atualizarStatusInventory(Integer inventoryId, InventoryDTORequest inventoryDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Inventory inventory = inventoryRepository.obterInventoryPeloId(inventoryId);
+//        //se encontra o registro a ser atualizado
+//        if (inventory != null) {
+//            // atualiza o status do Inventory a partir do DTO
+//            inventory.setStatus(inventoryDTOUpdateRequest.getStatus());
+//            Inventory InventorySave = inventoryRepository.save(inventory);
+//            return modelMapper.map(InventorySave, InventoryDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza inventory inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarInventory(Integer inventoryId) {
-        inventoryRepository.apagadoLogicoInventory(inventoryId);
-    }
+//    public void apagarInventory(Integer inventoryId) {
+//        inventoryRepository.apagadoLogicoInventory(inventoryId);
+//    }
 }
 

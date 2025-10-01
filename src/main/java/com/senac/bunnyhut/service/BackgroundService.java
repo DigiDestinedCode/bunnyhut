@@ -2,7 +2,6 @@ package com.senac.bunnyhut.service;
 
 import com.senac.bunnyhut.dto.request.BackgroundDTORequest;
 import com.senac.bunnyhut.dto.response.BackgroundDTOResponse;
-import com.senac.bunnyhut.dto.response.BackgroundDTOUpdateResponse;
 import com.senac.bunnyhut.entity.Background;
 import com.senac.bunnyhut.repository.BackgroundRepository;
 import jakarta.transaction.Transactional;
@@ -65,24 +64,24 @@ public class BackgroundService {
         }
     }
 
-    @Transactional
-    public BackgroundDTOUpdateResponse atualizarStatusBackground(Integer backgroundId, BackgroundDTORequest backgroundDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Background background = backgroundRepository.obterBackgroundPeloId(backgroundId);
-        //se encontra o registro a ser atualizado
-        if (background != null) {
-            // atualiza o status do Background a partir do DTO
-            background.setStatus(backgroundDTOUpdateRequest.getStatus());
-            Background BackgroundSave = backgroundRepository.save(background);
-            return modelMapper.map(BackgroundSave, BackgroundDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza background inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public BackgroundDTOUpdateResponse atualizarStatusBackground(Integer backgroundId, BackgroundDTORequest backgroundDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Background background = backgroundRepository.obterBackgroundPeloId(backgroundId);
+//        //se encontra o registro a ser atualizado
+//        if (background != null) {
+//            // atualiza o status do Background a partir do DTO
+//            background.setStatus(backgroundDTOUpdateRequest.getStatus());
+//            Background BackgroundSave = backgroundRepository.save(background);
+//            return modelMapper.map(BackgroundSave, BackgroundDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza background inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarBackground(Integer backgroundId) {
-        backgroundRepository.apagadoLogicoBackground(backgroundId);
-    }
+//    public void apagarBackground(Integer backgroundId) {
+//        backgroundRepository.apagadoLogicoBackground(backgroundId);
+//    }
 }
 

@@ -65,24 +65,24 @@ public class VisitService {
         }
     }
 
-    @Transactional
-    public VisitDTOUpdateResponse atualizarStatusVisit(Integer visitId, VisitDTORequest visitDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Visit visit = visitRepository.obterVisitPeloId(visitId);
-        //se encontra o registro a ser atualizado
-        if (visit != null) {
-            // atualiza o status do Visit a partir do DTO
-            visit.setStatus(visitDTOUpdateRequest.getStatus());
-            Visit VisitSave = visitRepository.save(visit);
-            return modelMapper.map(VisitSave, VisitDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza visit inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public VisitDTOUpdateResponse atualizarStatusVisit(Integer visitId, VisitDTORequest visitDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Visit visit = visitRepository.obterVisitPeloId(visitId);
+//        //se encontra o registro a ser atualizado
+//        if (visit != null) {
+//            // atualiza o status do Visit a partir do DTO
+//            visit.setStatus(visitDTOUpdateRequest.getStatus());
+//            Visit VisitSave = visitRepository.save(visit);
+//            return modelMapper.map(VisitSave, VisitDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza visit inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarVisit(Integer visitId) {
-        visitRepository.apagadoLogicoVisit(visitId);
-    }
+//    public void apagarVisit(Integer visitId) {
+//        visitRepository.apagadoLogicoVisit(visitId);
+//    }
 }
 

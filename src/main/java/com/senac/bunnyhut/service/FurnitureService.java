@@ -65,24 +65,24 @@ public class FurnitureService {
         }
     }
 
-    @Transactional
-    public FurnitureDTOUpdateResponse atualizarStatusFurniture(Integer furnitureId, FurnitureDTORequest furnitureDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Furniture furniture = furnitureRepository.obterFurniturePeloId(furnitureId);
-        //se encontra o registro a ser atualizado
-        if (furniture != null) {
-            // atualiza o status do Furniture a partir do DTO
-            furniture.setStatus(furnitureDTOUpdateRequest.getStatus());
-            Furniture FurnitureSave = furnitureRepository.save(furniture);
-            return modelMapper.map(FurnitureSave, FurnitureDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza furniture inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public FurnitureDTOUpdateResponse atualizarStatusFurniture(Integer furnitureId, FurnitureDTORequest furnitureDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Furniture furniture = furnitureRepository.obterFurniturePeloId(furnitureId);
+//        //se encontra o registro a ser atualizado
+//        if (furniture != null) {
+//            // atualiza o status do Furniture a partir do DTO
+//            furniture.setStatus(furnitureDTOUpdateRequest.getStatus());
+//            Furniture FurnitureSave = furnitureRepository.save(furniture);
+//            return modelMapper.map(FurnitureSave, FurnitureDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza furniture inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarFurniture(Integer furnitureId) {
-        furnitureRepository.apagadoLogicoFurniture(furnitureId);
-    }
+//    public void apagarFurniture(Integer furnitureId) {
+//        furnitureRepository.apagadoLogicoFurniture(furnitureId);
+//    }
 }
 

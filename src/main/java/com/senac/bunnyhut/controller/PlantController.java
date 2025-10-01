@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("api/plant")
 public class PlantController {
 
     private final PlantService plantService;
@@ -65,25 +67,25 @@ public class PlantController {
         return ResponseEntity.ok(plantService.atualizarPlant(plantId, plantDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{plantId}")
-    @Operation(
-            summary = "Atualizar campo status do plant",
-            description = "Endpoint para atualizar apenas o status do plant"
-    )
-    public ResponseEntity<PlantDTOUpdateResponse> atualizarStatusPlant(
-            @PathVariable("plantId") Integer plantId,
-            @Valid @RequestBody PlantDTORequest plantDTOUpdateRequest
-    ) {
-        return ResponseEntity.ok(plantService.atualizarStatusPlant(plantId, plantDTOUpdateRequest));
-    }
+//    @PatchMapping("/atualizarStatus/{plantId}")
+//    @Operation(
+//            summary = "Atualizar campo status do plant",
+//            description = "Endpoint para atualizar apenas o status do plant"
+//    )
+//    public ResponseEntity<PlantDTOUpdateResponse> atualizarStatusPlant(
+//            @PathVariable("plantId") Integer plantId,
+//            @Valid @RequestBody PlantDTORequest plantDTOUpdateRequest
+//    ) {
+//        return ResponseEntity.ok(plantService.atualizarStatusPlant(plantId, plantDTOUpdateRequest));
+//    }
 
-    @DeleteMapping("/apagar/{plantId}")
-    @Operation(
-            summary = "Apagar registro do plant",
-            description = "Endpoint para apagar registro do plant"
-    )
-    public ResponseEntity<Void> apagarPlant(@PathVariable("plantId") Integer plantId) {
-        plantService.apagarPlant(plantId);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping("/apagar/{plantId}")
+//    @Operation(
+//            summary = "Apagar registro do plant",
+//            description = "Endpoint para apagar registro do plant"
+//    )
+//    public ResponseEntity<Void> apagarPlant(@PathVariable("plantId") Integer plantId) {
+//        plantService.apagarPlant(plantId);
+//        return ResponseEntity.noContent().build();
+//    }
 }

@@ -19,9 +19,9 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     @Query("UPDATE Item p SET p.status = -1 WHERE p.id = :id")
     void apagadoLogicoItem(@Param("id") Integer itemId);
 
-    @Query("SELECT p from Item p WHERE p.status >= 0")
+    @Query("SELECT p from Item p")
     List<Item> listItems();
 
-    @Query("SELECT p from Item p where p.id=:id AND p.status >=0")
+    @Query("SELECT p from Item p where p.id=:id")
     Item obterItemPeloId(@Param("id") Integer itemId);
 }

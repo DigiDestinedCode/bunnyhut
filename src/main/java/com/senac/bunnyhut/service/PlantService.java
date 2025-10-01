@@ -2,6 +2,8 @@ package com.senac.bunnyhut.service;
 
 import com.senac.bunnyhut.dto.request.PlantDTORequest;
 import com.senac.bunnyhut.dto.response.PlantDTOResponse;
+import com.senac.bunnyhut.dto.response.PlantDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Plant;
 import com.senac.bunnyhut.repository.PlantRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -63,24 +65,24 @@ public class PlantService {
         }
     }
 
-    @Transactional
-    public PlantDTOUpdateResponse atualizarStatusPlant(Integer plantId, PlantDTORequest plantDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Plant plant = plantRepository.obterPlantPeloId(plantId);
-        //se encontra o registro a ser atualizado
-        if (plant != null) {
-            // atualiza o status do Plant a partir do DTO
-            plant.setStatus(plantDTOUpdateRequest.getStatus());
-            Plant PlantSave = plantRepository.save(plant);
-            return modelMapper.map(PlantSave, PlantDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza plant inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public PlantDTOUpdateResponse atualizarStatusPlant(Integer plantId, PlantDTORequest plantDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Plant plant = plantRepository.obterPlantPeloId(plantId);
+//        //se encontra o registro a ser atualizado
+//        if (plant != null) {
+//            // atualiza o status do Plant a partir do DTO
+//            plant.setStatus(plantDTOUpdateRequest.getStatus());
+//            Plant PlantSave = plantRepository.save(plant);
+//            return modelMapper.map(PlantSave, PlantDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza plant inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarPlant(Integer plantId) {
-        plantRepository.apagadoLogicoPlant(plantId);
-    }
+//    public void apagarPlant(Integer plantId) {
+//        plantRepository.apagadoLogicoPlant(plantId);
+//    }
 }
 

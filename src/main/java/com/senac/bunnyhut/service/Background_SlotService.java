@@ -65,24 +65,24 @@ public class Background_SlotService {
         }
     }
 
-    @Transactional
-    public Background_SlotDTOUpdateResponse atualizarStatusBackground_Slot(Integer background_slotId, Background_SlotDTORequest background_slotDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Background_Slot background_slot = background_slotRepository.obterBackground_SlotPeloId(background_slotId);
-        //se encontra o registro a ser atualizado
-        if (background_slot != null) {
-            // atualiza o status do Background_Slot a partir do DTO
-            background_slot.setStatus(background_slotDTOUpdateRequest.getStatus());
-            Background_Slot Background_SlotSave = background_slotRepository.save(background_slot);
-            return modelMapper.map(Background_SlotSave, Background_SlotDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza background_slot inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public Background_SlotDTOUpdateResponse atualizarStatusBackground_Slot(Integer background_slotId, Background_SlotDTORequest background_slotDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Background_Slot background_slot = background_slotRepository.obterBackground_SlotPeloId(background_slotId);
+//        //se encontra o registro a ser atualizado
+//        if (background_slot != null) {
+//            // atualiza o status do Background_Slot a partir do DTO
+//            background_slot.setStatus(background_slotDTOUpdateRequest.getStatus());
+//            Background_Slot Background_SlotSave = background_slotRepository.save(background_slot);
+//            return modelMapper.map(Background_SlotSave, Background_SlotDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza background_slot inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarBackground_Slot(Integer background_slotId) {
-        background_slotRepository.apagadoLogicoBackground_Slot(background_slotId);
-    }
+//    public void apagarBackground_Slot(Integer background_slotId) {
+//        background_slotRepository.apagadoLogicoBackground_Slot(background_slotId);
+//    }
 }
 

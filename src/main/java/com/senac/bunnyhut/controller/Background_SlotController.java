@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("api/background-slot")
 public class Background_SlotController {
 
     private final Background_SlotService background_slotService;
@@ -65,25 +67,25 @@ public class Background_SlotController {
         return ResponseEntity.ok(background_slotService.atualizarBackground_Slot(background_slotId, background_slotDTORequest));
     }
 
-    @PatchMapping("/atualizarStatus/{background_slotId}")
-    @Operation(
-            summary = "Atualizar campo status do background_slot",
-            description = "Endpoint para atualizar apenas o status do background_slot"
-    )
-    public ResponseEntity<Background_SlotDTOUpdateResponse> atualizarStatusBackground_Slot(
-            @PathVariable("background_slotId") Integer background_slotId,
-            @Valid @RequestBody Background_SlotDTORequest background_slotDTOUpdateRequest
-    ) {
-        return ResponseEntity.ok(background_slotService.atualizarStatusBackground_Slot(background_slotId, background_slotDTOUpdateRequest));
-    }
+//    @PatchMapping("/atualizarStatus/{background_slotId}")
+//    @Operation(
+//            summary = "Atualizar campo status do background_slot",
+//            description = "Endpoint para atualizar apenas o status do background_slot"
+//    )
+//    public ResponseEntity<Background_SlotDTOUpdateResponse> atualizarStatusBackground_Slot(
+//            @PathVariable("background_slotId") Integer background_slotId,
+//            @Valid @RequestBody Background_SlotDTORequest background_slotDTOUpdateRequest
+//    ) {
+//        return ResponseEntity.ok(background_slotService.atualizarStatusBackground_Slot(background_slotId, background_slotDTOUpdateRequest));
+//    }
 
-    @DeleteMapping("/apagar/{background_slotId}")
-    @Operation(
-            summary = "Apagar registro do background_slot",
-            description = "Endpoint para apagar registro do background_slot"
-    )
-    public ResponseEntity<Void> apagarBackground_Slot(@PathVariable("background_slotId") Integer background_slotId) {
-        background_slotService.apagarBackground_Slot(background_slotId);
-        return ResponseEntity.noContent().build();
-    }
+//    @DeleteMapping("/apagar/{background_slotId}")
+//    @Operation(
+//            summary = "Apagar registro do background_slot",
+//            description = "Endpoint para apagar registro do background_slot"
+//    )
+//    public ResponseEntity<Void> apagarBackground_Slot(@PathVariable("background_slotId") Integer background_slotId) {
+//        background_slotService.apagarBackground_Slot(background_slotId);
+//        return ResponseEntity.noContent().build();
+//    }
 }

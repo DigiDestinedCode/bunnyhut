@@ -14,14 +14,14 @@ import java.util.List;
 @Repository
 
 public interface PlantRepository extends JpaRepository<Plant, Integer> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE Plant p SET p.status = -1 WHERE p.id = :id")
-    void apagadoLogicoPlant(@Param("id") Integer plantId);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Plant p SET p.status = -1 WHERE p.id = :id")
+//    void apagadoLogicoPlant(@Param("id") Integer plantId);
 
-    @Query("SELECT p from Plant p WHERE p.status >= 0")
+    @Query("SELECT p from Plant p")
     List<Plant> listPlants();
 
-    @Query("SELECT p from Plant p where p.id=:id AND p.status >=0")
+    @Query("SELECT p from Plant p where p.id=:id")
     Plant obterPlantPeloId(@Param("id") Integer plantId);
 }

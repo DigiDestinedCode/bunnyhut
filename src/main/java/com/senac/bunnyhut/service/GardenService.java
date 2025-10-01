@@ -65,24 +65,24 @@ public class GardenService {
         }
     }
 
-    @Transactional
-    public GardenDTOUpdateResponse atualizarStatusGarden(Integer gardenId, GardenDTORequest gardenDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Garden garden = gardenRepository.obterGardenPeloId(gardenId);
-        //se encontra o registro a ser atualizado
-        if (garden != null) {
-            // atualiza o status do Garden a partir do DTO
-            garden.setStatus(gardenDTOUpdateRequest.getStatus());
-            Garden GardenSave = gardenRepository.save(garden);
-            return modelMapper.map(GardenSave, GardenDTOUpdateResponse.class);
-        } else {
-            // Error 400 caso tente atualiza garden inexistente.
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @Transactional
+//    public GardenDTOUpdateResponse atualizarStatusGarden(Integer gardenId, GardenDTORequest gardenDTOUpdateRequest) {
+//        //antes de atualizar busca se existe o registro a ser atualizado
+//        Garden garden = gardenRepository.obterGardenPeloId(gardenId);
+//        //se encontra o registro a ser atualizado
+//        if (garden != null) {
+//            // atualiza o status do Garden a partir do DTO
+//            garden.setStatus(gardenDTOUpdateRequest.getStatus());
+//            Garden GardenSave = gardenRepository.save(garden);
+//            return modelMapper.map(GardenSave, GardenDTOUpdateResponse.class);
+//        } else {
+//            // Error 400 caso tente atualiza garden inexistente.
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
-    public void apagarGarden(Integer gardenId) {
-        gardenRepository.apagadoLogicoGarden(gardenId);
-    }
+//    public void apagarGarden(Integer gardenId) {
+//        gardenRepository.apagadoLogicoGarden(gardenId);
+//    }
 }
 

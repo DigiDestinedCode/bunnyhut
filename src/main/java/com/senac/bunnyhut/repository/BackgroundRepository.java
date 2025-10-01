@@ -12,16 +12,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-
 public interface BackgroundRepository extends JpaRepository<Background, Integer> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE Background p SET p.status = -1 WHERE p.id = :id")
-    void apagadoLogicoBackground(@Param("id") Integer backgroundId);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Background p SET p.status = -1 WHERE p.id = :id")
+//    void apagadoLogicoBackground(@Param("id") Integer backgroundId);
 
-    @Query("SELECT p from Background p WHERE p.status >= 0")
+    @Query("SELECT p from Background p")
     List<Background> listBackgrounds();
 
-    @Query("SELECT p from Background p where p.id=:id AND p.status >=0")
+    @Query("SELECT p from Background p where p.id=:id")
     Background obterBackgroundPeloId(@Param("id") Integer backgroundId);
 }

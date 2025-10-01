@@ -14,14 +14,14 @@ import java.util.List;
 @Repository
 
 public interface Transaction_CoinRepository extends JpaRepository<Transaction_Coin, Integer> {
-    @Modifying
-    @Transactional
-    @Query("UPDATE Transaction_Coin p SET p.status = -1 WHERE p.id = :id")
-    void apagadoLogicoTransaction_Coin(@Param("id") Integer transaction_coinId);
+//    @Modifying
+//    @Transactional
+//    @Query("UPDATE Transaction_Coin p SET p.status = -1 WHERE p.id = :id")
+//    void apagadoLogicoTransaction_Coin(@Param("id") Integer transaction_coinId);
 
-    @Query("SELECT p from Transaction_Coin p WHERE p.status >= 0")
+    @Query("SELECT p from Transaction_Coin p")
     List<Transaction_Coin> listTransaction_Coins();
 
-    @Query("SELECT p from Transaction_Coin p where p.id=:id AND p.status >=0")
+    @Query("SELECT p from Transaction_Coin p where p.id=:id")
     Transaction_Coin obterTransaction_CoinPeloId(@Param("id") Integer transaction_coinId);
 }
