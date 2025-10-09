@@ -1,4 +1,11 @@
 package com.senac.bunnyhut.dto.request;
 
-public class CreateUserDTO {
+import com.senac.bunnyhut.entity.RoleName;
+
+public record CreateUserDTO(
+        String email,
+        String password_hash,
+        RoleName role
+) {
+
 }

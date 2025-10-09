@@ -66,26 +66,4 @@ public class Garden_SpotController {
     ) {
         return ResponseEntity.ok(garden_spotService.atualizarGarden_Spot(garden_spotId, garden_spotDTORequest));
     }
-
-//    @PatchMapping("/atualizarStatus/{garden_spotId}")
-//    @Operation(
-//            summary = "Atualizar campo status do garden_spot",
-//            description = "Endpoint para atualizar apenas o status do garden_spot"
-//    )
-//    public ResponseEntity<Garden_SpotDTOUpdateResponse> atualizarStatusGarden_Spot(
-//            @PathVariable("garden_spotId") Integer garden_spotId,
-//            @Valid @RequestBody Garden_SpotDTORequest garden_spotDTOUpdateRequest
-//    ) {
-//        return ResponseEntity.ok(garden_spotService.atualizarStatusGarden_Spot(garden_spotId, garden_spotDTOUpdateRequest));
-//    }
-
-//    @DeleteMapping("/apagar/{garden_spotId}")
-//    @Operation(
-//            summary = "Apagar registro do garden_spot",
-//            description = "Endpoint para apagar registro do garden_spot"
-//    )
-//    public ResponseEntity<Void> apagarGarden_Spot(@PathVariable("garden_spotId") Integer garden_spotId) {
-//        garden_spotService.apagarGarden_Spot(garden_spotId);
-//        return ResponseEntity.noContent().build();
-//    }
 }

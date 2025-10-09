@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/categoria")
+@RequestMapping("api/background")
 public class BackgroundController {
 
     private final BackgroundService backgroundService;
@@ -66,26 +66,4 @@ public class BackgroundController {
     ) {
         return ResponseEntity.ok(backgroundService.atualizarBackground(backgroundId, backgroundDTORequest));
     }
-
-//    @PatchMapping("/atualizarStatus/{backgroundId}")
-//    @Operation(
-//            summary = "Atualizar campo status do background",
-//            description = "Endpoint para atualizar apenas o status do background"
-//    )
-//    public ResponseEntity<BackgroundDTOUpdateResponse> atualizarStatusBackground(
-//            @PathVariable("backgroundId") Integer backgroundId,
-//            @Valid @RequestBody BackgroundDTORequest backgroundDTOUpdateRequest
-//    ) {
-//        return ResponseEntity.ok(backgroundService.atualizarStatusBackground(backgroundId, backgroundDTOUpdateRequest));
-//    }
-
-//    @DeleteMapping("/apagar/{backgroundId}")
-//    @Operation(
-//            summary = "Apagar registro do background",
-//            description = "Endpoint para apagar registro do background"
-//    )
-//    public ResponseEntity<Void> apagarBackground(@PathVariable("backgroundId") Integer backgroundId) {
-//        backgroundService.apagarBackground(backgroundId);
-//        return ResponseEntity.noContent().build();
-//    }
 }

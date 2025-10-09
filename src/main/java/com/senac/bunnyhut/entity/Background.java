@@ -1,6 +1,10 @@
 package com.senac.bunnyhut.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name="background")
@@ -11,6 +15,17 @@ public class Background {
     private Integer id;
     @Column(name = "background_theme")
     private String theme;
+
+    @Transient
+    @JsonProperty("idItem")
+    private Integer idItem;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item;
+
+    @OneToMany(mappedBy = "background")
+    private Set<Background_Slot> background_slots;
 
     public Integer getId() {
         return id;
@@ -26,5 +41,29 @@ public class Background {
 
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+
+    public Integer getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(Integer idItem) {
+        this.idItem = idItem;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Set<Background_Slot> getBackground_slots() {
+        return background_slots;
+    }
+
+    public void setBackground_slots(Set<Background_Slot> background_slots) {
+        this.background_slots = background_slots;
     }
 }

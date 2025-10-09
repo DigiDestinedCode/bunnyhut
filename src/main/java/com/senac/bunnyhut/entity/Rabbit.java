@@ -2,6 +2,8 @@ package com.senac.bunnyhut.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="")
 public class Rabbit {
@@ -17,6 +19,9 @@ public class Rabbit {
     private String default_img;
     @Column(name = "rabbit_alt_img")
     private String alt_img;
+
+    @OneToMany(mappedBy = "rabbit")
+    private Set<Visit> visits;
 
     public Integer getId() {
         return id;
@@ -56,5 +61,13 @@ public class Rabbit {
 
     public void setAlt_img(String alt_img) {
         this.alt_img = alt_img;
+    }
+
+    public Set<Visit> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(Set<Visit> visits) {
+        this.visits = visits;
     }
 }

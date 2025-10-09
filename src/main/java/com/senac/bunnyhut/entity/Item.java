@@ -2,6 +2,8 @@ package com.senac.bunnyhut.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name="item")
 public class Item {
@@ -22,6 +24,18 @@ public class Item {
     // Checar se esse é o tipo certo
     @Column(name = "item_type")
     private EnumType type;
+
+    @OneToMany(mappedBy = "item")
+    private Set<Background> backgrounds;
+
+    @OneToMany(mappedBy = "item")
+    private Set<Furniture> furnitures;
+
+    @OneToMany(mappedBy = "item")
+    private Set<Inventory> inventories;
+
+    @OneToMany(mappedBy = "item")
+    private Set<Plant> plants;
 
     public Integer getId() {
         return id;
@@ -77,5 +91,37 @@ public class Item {
 
     public void setType(EnumType type) {
         this.type = type;
+    }
+
+    public Set<Background> getBackgrounds() {
+        return backgrounds;
+    }
+
+    public void setBackgrounds(Set<Background> backgrounds) {
+        this.backgrounds = backgrounds;
+    }
+
+    public Set<Furniture> getFurnitures() {
+        return furnitures;
+    }
+
+    public void setFurnitures(Set<Furniture> furnitures) {
+        this.furnitures = furnitures;
+    }
+
+    public Set<Inventory> getInventories() {
+        return inventories;
+    }
+
+    public void setInventories(Set<Inventory> inventories) {
+        this.inventories = inventories;
+    }
+
+    public Set<Plant> getPlants() {
+        return plants;
+    }
+
+    public void setPlants(Set<Plant> plants) {
+        this.plants = plants;
     }
 }

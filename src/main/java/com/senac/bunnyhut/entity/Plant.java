@@ -1,6 +1,10 @@
 package com.senac.bunnyhut.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name="plant")
@@ -15,6 +19,17 @@ public class Plant {
     private Integer harvest_value;
     @Column(name = "plant_harvestable")
     private Integer harvestable;
+
+    @Transient
+    @JsonProperty("idItem")
+    private Integer idItem;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "item_id", nullable = false)
+    private Item item;
+
+    @OneToMany(mappedBy = "plant")
+    private Set<Garden_Spot> garden_spots;
 
     public Integer getId() {
         return id;
@@ -46,5 +61,29 @@ public class Plant {
 
     public void setHarvestable(Integer harvestable) {
         this.harvestable = harvestable;
+    }
+
+    public Integer getIdItem() {
+        return idItem;
+    }
+
+    public void setIdItem(Integer idItem) {
+        this.idItem = idItem;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public Set<Garden_Spot> getGarden_spots() {
+        return garden_spots;
+    }
+
+    public void setGarden_spots(Set<Garden_Spot> garden_spots) {
+        this.garden_spots = garden_spots;
     }
 }

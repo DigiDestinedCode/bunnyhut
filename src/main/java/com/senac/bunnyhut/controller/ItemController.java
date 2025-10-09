@@ -67,18 +67,6 @@ public class ItemController {
         return ResponseEntity.ok(itemService.atualizarItem(itemId, itemDTORequest));
     }
 
-//    @PatchMapping("/atualizarStatus/{itemId}")
-//    @Operation(
-//            summary = "Atualizar campo status do item",
-//            description = "Endpoint para atualizar apenas o status do item"
-//    )
-//    public ResponseEntity<ItemDTOUpdateResponse> atualizarStatusItem(
-//            @PathVariable("itemId") Integer itemId,
-//            @Valid @RequestBody ItemDTORequest itemDTOUpdateRequest
-//    ) {
-//        return ResponseEntity.ok(itemService.atualizarStatusItem(itemId, itemDTOUpdateRequest));
-//    }
-
     @DeleteMapping("/apagar/{itemId}")
     @Operation(
             summary = "Apagar registro do item",

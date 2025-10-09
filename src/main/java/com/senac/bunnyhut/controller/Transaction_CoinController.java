@@ -66,26 +66,4 @@ public class Transaction_CoinController {
     ) {
         return ResponseEntity.ok(transaction_coinService.atualizarTransaction_Coin(transaction_coinId, transaction_coinDTORequest));
     }
-
-//    @PatchMapping("/atualizarStatus/{transaction_coinId}")
-//    @Operation(
-//            summary = "Atualizar campo status do transaction_coin",
-//            description = "Endpoint para atualizar apenas o status do transaction_coin"
-//    )
-//    public ResponseEntity<Transaction_CoinDTOUpdateResponse> atualizarStatusTransaction_Coin(
-//            @PathVariable("transaction_coinId") Integer transaction_coinId,
-//            @Valid @RequestBody Transaction_CoinDTORequest transaction_coinDTOUpdateRequest
-//    ) {
-//        return ResponseEntity.ok(transaction_coinService.atualizarStatusTransaction_Coin(transaction_coinId, transaction_coinDTOUpdateRequest));
-//    }
-
-//    @DeleteMapping("/apagar/{transaction_coinId}")
-//    @Operation(
-//            summary = "Apagar registro do transaction_coin",
-//            description = "Endpoint para apagar registro do transaction_coin"
-//    )
-//    public ResponseEntity<Void> apagarTransaction_Coin(@PathVariable("transaction_coinId") Integer transaction_coinId) {
-//        transaction_coinService.apagarTransaction_Coin(transaction_coinId);
-//        return ResponseEntity.noContent().build();
-//    }
 }

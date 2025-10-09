@@ -1,6 +1,6 @@
 package com.senac.bunnyhut.dto.request;
 
-public class UsuarioDTOLoginRequest {
+public class UserDTOLoginRequest {
     private String email;
     private String password_hash;
 

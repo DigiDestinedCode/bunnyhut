@@ -1,5 +1,7 @@
 package com.senac.bunnyhut.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +21,14 @@ public class Transaction_Coin {
     private String description;
     @Column(name = "transaction_date")
     private LocalDateTime date;
+
+    @Transient
+    @JsonProperty("idUser")
+    private Integer idUser;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     public Integer getId() {
         return id;
@@ -58,5 +68,21 @@ public class Transaction_Coin {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public Integer getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

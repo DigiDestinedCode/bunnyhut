@@ -66,26 +66,4 @@ public class FurnitureController {
     ) {
         return ResponseEntity.ok(furnitureService.atualizarFurniture(furnitureId, furnitureDTORequest));
     }
-
-//    @PatchMapping("/atualizarStatus/{furnitureId}")
-//    @Operation(
-//            summary = "Atualizar campo status do furniture",
-//            description = "Endpoint para atualizar apenas o status do furniture"
-//    )
-//    public ResponseEntity<FurnitureDTOUpdateResponse> atualizarStatusFurniture(
-//            @PathVariable("furnitureId") Integer furnitureId,
-//            @Valid @RequestBody FurnitureDTORequest furnitureDTOUpdateRequest
-//    ) {
-//        return ResponseEntity.ok(furnitureService.atualizarStatusFurniture(furnitureId, furnitureDTOUpdateRequest));
-//    }
-
-//    @DeleteMapping("/apagar/{furnitureId}")
-//    @Operation(
-//            summary = "Apagar registro do furniture",
-//            description = "Endpoint para apagar registro do furniture"
-//    )
-//    public ResponseEntity<Void> apagarFurniture(@PathVariable("furnitureId") Integer furnitureId) {
-//        furnitureService.apagarFurniture(furnitureId);
-//        return ResponseEntity.noContent().build();
-//    }
 }

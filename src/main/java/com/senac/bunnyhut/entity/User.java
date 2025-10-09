@@ -3,6 +3,8 @@ package com.senac.bunnyhut.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="user")
@@ -23,6 +25,21 @@ public class User {
     private LocalDateTime created_at;
     @Column(name = "user_status")
     private Integer status;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Inventory> inventories;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Transaction_Coin> transactionCoins;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Visit> visits;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name="user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
+    private List<Role> roles;
 
     public Integer getId() {
         return id;
@@ -78,5 +95,37 @@ public class User {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Set<Inventory> getInventories() {
+        return inventories;
+    }
+
+    public void setInventories(Set<Inventory> inventories) {
+        this.inventories = inventories;
+    }
+
+    public Set<Transaction_Coin> getTransactionCoins() {
+        return transactionCoins;
+    }
+
+    public void setTransactionCoins(Set<Transaction_Coin> transactionCoins) {
+        this.transactionCoins = transactionCoins;
+    }
+
+    public Set<Visit> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(Set<Visit> visits) {
+        this.visits = visits;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }

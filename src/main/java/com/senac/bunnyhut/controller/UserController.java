@@ -1,6 +1,8 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.UserDTOLoginRequest;
 import com.senac.bunnyhut.dto.request.UserDTORequest;
+import com.senac.bunnyhut.dto.response.UserDTOLoginResponse;
 import com.senac.bunnyhut.dto.response.UserDTOResponse;
 import com.senac.bunnyhut.dto.response.UserDTOUpdateResponse;
 import com.senac.bunnyhut.service.UserService;
@@ -44,16 +46,16 @@ public class UserController {
             return ResponseEntity.ok(user);
         }
     }
-    @PostMapping("/criar")
-    @Operation(
-            summary = "Criar novo user",
-            description = "Endpoint para criar um novo registro de user"
-    )
-    public ResponseEntity<UserDTOResponse> criarUser(
-            @Valid @RequestBody UserDTORequest user
-    ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.criarUser(user));
-    }
+//    @PostMapping("/criar")
+//    @Operation(
+//            summary = "Criar novo user",
+//            description = "Endpoint para criar um novo registro de user"
+//    )
+//    public ResponseEntity<UserDTOResponse> criarUser(
+//            @Valid @RequestBody UserDTORequest user
+//    ) {
+//        return ResponseEntity.status(HttpStatus.CREATED).body(userService.criarUser(user));
+//    }
 
     @PutMapping("/atualizar/{userId}")
     @Operation(
@@ -67,18 +69,6 @@ public class UserController {
         return ResponseEntity.ok(userService.atualizarUser(userId, userDTORequest));
     }
 
-//    @PatchMapping("/atualizarStatus/{userId}")
-//    @Operation(
-//            summary = "Atualizar campo status do user",
-//            description = "Endpoint para atualizar apenas o status do user"
-//    )
-//    public ResponseEntity<UserDTOUpdateResponse> atualizarStatusUser(
-//            @PathVariable("userId") Integer userId,
-//            @Valid @RequestBody UserDTORequest userDTOUpdateRequest
-//    ) {
-//        return ResponseEntity.ok(userService.atualizarStatusUser(userId, userDTOUpdateRequest));
-//    }
-
     @DeleteMapping("/apagar/{userId}")
     @Operation(
             summary = "Apagar registro do user",
@@ -87,5 +77,16 @@ public class UserController {
     public ResponseEntity<Void> apagarUser(@PathVariable("userId") Integer userId) {
         userService.apagarUser(userId);
         return ResponseEntity.noContent().build();
+    }
+
+
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDTOLoginResponse>  login(@RequestBody UserDTOLoginRequest userDTOLoginRequest) {
+        return ResponseEntity.ok(userService.login(userDTOLoginRequest));
+    }
+    @PostMapping("/criar")
+    public ResponseEntity<UserDTOResponse> criar(@RequestBody UserDTORequest userDTORequest) {
+        return ResponseEntity.ok(userService.criar(userDTORequest));
     }
 }
