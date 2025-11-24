@@ -25,7 +25,7 @@ public class Furniture {
     private Item item;
 
     @OneToMany(mappedBy = "furniture")
-    private Set<Background_Slot> background_slots;
+    private Set<BackgroundSlot> background_slots;
 
     public Integer getId() {
         return id;
@@ -59,11 +59,11 @@ public class Furniture {
         this.item = item;
     }
 
-    public Set<Background_Slot> getBackground_slots() {
+    public Set<BackgroundSlot> getBackground_slots() {
         return background_slots;
     }
 
-    public void setBackground_slots(Set<Background_Slot> background_slots) {
+    public void setBackground_slots(Set<BackgroundSlot> background_slots) {
         this.background_slots = background_slots;
     }
 }

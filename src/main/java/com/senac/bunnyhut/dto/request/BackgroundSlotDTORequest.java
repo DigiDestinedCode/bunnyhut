@@ -1,6 +1,6 @@
 package com.senac.bunnyhut.dto.request;
 
-public class Background_SlotDTORequest {
+public class BackgroundSlotDTORequest {
     private Integer backgroundId;
     private Integer furnitureId;
 

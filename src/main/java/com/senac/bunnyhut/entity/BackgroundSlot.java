@@ -5,11 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="background_slot")
-public class Background_Slot {
+@Table(name="backgrounds_slot")
+public class BackgroundSlot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "background_slots_id")
+    @Column(name = "backgrounds_slots_id")
     private int id;
 
     @Transient

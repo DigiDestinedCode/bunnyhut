@@ -1,9 +1,8 @@
 package com.senac.bunnyhut.controller;
 
-import com.senac.bunnyhut.dto.request.Transaction_CoinDTORequest;
-import com.senac.bunnyhut.dto.response.Transaction_CoinDTOResponse;
-import com.senac.bunnyhut.dto.response.Transaction_CoinDTOUpdateResponse;
-import com.senac.bunnyhut.service.Transaction_CoinService;
+import com.senac.bunnyhut.dto.request.TransactionCoinDTORequest;
+import com.senac.bunnyhut.dto.response.TransactionCoinDTOResponse;
+import com.senac.bunnyhut.service.TransactionCoinService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -14,56 +13,56 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/transaction-coin")
-public class Transaction_CoinController {
+public class TransactionCoinController {
 
-    private final Transaction_CoinService transaction_coinService;
+    private final TransactionCoinService transactioncoinService;
 
-    public Transaction_CoinController(Transaction_CoinService transaction_coinService) {
-        this.transaction_coinService = transaction_coinService;
+    public TransactionCoinController(TransactionCoinService transactioncoinService) {
+        this.transactioncoinService = transactioncoinService;
     }
 
     @GetMapping("/listar")
     @Operation(
-            summary = "Listar transaction_coins",
-            description = "Endpoint para listar todos os transaction_coins"
+            summary = "Listar transactioncoins",
+            description = "Endpoint para listar todos os transactioncoins"
     )
-    public ResponseEntity<List<Transaction_CoinDTOResponse>> listTransaction_Coins() {
-        return ResponseEntity.ok(transaction_coinService.listTransaction_Coins());
+    public ResponseEntity<List<TransactionCoinDTOResponse>> listTransactioncoins() {
+        return ResponseEntity.ok(transactioncoinService.listTransactionCoins());
     }
 
-    @GetMapping("/listarPorTransaction_CoinId/{transaction_coinId}")
+    @GetMapping("/listarPorTransactioncoinId/{transactioncoinId}")
     @Operation(
-            summary = "Listar transaction_coin pelo id de transaction_coin",
-            description = "Endpoint para listar transaction_coin por Id de transaction_coin"
+            summary = "Listar transactioncoin pelo id de transactioncoin",
+            description = "Endpoint para listar transactioncoin por Id de transactioncoin"
     )
-    public ResponseEntity<Transaction_CoinDTOResponse> listarPorTransaction_CoinId(@PathVariable("transaction_coinId") Integer transaction_coinId) {
-        Transaction_CoinDTOResponse transaction_coin = transaction_coinService.listarPorTransaction_CoinId(transaction_coinId);
-        if (transaction_coin == null) {
+    public ResponseEntity<TransactionCoinDTOResponse> listarPorTransactioncoinId(@PathVariable("transactioncoinId") Integer transactioncoinId) {
+        TransactionCoinDTOResponse transactioncoin = transactioncoinService.listarPorTransactionCoinId(transactioncoinId);
+        if (transactioncoin == null) {
             return ResponseEntity.noContent().build();
         } else {
-            return ResponseEntity.ok(transaction_coin);
+            return ResponseEntity.ok(transactioncoin);
         }
     }
     @PostMapping("/criar")
     @Operation(
-            summary = "Criar novo transaction_coin",
-            description = "Endpoint para criar um novo registro de transaction_coin"
+            summary = "Criar novo transactioncoin",
+            description = "Endpoint para criar um novo registro de transactioncoin"
     )
-    public ResponseEntity<Transaction_CoinDTOResponse> criarTransaction_Coin(
-            @Valid @RequestBody Transaction_CoinDTORequest transaction_coin
+    public ResponseEntity<TransactionCoinDTOResponse> criarTransactioncoin(
+            @Valid @RequestBody TransactionCoinDTORequest transactioncoin
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(transaction_coinService.criarTransaction_Coin(transaction_coin));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transactioncoinService.criarTransactionCoin(transactioncoin));
     }
 
-    @PutMapping("/atualizar/{transaction_coinId}")
+    @PutMapping("/atualizar/{transactioncoinId}")
     @Operation(
-            summary = "Atualizar todos os dados do transaction_coin",
-            description = "Endpoint para atualizar o registro de transaction_coin"
+            summary = "Atualizar todos os dados do transactioncoin",
+            description = "Endpoint para atualizar o registro de transactioncoin"
     )
-    public ResponseEntity<Transaction_CoinDTOResponse> atualizarTransaction_Coin(
-            @PathVariable("transaction_coinId") Integer transaction_coinId,
-            @Valid @RequestBody Transaction_CoinDTORequest transaction_coinDTORequest
+    public ResponseEntity<TransactionCoinDTOResponse> atualizarTransactioncoin(
+            @PathVariable("transactioncoinId") Integer transactioncoinId,
+            @Valid @RequestBody TransactionCoinDTORequest transactioncoinDTORequest
     ) {
-        return ResponseEntity.ok(transaction_coinService.atualizarTransaction_Coin(transaction_coinId, transaction_coinDTORequest));
+        return ResponseEntity.ok(transactioncoinService.atualizarTransactionCoin(transactioncoinId, transactioncoinDTORequest));
     }
 }

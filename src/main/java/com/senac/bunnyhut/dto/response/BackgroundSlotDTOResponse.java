@@ -1,6 +1,6 @@
 package com.senac.bunnyhut.dto.response;
 
-public class Background_SlotDTOResponse {
+public class BackgroundSlotDTOResponse {
     private Integer id;
     private Integer backgroundId;
     private Integer furnitureId;

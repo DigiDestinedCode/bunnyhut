@@ -1,10 +1,9 @@
 package com.senac.bunnyhut.service;
 
-import com.senac.bunnyhut.dto.request.Transaction_CoinDTORequest;
-import com.senac.bunnyhut.dto.response.Transaction_CoinDTOResponse;
-import com.senac.bunnyhut.dto.response.Transaction_CoinDTOUpdateResponse;
-import com.senac.bunnyhut.entity.Transaction_Coin;
-import com.senac.bunnyhut.repository.Transaction_CoinRepository;
+import com.senac.bunnyhut.dto.request.TransactionCoinDTORequest;
+import com.senac.bunnyhut.dto.response.TransactionCoinDTOResponse;
+import com.senac.bunnyhut.entity.TransactionCoin;
+import com.senac.bunnyhut.repository.TransactionCoinRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,74 +14,74 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class Transaction_CoinService {
+public class TransactionCoinService {
 
-    private final Transaction_CoinRepository transaction_coinRepository;
+    private final TransactionCoinRepository transactionCoinRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public Transaction_CoinService(Transaction_CoinRepository transaction_coinRepository,
-                         ModelMapper modelMapper) {
-        this.transaction_coinRepository = transaction_coinRepository;
+    public TransactionCoinService(TransactionCoinRepository transactionCoinRepository,
+                                  ModelMapper modelMapper) {
+        this.transactionCoinRepository = transactionCoinRepository;
         this.modelMapper = modelMapper;
     }
 
-    public List<Transaction_CoinDTOResponse> listTransaction_Coins() {
-        return transaction_coinRepository.listTransaction_Coins()
+    public List<TransactionCoinDTOResponse> listTransactionCoins() {
+        return transactionCoinRepository.listTransactionCoins()
                 .stream()
-                .map(transaction_coin -> modelMapper.map(transaction_coin, Transaction_CoinDTOResponse.class))
+                .map(transactionCoin -> modelMapper.map(transactionCoin, TransactionCoinDTOResponse.class))
                 .toList()
                 ;
     }
 
-    public Transaction_CoinDTOResponse listarPorTransaction_CoinId(Integer transaction_coinId) {
-        Transaction_Coin transaction_coin = transaction_coinRepository.obterTransaction_CoinPeloId(transaction_coinId);
-        return (transaction_coin != null) ? modelMapper.map(transaction_coin, Transaction_CoinDTOResponse.class) : null;
+    public TransactionCoinDTOResponse listarPorTransactionCoinId(Integer transactionCoinId) {
+        TransactionCoin transactionCoin = transactionCoinRepository.obterTransactionCoinPeloId(transactionCoinId);
+        return (transactionCoin != null) ? modelMapper.map(transactionCoin, TransactionCoinDTOResponse.class) : null;
     }
 
     @Transactional
-    public Transaction_CoinDTOResponse criarTransaction_Coin(Transaction_CoinDTORequest transaction_coinDTORequest) {
-        Transaction_Coin transaction_coin = modelMapper.map(transaction_coinDTORequest, Transaction_Coin.class);
-        Transaction_Coin Transaction_CoinSave = this.transaction_coinRepository.save(transaction_coin);
-        return modelMapper.map(Transaction_CoinSave, Transaction_CoinDTOResponse.class);
+    public TransactionCoinDTOResponse criarTransactionCoin(TransactionCoinDTORequest transactionCoinDTORequest) {
+        TransactionCoin transactionCoin = modelMapper.map(transactionCoinDTORequest, TransactionCoin.class);
+        TransactionCoin TransactionCoinSave = this.transactionCoinRepository.save(transactionCoin);
+        return modelMapper.map(TransactionCoinSave, TransactionCoinDTOResponse.class);
     }
 
     @Transactional
-    public Transaction_CoinDTOResponse atualizarTransaction_Coin(Integer transaction_coinId, Transaction_CoinDTORequest transaction_coinDTORequest) {
+    public TransactionCoinDTOResponse atualizarTransactionCoin(Integer transactionCoinId, TransactionCoinDTORequest transactionCoinDTORequest) {
         //antes de atualizar busca se existe o registro a ser atualizado
-        Transaction_Coin transaction_coin = transaction_coinRepository.obterTransaction_CoinPeloId(transaction_coinId);
+        TransactionCoin transactionCoin = transactionCoinRepository.obterTransactionCoinPeloId(transactionCoinId);
         //se encontra o registro a ser atualizado
-        if (transaction_coin != null) {
-            // atualiza dados do transaction_coin a partir do DTO
-            modelMapper.map(transaction_coinDTORequest, transaction_coin);
+        if (transactionCoin != null) {
+            // atualiza dados do transactionCoin a partir do DTO
+            modelMapper.map(transactionCoinDTORequest, transactionCoin);
             // atualiza a categoria vinculada
-            Transaction_Coin tempResponse = transaction_coinRepository.save(transaction_coin);
-            return modelMapper.map(tempResponse, Transaction_CoinDTOResponse.class);
+            TransactionCoin tempResponse = transactionCoinRepository.save(transactionCoin);
+            return modelMapper.map(tempResponse, TransactionCoinDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza transaction_coin inexistente.
+            // Error 400 caso tente atualiza transactionCoin inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
 //    @Transactional
-//    public Transaction_CoinDTOUpdateResponse atualizarStatusTransaction_Coin(Integer transaction_coinId, Transaction_CoinDTORequest transaction_coinDTOUpdateRequest) {
+//    public TransactionCoinDTOUpdateResponse atualizarStatusTransactionCoin(Integer transactionCoinId, TransactionCoinDTORequest transactionCoinDTOUpdateRequest) {
 //        //antes de atualizar busca se existe o registro a ser atualizado
-//        Transaction_Coin transaction_coin = transaction_coinRepository.obterTransaction_CoinPeloId(transaction_coinId);
+//        TransactionCoin transactionCoin = transactionCoinRepository.obterTransactionCoinPeloId(transactionCoinId);
 //        //se encontra o registro a ser atualizado
-//        if (transaction_coin != null) {
-//            // atualiza o status do Transaction_Coin a partir do DTO
-//            transaction_coin.setStatus(transaction_coinDTOUpdateRequest.getStatus());
-//            Transaction_Coin Transaction_CoinSave = transaction_coinRepository.save(transaction_coin);
-//            return modelMapper.map(Transaction_CoinSave, Transaction_CoinDTOUpdateResponse.class);
+//        if (transactionCoin != null) {
+//            // atualiza o status do TransactionCoin a partir do DTO
+//            transactionCoin.setStatus(transactionCoinDTOUpdateRequest.getStatus());
+//            TransactionCoin TransactionCoinSave = transactionCoinRepository.save(transactionCoin);
+//            return modelMapper.map(TransactionCoinSave, TransactionCoinDTOUpdateResponse.class);
 //        } else {
-//            // Error 400 caso tente atualiza transaction_coin inexistente.
+//            // Error 400 caso tente atualiza transactionCoin inexistente.
 //            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 //        }
 //    }
 
-//    public void apagarTransaction_Coin(Integer transaction_coinId) {
-//        transaction_coinRepository.apagadoLogicoTransaction_Coin(transaction_coinId);
+//    public void apagarTransactionCoin(Integer transactionCoinId) {
+//        transactionCoinRepository.apagadoLogicoTransactionCoin(transactionCoinId);
 //    }
 }
 

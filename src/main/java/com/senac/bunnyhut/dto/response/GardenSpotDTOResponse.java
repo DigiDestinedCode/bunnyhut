@@ -2,7 +2,7 @@ package com.senac.bunnyhut.dto.response;
 
 import java.time.LocalDateTime;
 
-public class Garden_SpotDTOResponse {
+public class GardenSpotDTOResponse {
     private Integer id;
     private Integer gardenId;
     private Integer plantId;

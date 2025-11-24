@@ -2,7 +2,7 @@ package com.senac.bunnyhut.dto.request;
 
 import java.time.LocalDateTime;
 
-public class Transaction_CoinDTORequest {
+public class TransactionCoinDTORequest {
     private Integer userId;
     private Enum type;
     private Integer value;

@@ -30,7 +30,7 @@ public class User {
     private Set<Inventory> inventories;
 
     @OneToMany(mappedBy = "user")
-    private Set<Transaction_Coin> transactionCoins;
+    private Set<TransactionCoin> transactionCoins;
 
     @OneToMany(mappedBy = "user")
     private Set<Visit> visits;
@@ -105,11 +105,11 @@ public class User {
         this.inventories = inventories;
     }
 
-    public Set<Transaction_Coin> getTransactionCoins() {
+    public Set<TransactionCoin> getTransactionCoins() {
         return transactionCoins;
     }
 
-    public void setTransactionCoins(Set<Transaction_Coin> transactionCoins) {
+    public void setTransactionCoins(Set<TransactionCoin> transactionCoins) {
         this.transactionCoins = transactionCoins;
     }
 

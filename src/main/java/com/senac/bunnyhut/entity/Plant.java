@@ -29,7 +29,7 @@ public class Plant {
     private Item item;
 
     @OneToMany(mappedBy = "plant")
-    private Set<Garden_Spot> garden_spots;
+    private Set<GardenSpot> garden_spots;
 
     public Integer getId() {
         return id;
@@ -79,11 +79,11 @@ public class Plant {
         this.item = item;
     }
 
-    public Set<Garden_Spot> getGarden_spots() {
+    public Set<GardenSpot> getGarden_spots() {
         return garden_spots;
     }
 
-    public void setGarden_spots(Set<Garden_Spot> garden_spots) {
+    public void setGarden_spots(Set<GardenSpot> garden_spots) {
         this.garden_spots = garden_spots;
     }
 }
