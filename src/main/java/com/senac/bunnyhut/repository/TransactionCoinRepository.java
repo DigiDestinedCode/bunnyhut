@@ -20,6 +20,6 @@ public interface TransactionCoinRepository extends JpaRepository<TransactionCoin
     @Query("SELECT p from TransactionCoin p")
     List<TransactionCoin> listTransactionCoins();
 
-    @Query("SELECT p from Transaction_Coin p where p.id=:id")
-    TransactionCoin obterTransactionCoinPeloId(@Param("id") Integer transaction_coinId);
+    @Query("SELECT p from TransactionCoin p where p.id=:id")
+    TransactionCoin obterTransactionCoinPeloId(@Param("id") Integer transactionCoinId);
 }

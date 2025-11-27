@@ -16,9 +16,9 @@ public interface BackgroundSlotRepository extends JpaRepository<BackgroundSlot, 
 //    @Query("UPDATE Background_Slot p SET p.status = -1 WHERE p.id = :id")
 //    void apagadoLogicoBackground_Slot(@Param("id") Integer background_slotId);
 
-    @Query("SELECT p from Backgrounds_Slot p")
+    @Query("SELECT p FROM BackgroundSlot p")
     List<BackgroundSlot> listBackgroundSlots();
 
-    @Query("SELECT p from Backgrounds_Slot p where p.id=:id")
-    BackgroundSlot obterBackgroundSlotPeloId(@Param("id") Integer background_slotId);
+    @Query("SELECT p FROM BackgroundSlot p WHERE p.id = :id")
+    BackgroundSlot obterBackgroundSlotPeloId(@Param("id") Integer backgroundSlotId);
 }
