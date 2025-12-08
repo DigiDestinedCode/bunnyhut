@@ -6,7 +6,7 @@ public class UserDTOResponse {
     private Integer id;
     private String nickname;
     private String email;
-    private String password_has;
+    private String password_hash;
     private Integer coin;
     private LocalDateTime created_at;
     private Integer status;
@@ -35,12 +35,12 @@ public class UserDTOResponse {
         this.email = email;
     }
 
-    public String getpassword_has() {
-        return password_has;
+    public String getPassword_hash() {
+        return password_hash;
     }
 
-    public void setpassword_has(String password_has) {
-        this.password_has = password_has;
+    public void setPassword_hash(String password_hash) {
+        this.password_hash = password_hash;
     }
 
     public Integer getcoin() {

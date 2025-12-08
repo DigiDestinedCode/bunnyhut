@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/transaction-coin")
+@RequestMapping("api/transactioncoin")
 public class TransactionCoinController {
 
     private final TransactionCoinService transactioncoinService;

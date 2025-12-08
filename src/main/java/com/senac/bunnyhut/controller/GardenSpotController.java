@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/garden-spot")
+@RequestMapping("api/gardenspot")
 public class GardenSpotController {
 
     private final GardenSpotService gardenspotService;

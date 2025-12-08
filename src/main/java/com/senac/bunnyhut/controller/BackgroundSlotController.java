@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/background-slot")
+@RequestMapping("api/backgroundslot")
 public class BackgroundSlotController {
 
     private final BackgroundSlotService backgroundslotService;

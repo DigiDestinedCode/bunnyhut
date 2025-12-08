@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,16 +14,21 @@ import java.time.ZonedDateTime;
 @Service
 public class JwtTokenService {
 
-    private static final String SECRET_KEY = "4Z^XrroxR@dWxqf$mTTKwW$!@#qGr4P"; // Chave secreta utilizada para gerar e verificar o token
+    @Value("${jwt.secret}")
+    private String secretKey;
 
-    private static final String ISSUER = "gamesolimpiadas-api"; // Emissor do token
+    @Value("${jwt.issuer}")
+    private String issuer;
+
+    @Value("${jwt.expiration.hours}")
+    private int expirationHours;
 
     public String generateToken(UserDetailsImpl usuario) {
         try {
             // Define o algoritmo HMAC SHA256 para criar a assinatura do token passando a chave secreta definida
-            Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+            Algorithm algorithm = Algorithm.HMAC256(secretKey);
             return JWT.create()
-                    .withIssuer(ISSUER) // Define o emissor do token
+                    .withIssuer(issuer) // Define o emissor do token
                     .withIssuedAt(creationDate()) // Define a data de emissão do token
                     .withExpiresAt(expirationDate()) // Define a data de expiração do token
                     .withSubject(usuario.getUsername()) // Define o assunto do token (neste caso, o nome de usuário)
@@ -35,9 +41,9 @@ public class JwtTokenService {
     public String getSubjectFromToken(String token) {
         try {
             // Define o algoritmo HMAC SHA256 para verificar a assinatura do token passando a chave secreta definida
-            Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+            Algorithm algorithm = Algorithm.HMAC256(secretKey);
             return JWT.require(algorithm)
-                    .withIssuer(ISSUER) // Define o emissor do token
+                    .withIssuer(issuer) // Define o emissor do token
                     .build()
                     .verify(token) // Verifica a validade do token
                     .getSubject(); // Obtém o assunto (neste caso, o nome de usuário) do token
@@ -51,7 +57,7 @@ public class JwtTokenService {
     }
 
     private Instant expirationDate() {
-        return ZonedDateTime.now(ZoneId.of("America/Recife")).plusHours(4).toInstant();
+        return ZonedDateTime.now(ZoneId.of("America/Recife")).plusHours(expirationHours).toInstant();
     }
 
 }
