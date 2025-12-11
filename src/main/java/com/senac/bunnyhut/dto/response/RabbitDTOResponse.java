@@ -7,43 +7,43 @@ public class RabbitDTOResponse {
     private String default_img;
     private String alt_img;
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getname() {
+    public String getName() {
         return name;
     }
 
-    public void setname(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getdescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setdescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getdefault_img() {
+    public String getDefaultImg() {
         return default_img;
     }
 
-    public void setdefault_img(String default_img) {
+    public void setDefaultImg(String default_img) {
         this.default_img = default_img;
     }
 
-    public String getalt_img() {
+    public String getAltImg() {
         return alt_img;
     }
 
-    public void setalt_img(String alt_img) {
+    public void setAltImg(String alt_img) {
         this.alt_img = alt_img;
     }
 }

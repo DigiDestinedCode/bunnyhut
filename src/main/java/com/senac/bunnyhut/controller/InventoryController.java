@@ -2,7 +2,6 @@ package com.senac.bunnyhut.controller;
 
 import com.senac.bunnyhut.dto.request.InventoryDTORequest;
 import com.senac.bunnyhut.dto.response.InventoryDTOResponse;
-import com.senac.bunnyhut.dto.response.InventoryDTOUpdateResponse;
 import com.senac.bunnyhut.service.InventoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -22,48 +21,48 @@ public class InventoryController {
         this.inventoryService = inventoryService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar inventorys",
-            description = "Endpoint para listar todos os inventorys"
+            summary = "List all inventories",
+            description = "Endpoint to list all inventories"
     )
     public ResponseEntity<List<InventoryDTOResponse>> listInventories() {
         return ResponseEntity.ok(inventoryService.listInventories());
     }
 
-    @GetMapping("/listarPorInventoryId/{inventoryId}")
+    @GetMapping("/listById/{inventoryId}")
     @Operation(
-            summary = "Listar inventory pelo id de inventory",
-            description = "Endpoint para listar inventory por Id de inventory"
+            summary = "List inventory by ID",
+            description = "Endpoint to list inventory by ID"
     )
-    public ResponseEntity<InventoryDTOResponse> listarPorInventoryId(@PathVariable("inventoryId") Integer inventoryId) {
-        InventoryDTOResponse inventory = inventoryService.listarPorInventoryId(inventoryId);
+    public ResponseEntity<InventoryDTOResponse> getInventoryById(@PathVariable("inventoryId") Integer inventoryId) {
+        InventoryDTOResponse inventory = inventoryService.getInventoryById(inventoryId);
         if (inventory == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(inventory);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo inventory",
-            description = "Endpoint para criar um novo registro de inventory"
+            summary = "Create new inventory",
+            description = "Endpoint to create a new inventory record"
     )
-    public ResponseEntity<InventoryDTOResponse> criarInventory(
+    public ResponseEntity<InventoryDTOResponse> createInventory(
             @Valid @RequestBody InventoryDTORequest inventory
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(inventoryService.criarInventory(inventory));
+        return ResponseEntity.status(HttpStatus.CREATED).body(inventoryService.createInventory(inventory));
     }
 
-    @PutMapping("/atualizar/{inventoryId}")
+    @PutMapping("/update/{inventoryId}")
     @Operation(
-            summary = "Atualizar todos os dados do inventory",
-            description = "Endpoint para atualizar o registro de inventory"
+            summary = "Update all inventory data",
+            description = "Endpoint to update the inventory record"
     )
-    public ResponseEntity<InventoryDTOResponse> atualizarInventory(
+    public ResponseEntity<InventoryDTOResponse> updateInventory(
             @PathVariable("inventoryId") Integer inventoryId,
             @Valid @RequestBody InventoryDTORequest inventoryDTORequest
     ) {
-        return ResponseEntity.ok(inventoryService.atualizarInventory(inventoryId, inventoryDTORequest));
+        return ResponseEntity.ok(inventoryService.updateInventory(inventoryId, inventoryDTORequest));
     }
 }

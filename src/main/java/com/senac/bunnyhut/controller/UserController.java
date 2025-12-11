@@ -4,11 +4,9 @@ import com.senac.bunnyhut.dto.request.UserDTOLoginRequest;
 import com.senac.bunnyhut.dto.request.UserDTORequest;
 import com.senac.bunnyhut.dto.response.UserDTOLoginResponse;
 import com.senac.bunnyhut.dto.response.UserDTOResponse;
-import com.senac.bunnyhut.dto.response.UserDTOUpdateResponse;
 import com.senac.bunnyhut.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,69 +22,58 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar users",
-            description = "Endpoint para listar todos os users"
+            summary = "List all users",
+            description = "Endpoint to list all users"
     )
     public ResponseEntity<List<UserDTOResponse>> listUsers() {
         return ResponseEntity.ok(userService.listUsers());
     }
 
-    @GetMapping("/listarPorUserId/{userId}")
+    @GetMapping("/listById/{userId}")
     @Operation(
-            summary = "Listar user pelo id de user",
-            description = "Endpoint para listar user por Id de user"
+            summary = "List user by ID",
+            description = "Endpoint to list user by ID"
     )
-    public ResponseEntity<UserDTOResponse> listarPorUserId(@PathVariable("userId") Integer userId) {
-        UserDTOResponse user = userService.listarPorUserId(userId);
+    public ResponseEntity<UserDTOResponse> getUserById(@PathVariable("userId") Integer userId) {
+        UserDTOResponse user = userService.getUserById(userId);
         if (user == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(user);
         }
     }
-//    @PostMapping("/criar")
-//    @Operation(
-//            summary = "Criar novo user",
-//            description = "Endpoint para criar um novo registro de user"
-//    )
-//    public ResponseEntity<UserDTOResponse> criarUser(
-//            @Valid @RequestBody UserDTORequest user
-//    ) {
-//        return ResponseEntity.status(HttpStatus.CREATED).body(userService.criarUser(user));
-//    }
 
-    @PutMapping("/atualizar/{userId}")
+    @PutMapping("/update/{userId}")
     @Operation(
-            summary = "Atualizar todos os dados do user",
-            description = "Endpoint para atualizar o registro de user"
+            summary = "Update all user data",
+            description = "Endpoint to update the user record"
     )
-    public ResponseEntity<UserDTOResponse> atualizarUser(
+    public ResponseEntity<UserDTOResponse> updateUser(
             @PathVariable("userId") Integer userId,
             @Valid @RequestBody UserDTORequest userDTORequest
     ) {
-        return ResponseEntity.ok(userService.atualizarUser(userId, userDTORequest));
+        return ResponseEntity.ok(userService.updateUser(userId, userDTORequest));
     }
 
-    @DeleteMapping("/apagar/{userId}")
+    @DeleteMapping("/delete/{userId}")
     @Operation(
-            summary = "Apagar registro do user",
-            description = "Endpoint para apagar registro do user"
+            summary = "Delete user record (logical deletion)",
+            description = "Endpoint to logically delete user record"
     )
-    public ResponseEntity<Void> apagarUser(@PathVariable("userId") Integer userId) {
-        userService.apagarUser(userId);
+    public ResponseEntity<Void> deleteUser(@PathVariable("userId") Integer userId) {
+        userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
-
-
 
     @PostMapping("/login")
     public ResponseEntity<UserDTOLoginResponse>  login(@RequestBody UserDTOLoginRequest userDTOLoginRequest) {
         return ResponseEntity.ok(userService.login(userDTOLoginRequest));
     }
-    @PostMapping("/criar")
-    public ResponseEntity<UserDTOResponse> criar(@RequestBody UserDTORequest userDTORequest) {
-        return ResponseEntity.ok(userService.criar(userDTORequest));
+
+    @PostMapping("/create")
+    public ResponseEntity<UserDTOResponse> create(@RequestBody UserDTORequest userDTORequest) {
+        return ResponseEntity.ok(userService.create(userDTORequest));
     }
 }

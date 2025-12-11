@@ -2,7 +2,6 @@ package com.senac.bunnyhut.controller;
 
 import com.senac.bunnyhut.dto.request.ItemDTORequest;
 import com.senac.bunnyhut.dto.response.ItemDTOResponse;
-import com.senac.bunnyhut.dto.response.ItemDTOUpdateResponse;
 import com.senac.bunnyhut.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -22,58 +21,58 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar items",
-            description = "Endpoint para listar todos os items"
+            summary = "List all items",
+            description = "Endpoint to list all items"
     )
     public ResponseEntity<List<ItemDTOResponse>> listItems() {
         return ResponseEntity.ok(itemService.listItems());
     }
 
-    @GetMapping("/listarPorItemId/{itemId}")
+    @GetMapping("/listById/{itemId}")
     @Operation(
-            summary = "Listar item pelo id de item",
-            description = "Endpoint para listar item por Id de item"
+            summary = "List item by ID",
+            description = "Endpoint to list item by ID"
     )
-    public ResponseEntity<ItemDTOResponse> listarPorItemId(@PathVariable("itemId") Integer itemId) {
-        ItemDTOResponse item = itemService.listarPorItemId(itemId);
+    public ResponseEntity<ItemDTOResponse> getItemById(@PathVariable("itemId") Integer itemId) {
+        ItemDTOResponse item = itemService.getItemById(itemId);
         if (item == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(item);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo item",
-            description = "Endpoint para criar um novo registro de item"
+            summary = "Create new item",
+            description = "Endpoint to create a new item record"
     )
-    public ResponseEntity<ItemDTOResponse> criarItem(
+    public ResponseEntity<ItemDTOResponse> createItem(
             @Valid @RequestBody ItemDTORequest item
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.criarItem(item));
+        return ResponseEntity.status(HttpStatus.CREATED).body(itemService.createItem(item));
     }
 
-    @PutMapping("/atualizar/{itemId}")
+    @PutMapping("/update/{itemId}")
     @Operation(
-            summary = "Atualizar todos os dados do item",
-            description = "Endpoint para atualizar o registro de item"
+            summary = "Update all item data",
+            description = "Endpoint to update the item record"
     )
-    public ResponseEntity<ItemDTOResponse> atualizarItem(
+    public ResponseEntity<ItemDTOResponse> updateItem(
             @PathVariable("itemId") Integer itemId,
             @Valid @RequestBody ItemDTORequest itemDTORequest
     ) {
-        return ResponseEntity.ok(itemService.atualizarItem(itemId, itemDTORequest));
+        return ResponseEntity.ok(itemService.updateItem(itemId, itemDTORequest));
     }
 
-    @DeleteMapping("/apagar/{itemId}")
+    @DeleteMapping("/delete/{itemId}")
     @Operation(
-            summary = "Apagar registro do item",
-            description = "Endpoint para apagar registro do item"
+            summary = "Delete item record (logical deletion)",
+            description = "Endpoint to logically delete item record"
     )
-    public ResponseEntity<Void> apagarItem(@PathVariable("itemId") Integer itemId) {
-        itemService.apagarItem(itemId);
+    public ResponseEntity<Void> deleteItem(@PathVariable("itemId") Integer itemId) {
+        itemService.deleteItem(itemId);
         return ResponseEntity.noContent().build();
     }
 }

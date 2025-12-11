@@ -5,11 +5,11 @@ public class FurnitureDTOResponse {
     private Integer itemId;
     private String slot;
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -21,11 +21,11 @@ public class FurnitureDTOResponse {
         this.itemId = itemId;
     }
 
-    public String getslot() {
+    public String getSlot() {
         return slot;
     }
 
-    public void setslot(String slot) {
+    public void setSlot(String slot) {
         this.slot = slot;
     }
 }

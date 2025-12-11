@@ -2,7 +2,6 @@ package com.senac.bunnyhut.controller;
 
 import com.senac.bunnyhut.dto.request.FurnitureDTORequest;
 import com.senac.bunnyhut.dto.response.FurnitureDTOResponse;
-import com.senac.bunnyhut.dto.response.FurnitureDTOUpdateResponse;
 import com.senac.bunnyhut.service.FurnitureService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -22,48 +21,48 @@ public class FurnitureController {
         this.furnitureService = furnitureService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar furnitures",
-            description = "Endpoint para listar todos os furnitures"
+            summary = "List all furnitures",
+            description = "Endpoint to list all furnitures"
     )
     public ResponseEntity<List<FurnitureDTOResponse>> listFurnitures() {
         return ResponseEntity.ok(furnitureService.listFurnitures());
     }
 
-    @GetMapping("/listarPorFurnitureId/{furnitureId}")
+    @GetMapping("/listById/{furnitureId}")
     @Operation(
-            summary = "Listar furniture pelo id de furniture",
-            description = "Endpoint para listar furniture por Id de furniture"
+            summary = "List furniture by ID",
+            description = "Endpoint to list furniture by ID"
     )
-    public ResponseEntity<FurnitureDTOResponse> listarPorFurnitureId(@PathVariable("furnitureId") Integer furnitureId) {
-        FurnitureDTOResponse furniture = furnitureService.listarPorFurnitureId(furnitureId);
+    public ResponseEntity<FurnitureDTOResponse> getFurnitureById(@PathVariable("furnitureId") Integer furnitureId) {
+        FurnitureDTOResponse furniture = furnitureService.getFurnitureById(furnitureId);
         if (furniture == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(furniture);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo furniture",
-            description = "Endpoint para criar um novo registro de furniture"
+            summary = "Create new furniture",
+            description = "Endpoint to create a new furniture record"
     )
-    public ResponseEntity<FurnitureDTOResponse> criarFurniture(
+    public ResponseEntity<FurnitureDTOResponse> createFurniture(
             @Valid @RequestBody FurnitureDTORequest furniture
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(furnitureService.criarFurniture(furniture));
+        return ResponseEntity.status(HttpStatus.CREATED).body(furnitureService.createFurniture(furniture));
     }
 
-    @PutMapping("/atualizar/{furnitureId}")
+    @PutMapping("/update/{furnitureId}")
     @Operation(
-            summary = "Atualizar todos os dados do furniture",
-            description = "Endpoint para atualizar o registro de furniture"
+            summary = "Update all furniture data",
+            description = "Endpoint to update the furniture record"
     )
-    public ResponseEntity<FurnitureDTOResponse> atualizarFurniture(
+    public ResponseEntity<FurnitureDTOResponse> updateFurniture(
             @PathVariable("furnitureId") Integer furnitureId,
             @Valid @RequestBody FurnitureDTORequest furnitureDTORequest
     ) {
-        return ResponseEntity.ok(furnitureService.atualizarFurniture(furnitureId, furnitureDTORequest));
+        return ResponseEntity.ok(furnitureService.updateFurniture(furnitureId, furnitureDTORequest));
     }
 }

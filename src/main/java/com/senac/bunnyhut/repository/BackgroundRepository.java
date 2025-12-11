@@ -16,11 +16,11 @@ public interface BackgroundRepository extends JpaRepository<Background, Integer>
 //    @Modifying
 //    @Transactional
 //    @Query("UPDATE Background p SET p.status = -1 WHERE p.id = :id")
-//    void apagadoLogicoBackground(@Param("id") Integer backgroundId);
+//    void logicalDeleteBackground(@Param("id") Integer backgroundId);
 
     @Query("SELECT p from Background p")
     List<Background> listBackgrounds();
 
     @Query("SELECT p from Background p where p.id=:id")
-    Background obterBackgroundPeloId(@Param("id") Integer backgroundId);
+    Background getBackgroundById(@Param("id") Integer backgroundId);
 }

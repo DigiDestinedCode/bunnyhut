@@ -21,48 +21,48 @@ public class TransactionCoinController {
         this.transactioncoinService = transactioncoinService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar transactioncoins",
-            description = "Endpoint para listar todos os transactioncoins"
+            summary = "List all coin transactions",
+            description = "Endpoint to list all coin transactions"
     )
-    public ResponseEntity<List<TransactionCoinDTOResponse>> listTransactioncoins() {
+    public ResponseEntity<List<TransactionCoinDTOResponse>> listTransactionCoins() {
         return ResponseEntity.ok(transactioncoinService.listTransactionCoins());
     }
 
-    @GetMapping("/listarPorTransactioncoinId/{transactioncoinId}")
+    @GetMapping("/listById/{transactionCoinId}")
     @Operation(
-            summary = "Listar transactioncoin pelo id de transactioncoin",
-            description = "Endpoint para listar transactioncoin por Id de transactioncoin"
+            summary = "List coin transaction by ID",
+            description = "Endpoint to list coin transaction by ID"
     )
-    public ResponseEntity<TransactionCoinDTOResponse> listarPorTransactioncoinId(@PathVariable("transactioncoinId") Integer transactioncoinId) {
-        TransactionCoinDTOResponse transactioncoin = transactioncoinService.listarPorTransactionCoinId(transactioncoinId);
+    public ResponseEntity<TransactionCoinDTOResponse> getTransactionCoinById(@PathVariable("transactionCoinId") Integer transactionCoinId) {
+        TransactionCoinDTOResponse transactioncoin = transactioncoinService.getTransactionCoinById(transactionCoinId);
         if (transactioncoin == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(transactioncoin);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo transactioncoin",
-            description = "Endpoint para criar um novo registro de transactioncoin"
+            summary = "Create new coin transaction",
+            description = "Endpoint to create a new coin transaction record"
     )
-    public ResponseEntity<TransactionCoinDTOResponse> criarTransactioncoin(
+    public ResponseEntity<TransactionCoinDTOResponse> createTransactionCoin(
             @Valid @RequestBody TransactionCoinDTORequest transactioncoin
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(transactioncoinService.criarTransactionCoin(transactioncoin));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transactioncoinService.createTransactionCoin(transactioncoin));
     }
 
-    @PutMapping("/atualizar/{transactioncoinId}")
+    @PutMapping("/update/{transactionCoinId}")
     @Operation(
-            summary = "Atualizar todos os dados do transactioncoin",
-            description = "Endpoint para atualizar o registro de transactioncoin"
+            summary = "Update all coin transaction data",
+            description = "Endpoint to update the coin transaction record"
     )
-    public ResponseEntity<TransactionCoinDTOResponse> atualizarTransactioncoin(
-            @PathVariable("transactioncoinId") Integer transactioncoinId,
+    public ResponseEntity<TransactionCoinDTOResponse> updateTransactionCoin(
+            @PathVariable("transactionCoinId") Integer transactionCoinId,
             @Valid @RequestBody TransactionCoinDTORequest transactioncoinDTORequest
     ) {
-        return ResponseEntity.ok(transactioncoinService.atualizarTransactionCoin(transactioncoinId, transactioncoinDTORequest));
+        return ResponseEntity.ok(transactioncoinService.updateTransactionCoin(transactionCoinId, transactioncoinDTORequest));
     }
 }

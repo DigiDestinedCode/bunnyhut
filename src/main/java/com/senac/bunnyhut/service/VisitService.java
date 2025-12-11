@@ -2,8 +2,11 @@ package com.senac.bunnyhut.service;
 
 import com.senac.bunnyhut.dto.request.VisitDTORequest;
 import com.senac.bunnyhut.dto.response.VisitDTOResponse;
-import com.senac.bunnyhut.dto.response.VisitDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Rabbit;
+import com.senac.bunnyhut.entity.User;
 import com.senac.bunnyhut.entity.Visit;
+import com.senac.bunnyhut.repository.RabbitRepository;
+import com.senac.bunnyhut.repository.UserRepository;
 import com.senac.bunnyhut.repository.VisitRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -18,71 +21,80 @@ import java.util.List;
 public class VisitService {
 
     private final VisitRepository visitRepository;
+    private final UserRepository userRepository;
+    private final RabbitRepository rabbitRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
     public VisitService(VisitRepository visitRepository,
-                         ModelMapper modelMapper) {
+                        ModelMapper modelMapper,
+                        UserRepository userRepository,
+                        RabbitRepository rabbitRepository) {
         this.visitRepository = visitRepository;
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
+        this.rabbitRepository = rabbitRepository;
     }
 
     public List<VisitDTOResponse> listVisits() {
         return visitRepository.listVisits()
                 .stream()
                 .map(visit -> modelMapper.map(visit, VisitDTOResponse.class))
-                .toList()
-                ;
+                .toList();
     }
 
-    public VisitDTOResponse listarPorVisitId(Integer visitId) {
-        Visit visit = visitRepository.obterVisitPeloId(visitId);
+    public VisitDTOResponse getVisitById(Integer visitId) {
+        Visit visit = visitRepository.getVisitById(visitId);
         return (visit != null) ? modelMapper.map(visit, VisitDTOResponse.class) : null;
     }
 
     @Transactional
-    public VisitDTOResponse criarVisit(VisitDTORequest visitDTORequest) {
+    public VisitDTOResponse createVisit(VisitDTORequest visitDTORequest) {
         Visit visit = modelMapper.map(visitDTORequest, Visit.class);
-        Visit VisitSave = this.visitRepository.save(visit);
-        return modelMapper.map(VisitSave, VisitDTOResponse.class);
+
+        User user = userRepository.getUserById(visitDTORequest.getUserId());
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found with ID: " + visitDTORequest.getUserId());
+        }
+        visit.setUser(user);
+
+        Rabbit rabbit = rabbitRepository.getRabbitById(visitDTORequest.getRabbitId());
+        if (rabbit == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rabbit not found with ID: " + visitDTORequest.getRabbitId());
+        }
+        visit.setRabbit(rabbit);
+
+        Visit visitSave = this.visitRepository.save(visit);
+        return modelMapper.map(visitSave, VisitDTOResponse.class);
     }
 
     @Transactional
-    public VisitDTOResponse atualizarVisit(Integer visitId, VisitDTORequest visitDTORequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Visit visit = visitRepository.obterVisitPeloId(visitId);
-        //se encontra o registro a ser atualizado
+    public VisitDTOResponse updateVisit(Integer visitId, VisitDTORequest visitDTORequest) {
+        Visit visit = visitRepository.getVisitById(visitId);
         if (visit != null) {
-            // atualiza dados do visit a partir do DTO
             modelMapper.map(visitDTORequest, visit);
-            // atualiza a categoria vinculada
+
+            if (visitDTORequest.getUserId() != null) {
+                User user = userRepository.getUserById(visitDTORequest.getUserId());
+                if (user == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found for update with ID: " + visitDTORequest.getUserId());
+                }
+                visit.setUser(user);
+            }
+
+            if (visitDTORequest.getRabbitId() != null) {
+                Rabbit rabbit = rabbitRepository.getRabbitById(visitDTORequest.getRabbitId());
+                if (rabbit == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rabbit not found for update with ID: " + visitDTORequest.getRabbitId());
+                }
+                visit.setRabbit(rabbit);
+            }
+
             Visit tempResponse = visitRepository.save(visit);
             return modelMapper.map(tempResponse, VisitDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza visit inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @Transactional
-//    public VisitDTOUpdateResponse atualizarStatusVisit(Integer visitId, VisitDTORequest visitDTOUpdateRequest) {
-//        //antes de atualizar busca se existe o registro a ser atualizado
-//        Visit visit = visitRepository.obterVisitPeloId(visitId);
-//        //se encontra o registro a ser atualizado
-//        if (visit != null) {
-//            // atualiza o status do Visit a partir do DTO
-//            visit.setStatus(visitDTOUpdateRequest.getStatus());
-//            Visit VisitSave = visitRepository.save(visit);
-//            return modelMapper.map(VisitSave, VisitDTOUpdateResponse.class);
-//        } else {
-//            // Error 400 caso tente atualiza visit inexistente.
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-//    public void apagarVisit(Integer visitId) {
-//        visitRepository.apagadoLogicoVisit(visitId);
-//    }
 }
-

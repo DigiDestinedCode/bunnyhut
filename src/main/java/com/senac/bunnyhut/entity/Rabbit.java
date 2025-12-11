@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="")
+@Table(name="rabbit")
 public class Rabbit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,19 +47,19 @@ public class Rabbit {
         this.description = description;
     }
 
-    public String getDefault_img() {
+    public String getDefaultImg() {
         return default_img;
     }
 
-    public void setDefault_img(String default_img) {
+    public void setDefaultImg(String default_img) {
         this.default_img = default_img;
     }
 
-    public String getAlt_img() {
+    public String getAltImg() {
         return alt_img;
     }
 
-    public void setAlt_img(String alt_img) {
+    public void setAltImg(String alt_img) {
         this.alt_img = alt_img;
     }
 

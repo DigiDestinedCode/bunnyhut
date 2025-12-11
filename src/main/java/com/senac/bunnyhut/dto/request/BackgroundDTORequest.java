@@ -12,11 +12,11 @@ public class BackgroundDTORequest {
         this.itemId = itemId;
     }
 
-    public String getBackground_theme() {
+    public String getBackgroundTheme() {
         return background_theme;
     }
 
-    public void setBackground_theme(String background_theme) {
+    public void setBackgroundTheme(String background_theme) {
         this.background_theme = background_theme;
     }
 }

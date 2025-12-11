@@ -1,51 +1,54 @@
 package com.senac.bunnyhut.dto.response;
 
+import com.senac.bunnyhut.entity.ItemType;
+
 public class ItemDTOResponse {
     private Integer id;
     private String name;
     private String description;
     private Integer price;
-    private String image_url;
+    private String imageUrl;
     private Integer status;
+    private ItemType type;
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getname() {
+    public String getName() {
         return name;
     }
 
-    public void setname(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getdescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setdescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public Integer getprice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setprice(Integer price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public String getimage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setimage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Integer getStatus() {
@@ -54,5 +57,13 @@ public class ItemDTOResponse {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public ItemType getType() {
+        return type;
+    }
+
+    public void setType(ItemType type) {
+        this.type = type;
     }
 }

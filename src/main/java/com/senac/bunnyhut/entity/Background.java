@@ -59,11 +59,11 @@ public class Background {
         this.item = item;
     }
 
-    public Set<BackgroundSlot> getBackground_slots() {
+    public Set<BackgroundSlot> getBackgroundSlots() {
         return background_slots;
     }
 
-    public void setBackground_slots(Set<BackgroundSlot> background_slots) {
+    public void setBackgroundSlots(Set<BackgroundSlot> background_slots) {
         this.background_slots = background_slots;
     }
 }

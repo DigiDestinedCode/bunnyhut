@@ -21,7 +21,7 @@ public class User {
     private String password_hash;
     @Column(name = "user_coin")
     private Integer coin;
-    @Column(name = "user_create_at")
+    @Column(name = "user_created_at") // <-- CORRECTED COLUMN NAME
     private LocalDateTime created_at;
     @Column(name = "user_status")
     private Integer status;
@@ -65,11 +65,11 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword_hash() {
+    public String getPasswordHash() {
         return password_hash;
     }
 
-    public void setPassword_hash(String password_hash) {
+    public void setPasswordHash(String password_hash) {
         this.password_hash = password_hash;
     }
 
@@ -81,11 +81,11 @@ public class User {
         this.coin = coin;
     }
 
-    public LocalDateTime getCreated_at() {
+    public LocalDateTime getCreatedAt() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreatedAt(LocalDateTime created_at) {
         this.created_at = created_at;
     }
 

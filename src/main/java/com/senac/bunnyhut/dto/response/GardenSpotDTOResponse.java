@@ -6,14 +6,14 @@ public class GardenSpotDTOResponse {
     private Integer id;
     private Integer gardenId;
     private Integer plantId;
-    private LocalDateTime planted_at;
-    private Enum growth_stage;
+    private LocalDateTime plantedAt;
+    private Enum growthStage;
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -33,19 +33,19 @@ public class GardenSpotDTOResponse {
         this.plantId = plantId;
     }
 
-    public LocalDateTime getPlanted_at() {
-        return planted_at;
+    public LocalDateTime getPlantedAt() {
+        return plantedAt;
     }
 
-    public void setPlanted_at(LocalDateTime planted_at) {
-        this.planted_at = planted_at;
+    public void setPlantedAt(LocalDateTime plantedAt) {
+        this.plantedAt = plantedAt;
     }
 
-    public Enum getGrowth_stage() {
-        return growth_stage;
+    public Enum getGrowthStage() {
+        return growthStage;
     }
 
-    public void setGrowth_stage(Enum growth_stage) {
-        this.growth_stage = growth_stage;
+    public void setGrowthStage(Enum growthStage) {
+        this.growthStage = growthStage;
     }
 }

@@ -2,9 +2,10 @@ package com.senac.bunnyhut.service;
 
 import com.senac.bunnyhut.dto.request.GardenDTORequest;
 import com.senac.bunnyhut.dto.response.GardenDTOResponse;
-import com.senac.bunnyhut.dto.response.GardenDTOUpdateResponse;
 import com.senac.bunnyhut.entity.Garden;
+import com.senac.bunnyhut.entity.User;
 import com.senac.bunnyhut.repository.GardenRepository;
+import com.senac.bunnyhut.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,71 +19,63 @@ import java.util.List;
 public class GardenService {
 
     private final GardenRepository gardenRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
     public GardenService(GardenRepository gardenRepository,
-                         ModelMapper modelMapper) {
+                         ModelMapper modelMapper,
+                         UserRepository userRepository) {
         this.gardenRepository = gardenRepository;
         this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
     }
 
     public List<GardenDTOResponse> listGardens() {
         return gardenRepository.listGardens()
                 .stream()
                 .map(garden -> modelMapper.map(garden, GardenDTOResponse.class))
-                .toList()
-                ;
+                .toList();
     }
 
-    public GardenDTOResponse listarPorGardenId(Integer gardenId) {
-        Garden garden = gardenRepository.obterGardenPeloId(gardenId);
+    public GardenDTOResponse getGardenById(Integer gardenId) {
+        Garden garden = gardenRepository.getGardenById(gardenId);
         return (garden != null) ? modelMapper.map(garden, GardenDTOResponse.class) : null;
     }
 
     @Transactional
-    public GardenDTOResponse criarGarden(GardenDTORequest gardenDTORequest) {
+    public GardenDTOResponse createGarden(GardenDTORequest gardenDTORequest) {
         Garden garden = modelMapper.map(gardenDTORequest, Garden.class);
-        Garden GardenSave = this.gardenRepository.save(garden);
-        return modelMapper.map(GardenSave, GardenDTOResponse.class);
+
+        User user = userRepository.getUserById(gardenDTORequest.getUserId());
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found with ID: " + gardenDTORequest.getUserId());
+        }
+        garden.setUser(user);
+
+        Garden gardenSave = this.gardenRepository.save(garden);
+        return modelMapper.map(gardenSave, GardenDTOResponse.class);
     }
 
     @Transactional
-    public GardenDTOResponse atualizarGarden(Integer gardenId, GardenDTORequest gardenDTORequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Garden garden = gardenRepository.obterGardenPeloId(gardenId);
-        //se encontra o registro a ser atualizado
+    public GardenDTOResponse updateGarden(Integer gardenId, GardenDTORequest gardenDTORequest) {
+        Garden garden = gardenRepository.getGardenById(gardenId);
         if (garden != null) {
-            // atualiza dados do garden a partir do DTO
             modelMapper.map(gardenDTORequest, garden);
-            // atualiza a categoria vinculada
+
+            if (gardenDTORequest.getUserId() != null) {
+                User user = userRepository.getUserById(gardenDTORequest.getUserId());
+                if (user == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found for update with ID: " + gardenDTORequest.getUserId());
+                }
+                garden.setUser(user);
+            }
+
             Garden tempResponse = gardenRepository.save(garden);
             return modelMapper.map(tempResponse, GardenDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza garden inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @Transactional
-//    public GardenDTOUpdateResponse atualizarStatusGarden(Integer gardenId, GardenDTORequest gardenDTOUpdateRequest) {
-//        //antes de atualizar busca se existe o registro a ser atualizado
-//        Garden garden = gardenRepository.obterGardenPeloId(gardenId);
-//        //se encontra o registro a ser atualizado
-//        if (garden != null) {
-//            // atualiza o status do Garden a partir do DTO
-//            garden.setStatus(gardenDTOUpdateRequest.getStatus());
-//            Garden GardenSave = gardenRepository.save(garden);
-//            return modelMapper.map(GardenSave, GardenDTOUpdateResponse.class);
-//        } else {
-//            // Error 400 caso tente atualiza garden inexistente.
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-//    public void apagarGarden(Integer gardenId) {
-//        gardenRepository.apagadoLogicoGarden(gardenId);
-//    }
 }
-

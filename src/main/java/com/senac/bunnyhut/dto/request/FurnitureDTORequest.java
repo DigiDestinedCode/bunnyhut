@@ -12,11 +12,11 @@ public class FurnitureDTORequest {
         this.itemId = itemId;
     }
 
-    public String getFurniture_slot() {
+    public String getFurnitureSlot() {
         return furniture_slot;
     }
 
-    public void setFurniture_slot(String furniture_slot) {
+    public void setFurnitureSlot(String furniture_slot) {
         this.furniture_slot = furniture_slot;
     }
 }

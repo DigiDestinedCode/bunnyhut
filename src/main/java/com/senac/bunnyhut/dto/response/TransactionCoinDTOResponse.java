@@ -5,16 +5,16 @@ import java.time.LocalDateTime;
 public class TransactionCoinDTOResponse {
     private Integer id;
     private Integer userId;
-    private Enum transaction_type;
-    private Integer transaction_value;
-    private String transaction_description;
-    private LocalDateTime transaction_date;
+    private String transactionType;
+    private Integer transactionValue;
+    private String transactionDescription;
+    private LocalDateTime transactionDate;
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -26,35 +26,35 @@ public class TransactionCoinDTOResponse {
         this.userId = userId;
     }
 
-    public Enum getTransaction_type() {
-        return transaction_type;
+    public String getTransactionType() {
+        return transactionType;
     }
 
-    public void setTransaction_type(Enum transaction_type) {
-        this.transaction_type = transaction_type;
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
-    public Integer getTransaction_value() {
-        return transaction_value;
+    public Integer getTransactionValue() {
+        return transactionValue;
     }
 
-    public void setTransaction_value(Integer transaction_value) {
-        this.transaction_value = transaction_value;
+    public void setTransactionValue(Integer transactionValue) {
+        this.transactionValue = transactionValue;
     }
 
-    public String getTransaction_description() {
-        return transaction_description;
+    public String getTransactionDescription() {
+        return transactionDescription;
     }
 
-    public void setTransaction_description(String transaction_description) {
-        this.transaction_description = transaction_description;
+    public void setTransactionDescription(String transactionDescription) {
+        this.transactionDescription = transactionDescription;
     }
 
-    public LocalDateTime getTransaction_date() {
-        return transaction_date;
+    public LocalDateTime getTransactionDate() {
+        return transactionDate;
     }
 
-    public void setTransaction_date(LocalDateTime transaction_date) {
-        this.transaction_date = transaction_date;
+    public void setTransactionDate(LocalDateTime transactionDate) {
+        this.transactionDate = transactionDate;
     }
 }

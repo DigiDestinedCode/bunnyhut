@@ -24,19 +24,19 @@ public class GardenSpotDTORequest {
         this.plantId = plantId;
     }
 
-    public LocalDateTime getPlanted_at() {
+    public LocalDateTime getPlantedAt() {
         return planted_at;
     }
 
-    public void setPlanted_at(LocalDateTime planted_at) {
+    public void setPlantedAt(LocalDateTime planted_at) {
         this.planted_at = planted_at;
     }
 
-    public Enum getGrowth_stage() {
+    public Enum getGrowthStage() {
         return growth_stage;
     }
 
-    public void setGrowth_stage(Enum growth_stage) {
+    public void setGrowthStage(Enum growth_stage) {
         this.growth_stage = growth_stage;
     }
 }

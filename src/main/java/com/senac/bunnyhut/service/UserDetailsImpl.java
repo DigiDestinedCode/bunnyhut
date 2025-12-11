@@ -31,7 +31,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword_hash();
+        return user.getPasswordHash();
     } // Retorna a credencial do usuário que criamos anteriormente
 
     @Override

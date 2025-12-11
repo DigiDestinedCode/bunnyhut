@@ -3,7 +3,9 @@ package com.senac.bunnyhut.service;
 import com.senac.bunnyhut.dto.request.BackgroundDTORequest;
 import com.senac.bunnyhut.dto.response.BackgroundDTOResponse;
 import com.senac.bunnyhut.entity.Background;
+import com.senac.bunnyhut.entity.Item;
 import com.senac.bunnyhut.repository.BackgroundRepository;
+import com.senac.bunnyhut.repository.ItemRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,71 +19,63 @@ import java.util.List;
 public class BackgroundService {
 
     private final BackgroundRepository backgroundRepository;
+    private final ItemRepository itemRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
     public BackgroundService(BackgroundRepository backgroundRepository,
-                         ModelMapper modelMapper) {
+                             ModelMapper modelMapper,
+                             ItemRepository itemRepository) {
         this.backgroundRepository = backgroundRepository;
         this.modelMapper = modelMapper;
+        this.itemRepository = itemRepository;
     }
 
     public List<BackgroundDTOResponse> listBackgrounds() {
         return backgroundRepository.listBackgrounds()
                 .stream()
                 .map(background -> modelMapper.map(background, BackgroundDTOResponse.class))
-                .toList()
-                ;
+                .toList();
     }
 
-    public BackgroundDTOResponse listarPorBackgroundId(Integer backgroundId) {
-        Background background = backgroundRepository.obterBackgroundPeloId(backgroundId);
+    public BackgroundDTOResponse getBackgroundById(Integer backgroundId) {
+        Background background = backgroundRepository.getBackgroundById(backgroundId);
         return (background != null) ? modelMapper.map(background, BackgroundDTOResponse.class) : null;
     }
 
     @Transactional
-    public BackgroundDTOResponse criarBackground(BackgroundDTORequest backgroundDTORequest) {
+    public BackgroundDTOResponse createBackground(BackgroundDTORequest backgroundDTORequest) {
         Background background = modelMapper.map(backgroundDTORequest, Background.class);
-        Background BackgroundSave = this.backgroundRepository.save(background);
-        return modelMapper.map(BackgroundSave, BackgroundDTOResponse.class);
+
+        Item item = itemRepository.getItemById(backgroundDTORequest.getItemId());
+        if (item == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Item not found with ID: " + backgroundDTORequest.getItemId());
+        }
+        background.setItem(item);
+
+        Background backgroundSave = this.backgroundRepository.save(background);
+        return modelMapper.map(backgroundSave, BackgroundDTOResponse.class);
     }
 
     @Transactional
-    public BackgroundDTOResponse atualizarBackground(Integer backgroundId, BackgroundDTORequest backgroundDTORequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Background background = backgroundRepository.obterBackgroundPeloId(backgroundId);
-        //se encontra o registro a ser atualizado
+    public BackgroundDTOResponse updateBackground(Integer backgroundId, BackgroundDTORequest backgroundDTORequest) {
+        Background background = backgroundRepository.getBackgroundById(backgroundId);
         if (background != null) {
-            // atualiza dados do background a partir do DTO
             modelMapper.map(backgroundDTORequest, background);
-            // atualiza a categoria vinculada
+
+            if (backgroundDTORequest.getItemId() != null) {
+                Item item = itemRepository.getItemById(backgroundDTORequest.getItemId());
+                if (item == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Item not found for update with ID: " + backgroundDTORequest.getItemId());
+                }
+                background.setItem(item);
+            }
+
             Background tempResponse = backgroundRepository.save(background);
             return modelMapper.map(tempResponse, BackgroundDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza background inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @Transactional
-//    public BackgroundDTOUpdateResponse atualizarStatusBackground(Integer backgroundId, BackgroundDTORequest backgroundDTOUpdateRequest) {
-//        //antes de atualizar busca se existe o registro a ser atualizado
-//        Background background = backgroundRepository.obterBackgroundPeloId(backgroundId);
-//        //se encontra o registro a ser atualizado
-//        if (background != null) {
-//            // atualiza o status do Background a partir do DTO
-//            background.setStatus(backgroundDTOUpdateRequest.getStatus());
-//            Background BackgroundSave = backgroundRepository.save(background);
-//            return modelMapper.map(BackgroundSave, BackgroundDTOUpdateResponse.class);
-//        } else {
-//            // Error 400 caso tente atualiza background inexistente.
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-//    public void apagarBackground(Integer backgroundId) {
-//        backgroundRepository.apagadoLogicoBackground(backgroundId);
-//    }
 }
-

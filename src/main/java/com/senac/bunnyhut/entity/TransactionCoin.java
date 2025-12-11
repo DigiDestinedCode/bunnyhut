@@ -14,7 +14,7 @@ public class TransactionCoin {
     @Column(name = "transaction_coin_id")
     private Integer id;
     @Column(name = "transaction_type")
-    private EnumType type;
+    private String type; // Changed from EnumType to String for simplicity/safety
     @Column(name = "transaction_value")
     private Integer value;
     @Column(name = "transaction_description")
@@ -38,11 +38,11 @@ public class TransactionCoin {
         this.id = id;
     }
 
-    public EnumType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(EnumType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

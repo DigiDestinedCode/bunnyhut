@@ -2,7 +2,6 @@ package com.senac.bunnyhut.controller;
 
 import com.senac.bunnyhut.dto.request.BackgroundDTORequest;
 import com.senac.bunnyhut.dto.response.BackgroundDTOResponse;
-import com.senac.bunnyhut.dto.response.BackgroundDTOUpdateResponse;
 import com.senac.bunnyhut.service.BackgroundService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -22,48 +21,48 @@ public class BackgroundController {
         this.backgroundService = backgroundService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar backgrounds",
-            description = "Endpoint para listar todos os backgrounds"
+            summary = "List all backgrounds",
+            description = "Endpoint to list all backgrounds"
     )
-    public ResponseEntity<List<BackgroundDTOResponse>> listarBackgrounds() {
+    public ResponseEntity<List<BackgroundDTOResponse>> listBackgrounds() {
         return ResponseEntity.ok(backgroundService.listBackgrounds());
     }
 
-    @GetMapping("/listarPorBackgroundId/{backgroundId}")
+    @GetMapping("/listById/{backgroundId}")
     @Operation(
-            summary = "Listar background pelo id de background",
-            description = "Endpoint para listar background por Id de background"
+            summary = "List background by ID",
+            description = "Endpoint to list background by ID"
     )
-    public ResponseEntity<BackgroundDTOResponse> listarPorBackgroundId(@PathVariable("backgroundId") Integer backgroundId) {
-        BackgroundDTOResponse background = backgroundService.listarPorBackgroundId(backgroundId);
+    public ResponseEntity<BackgroundDTOResponse> getBackgroundById(@PathVariable("backgroundId") Integer backgroundId) {
+        BackgroundDTOResponse background = backgroundService.getBackgroundById(backgroundId);
         if (background == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(background);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo background",
-            description = "Endpoint para criar um novo registro de background"
+            summary = "Create new background",
+            description = "Endpoint to create a new background record"
     )
-    public ResponseEntity<BackgroundDTOResponse> criarBackground(
+    public ResponseEntity<BackgroundDTOResponse> createBackground(
             @Valid @RequestBody BackgroundDTORequest background
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(backgroundService.criarBackground(background));
+        return ResponseEntity.status(HttpStatus.CREATED).body(backgroundService.createBackground(background));
     }
 
-    @PutMapping("/atualizar/{backgroundId}")
+    @PutMapping("/update/{backgroundId}")
     @Operation(
-            summary = "Atualizar todos os dados do background",
-            description = "Endpoint para atualizar o registro de background"
+            summary = "Update all background data",
+            description = "Endpoint to update the background record"
     )
-    public ResponseEntity<BackgroundDTOResponse> atualizarBackground(
+    public ResponseEntity<BackgroundDTOResponse> updateBackground(
             @PathVariable("backgroundId") Integer backgroundId,
             @Valid @RequestBody BackgroundDTORequest backgroundDTORequest
     ) {
-        return ResponseEntity.ok(backgroundService.atualizarBackground(backgroundId, backgroundDTORequest));
+        return ResponseEntity.ok(backgroundService.updateBackground(backgroundId, backgroundDTORequest));
     }
 }

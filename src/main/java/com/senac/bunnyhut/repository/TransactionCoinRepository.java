@@ -15,11 +15,11 @@ public interface TransactionCoinRepository extends JpaRepository<TransactionCoin
 //    @Modifying
 //    @Transactional
 //    @Query("UPDATE Transaction_Coin p SET p.status = -1 WHERE p.id = :id")
-//    void apagadoLogicoTransaction_Coin(@Param("id") Integer transaction_coinId);
+//    void logicalDeleteTransactionCoin(@Param("id") Integer transactionCoinId);
 
     @Query("SELECT p from TransactionCoin p")
     List<TransactionCoin> listTransactionCoins();
 
     @Query("SELECT p from TransactionCoin p where p.id=:id")
-    TransactionCoin obterTransactionCoinPeloId(@Param("id") Integer transactionCoinId);
+    TransactionCoin getTransactionCoinById(@Param("id") Integer transactionCoinId);
 }

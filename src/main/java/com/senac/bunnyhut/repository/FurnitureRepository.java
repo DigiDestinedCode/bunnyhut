@@ -17,11 +17,11 @@ public interface FurnitureRepository extends JpaRepository<Furniture, Integer> {
 //    @Modifying
 //    @Transactional
 //    @Query("UPDATE Furniture p SET p.status = -1 WHERE p.id = :id")
-//    void apagadoLogicoFurniture(@Param("id") Integer furnitureId);
+//    void logicalDeleteFurniture(@Param("id") Integer furnitureId);
 
     @Query("SELECT p from Furniture p")
     List<Furniture> listFurnitures();
 
     @Query("SELECT p from Furniture p where p.id=:id")
-    Furniture obterFurniturePeloId(@Param("id") Integer furnitureId);
+    Furniture getFurnitureById(@Param("id") Integer furnitureId);
 }

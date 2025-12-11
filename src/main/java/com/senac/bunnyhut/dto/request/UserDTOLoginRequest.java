@@ -1,7 +1,10 @@
 package com.senac.bunnyhut.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserDTOLoginRequest {
     private String email;
+    @JsonProperty("passwordHash")
     private String password_hash;
 
     public String getEmail() {
@@ -12,11 +15,11 @@ public class UserDTOLoginRequest {
         this.email = email;
     }
 
-    public String getPassword_hash() {
+    public String getPasswordHash() {
         return password_hash;
     }
 
-    public void setPassword_hash(String password_hash) {
+    public void setPasswordHash(String password_hash) {
         this.password_hash = password_hash;
     }
 }

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class TransactionCoinDTORequest {
     private Integer userId;
-    private Enum type;
+    private String type;
     private Integer value;
     private String description;
     private LocalDateTime date;
@@ -17,35 +17,35 @@ public class TransactionCoinDTORequest {
         this.userId = userId;
     }
 
-    public Enum gettype() {
+    public String getType() {
         return type;
     }
 
-    public void settype(Enum type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public Integer getvalue() {
+    public Integer getValue() {
         return value;
     }
 
-    public void setvalue(Integer value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 
-    public String getdescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setdescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public LocalDateTime getdate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setdate(LocalDateTime date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }

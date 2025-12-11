@@ -2,7 +2,6 @@ package com.senac.bunnyhut.controller;
 
 import com.senac.bunnyhut.dto.request.GardenDTORequest;
 import com.senac.bunnyhut.dto.response.GardenDTOResponse;
-import com.senac.bunnyhut.dto.response.GardenDTOUpdateResponse;
 import com.senac.bunnyhut.service.GardenService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -22,48 +21,48 @@ public class GardenController {
         this.gardenService = gardenService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar gardens",
-            description = "Endpoint para listar todos os gardens"
+            summary = "List all gardens",
+            description = "Endpoint to list all gardens"
     )
-    public ResponseEntity<List<GardenDTOResponse>> listarGardens() {
+    public ResponseEntity<List<GardenDTOResponse>> listGardens() {
         return ResponseEntity.ok(gardenService.listGardens());
     }
 
-    @GetMapping("/listarPorGardenId/{gardenId}")
+    @GetMapping("/listById/{gardenId}")
     @Operation(
-            summary = "Listar garden pelo id de garden",
-            description = "Endpoint para listar garden por Id de garden"
+            summary = "List garden by ID",
+            description = "Endpoint to list garden by ID"
     )
-    public ResponseEntity<GardenDTOResponse> listarPorGardenId(@PathVariable("gardenId") Integer gardenId) {
-        GardenDTOResponse garden = gardenService.listarPorGardenId(gardenId);
+    public ResponseEntity<GardenDTOResponse> getGardenById(@PathVariable("gardenId") Integer gardenId) {
+        GardenDTOResponse garden = gardenService.getGardenById(gardenId);
         if (garden == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(garden);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo garden",
-            description = "Endpoint para criar um novo registro de garden"
+            summary = "Create new garden",
+            description = "Endpoint to create a new garden record"
     )
-    public ResponseEntity<GardenDTOResponse> criarGarden(
+    public ResponseEntity<GardenDTOResponse> createGarden(
             @Valid @RequestBody GardenDTORequest garden
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(gardenService.criarGarden(garden));
+        return ResponseEntity.status(HttpStatus.CREATED).body(gardenService.createGarden(garden));
     }
 
-    @PutMapping("/atualizar/{gardenId}")
+    @PutMapping("/update/{gardenId}")
     @Operation(
-            summary = "Atualizar todos os dados do garden",
-            description = "Endpoint para atualizar o registro de garden"
+            summary = "Update all garden data",
+            description = "Endpoint to update the garden record"
     )
-    public ResponseEntity<GardenDTOResponse> atualizarGarden(
+    public ResponseEntity<GardenDTOResponse> updateGarden(
             @PathVariable("gardenId") Integer gardenId,
             @Valid @RequestBody GardenDTORequest gardenDTORequest
     ) {
-        return ResponseEntity.ok(gardenService.atualizarGarden(gardenId, gardenDTORequest));
+        return ResponseEntity.ok(gardenService.updateGarden(gardenId, gardenDTORequest));
     }
 }

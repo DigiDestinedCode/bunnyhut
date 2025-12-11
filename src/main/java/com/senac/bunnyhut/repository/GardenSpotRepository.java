@@ -15,11 +15,11 @@ public interface GardenSpotRepository extends JpaRepository<GardenSpot, Integer>
 //    @Modifying
 //    @Transactional
 //    @Query("UPDATE Garden_Spot p SET p.status = -1 WHERE p.id = :id")
-//    void apagadoLogicoGarden_Spot(@Param("id") Integer garden_spotId);
+//    void logicalDeleteGardenSpot(@Param("id") Integer gardenSpotId);
 
     @Query("SELECT p from GardenSpot p")
     List<GardenSpot> listGardenSpots();
 
     @Query("SELECT p from GardenSpot p where p.id=:id")
-    GardenSpot obterGardenSpotPeloId(@Param("id") Integer gardenSpotId);
+    GardenSpot getGardenSpotById(@Param("id") Integer gardenSpotId);
 }

@@ -17,11 +17,11 @@ public interface InventoryRepository extends JpaRepository<Inventory, Integer> {
 //    @Modifying
 //    @Transactional
 //    @Query("UPDATE Inventory p SET p.status = -1 WHERE p.id = :id")
-//    void apagadoLogicoInventory(@Param("id") Integer inventoryId);
+//    void logicalDeleteInventory(@Param("id") Integer inventoryId);
 
     @Query("SELECT p from Inventory p")
     List<Inventory> listInventories();
 
     @Query("SELECT p from Inventory p where p.id=:id")
-    Inventory obterInventoryPeloId(@Param("id") Integer inventoryId);
+    Inventory getInventoryById(@Param("id") Integer inventoryId);
 }

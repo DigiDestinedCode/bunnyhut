@@ -5,11 +5,11 @@ public class GardenDTOResponse {
     private Integer userId;
     private String name;
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -21,11 +21,11 @@ public class GardenDTOResponse {
         this.userId = userId;
     }
 
-    public String getname() {
+    public String getName() {
         return name;
     }
 
-    public void setname(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

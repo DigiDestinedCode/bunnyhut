@@ -2,7 +2,6 @@ package com.senac.bunnyhut.controller;
 
 import com.senac.bunnyhut.dto.request.RabbitDTORequest;
 import com.senac.bunnyhut.dto.response.RabbitDTOResponse;
-import com.senac.bunnyhut.dto.response.RabbitDTOUpdateResponse;
 import com.senac.bunnyhut.service.RabbitService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -22,48 +21,48 @@ public class RabbitController {
         this.rabbitService = rabbitService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar rabbits",
-            description = "Endpoint para listar todos os rabbits"
+            summary = "List all rabbits",
+            description = "Endpoint to list all rabbits"
     )
     public ResponseEntity<List<RabbitDTOResponse>> listRabbits() {
         return ResponseEntity.ok(rabbitService.listRabbits());
     }
 
-    @GetMapping("/listarPorRabbitId/{rabbitId}")
+    @GetMapping("/listById/{rabbitId}")
     @Operation(
-            summary = "Listar rabbit pelo id de rabbit",
-            description = "Endpoint para listar rabbit por Id de rabbit"
+            summary = "List rabbit by ID",
+            description = "Endpoint to list rabbit by ID"
     )
-    public ResponseEntity<RabbitDTOResponse> listarPorRabbitId(@PathVariable("rabbitId") Integer rabbitId) {
-        RabbitDTOResponse rabbit = rabbitService.listarPorRabbitId(rabbitId);
+    public ResponseEntity<RabbitDTOResponse> getRabbitById(@PathVariable("rabbitId") Integer rabbitId) {
+        RabbitDTOResponse rabbit = rabbitService.getRabbitById(rabbitId);
         if (rabbit == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(rabbit);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo rabbit",
-            description = "Endpoint para criar um novo registro de rabbit"
+            summary = "Create new rabbit",
+            description = "Endpoint to create a new rabbit record"
     )
-    public ResponseEntity<RabbitDTOResponse> criarRabbit(
+    public ResponseEntity<RabbitDTOResponse> createRabbit(
             @Valid @RequestBody RabbitDTORequest rabbit
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(rabbitService.criarRabbit(rabbit));
+        return ResponseEntity.status(HttpStatus.CREATED).body(rabbitService.createRabbit(rabbit));
     }
 
-    @PutMapping("/atualizar/{rabbitId}")
+    @PutMapping("/update/{rabbitId}")
     @Operation(
-            summary = "Atualizar todos os dados do rabbit",
-            description = "Endpoint para atualizar o registro de rabbit"
+            summary = "Update all rabbit data",
+            description = "Endpoint to update the rabbit record"
     )
-    public ResponseEntity<RabbitDTOResponse> atualizarRabbit(
+    public ResponseEntity<RabbitDTOResponse> updateRabbit(
             @PathVariable("rabbitId") Integer rabbitId,
             @Valid @RequestBody RabbitDTORequest rabbitDTORequest
     ) {
-        return ResponseEntity.ok(rabbitService.atualizarRabbit(rabbitId, rabbitDTORequest));
+        return ResponseEntity.ok(rabbitService.updateRabbit(rabbitId, rabbitDTORequest));
     }
 }

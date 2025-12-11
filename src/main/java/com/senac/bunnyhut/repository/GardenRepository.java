@@ -17,11 +17,11 @@ public interface GardenRepository extends JpaRepository<Garden, Integer> {
 //    @Modifying
 //    @Transactional
 //    @Query("UPDATE Garden p SET p.status = -1 WHERE p.id = :id")
-//    void apagadoLogicoGarden(@Param("id") Integer gardenId);
+//    void logicalDeleteGarden(@Param("id") Integer gardenId);
 
     @Query("SELECT p from Garden p")
     List<Garden> listGardens();
 
     @Query("SELECT p from Garden p where p.id=:id")
-    Garden obterGardenPeloId(@Param("id") Integer gardenId);
+    Garden getGardenById(@Param("id") Integer gardenId);
 }

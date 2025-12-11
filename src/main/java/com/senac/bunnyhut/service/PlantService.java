@@ -2,8 +2,9 @@ package com.senac.bunnyhut.service;
 
 import com.senac.bunnyhut.dto.request.PlantDTORequest;
 import com.senac.bunnyhut.dto.response.PlantDTOResponse;
-import com.senac.bunnyhut.dto.response.PlantDTOUpdateResponse;
+import com.senac.bunnyhut.entity.Item;
 import com.senac.bunnyhut.entity.Plant;
+import com.senac.bunnyhut.repository.ItemRepository;
 import com.senac.bunnyhut.repository.PlantRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
@@ -18,71 +19,63 @@ import java.util.List;
 public class PlantService {
 
     private final PlantRepository plantRepository;
+    private final ItemRepository itemRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
     public PlantService(PlantRepository plantRepository,
-                         ModelMapper modelMapper) {
+                        ModelMapper modelMapper,
+                        ItemRepository itemRepository) {
         this.plantRepository = plantRepository;
         this.modelMapper = modelMapper;
+        this.itemRepository = itemRepository;
     }
 
     public List<PlantDTOResponse> listPlants() {
         return plantRepository.listPlants()
                 .stream()
                 .map(plant -> modelMapper.map(plant, PlantDTOResponse.class))
-                .toList()
-                ;
+                .toList();
     }
 
-    public PlantDTOResponse listarPorPlantId(Integer plantId) {
-        Plant plant = plantRepository.obterPlantPeloId(plantId);
+    public PlantDTOResponse getPlantById(Integer plantId) {
+        Plant plant = plantRepository.getPlantById(plantId);
         return (plant != null) ? modelMapper.map(plant, PlantDTOResponse.class) : null;
     }
 
     @Transactional
-    public PlantDTOResponse criarPlant(PlantDTORequest plantDTORequest) {
+    public PlantDTOResponse createPlant(PlantDTORequest plantDTORequest) {
         Plant plant = modelMapper.map(plantDTORequest, Plant.class);
-        Plant PlantSave = this.plantRepository.save(plant);
-        return modelMapper.map(PlantSave, PlantDTOResponse.class);
+
+        Item item = itemRepository.getItemById(plantDTORequest.getItemId());
+        if (item == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Item not found with ID: " + plantDTORequest.getItemId());
+        }
+        plant.setItem(item);
+
+        Plant plantSave = this.plantRepository.save(plant);
+        return modelMapper.map(plantSave, PlantDTOResponse.class);
     }
 
     @Transactional
-    public PlantDTOResponse atualizarPlant(Integer plantId, PlantDTORequest plantDTORequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        Plant plant = plantRepository.obterPlantPeloId(plantId);
-        //se encontra o registro a ser atualizado
+    public PlantDTOResponse updatePlant(Integer plantId, PlantDTORequest plantDTORequest) {
+        Plant plant = plantRepository.getPlantById(plantId);
         if (plant != null) {
-            // atualiza dados do plant a partir do DTO
             modelMapper.map(plantDTORequest, plant);
-            // atualiza a categoria vinculada
+
+            if (plantDTORequest.getItemId() != null) {
+                Item item = itemRepository.getItemById(plantDTORequest.getItemId());
+                if (item == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Item not found for update with ID: " + plantDTORequest.getItemId());
+                }
+                plant.setItem(item);
+            }
+
             Plant tempResponse = plantRepository.save(plant);
             return modelMapper.map(tempResponse, PlantDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza plant inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @Transactional
-//    public PlantDTOUpdateResponse atualizarStatusPlant(Integer plantId, PlantDTORequest plantDTOUpdateRequest) {
-//        //antes de atualizar busca se existe o registro a ser atualizado
-//        Plant plant = plantRepository.obterPlantPeloId(plantId);
-//        //se encontra o registro a ser atualizado
-//        if (plant != null) {
-//            // atualiza o status do Plant a partir do DTO
-//            plant.setStatus(plantDTOUpdateRequest.getStatus());
-//            Plant PlantSave = plantRepository.save(plant);
-//            return modelMapper.map(PlantSave, PlantDTOUpdateResponse.class);
-//        } else {
-//            // Error 400 caso tente atualiza plant inexistente.
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-//    public void apagarPlant(Integer plantId) {
-//        plantRepository.apagadoLogicoPlant(plantId);
-//    }
 }
-

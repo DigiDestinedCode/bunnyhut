@@ -2,8 +2,12 @@ package com.senac.bunnyhut.service;
 
 import com.senac.bunnyhut.dto.request.BackgroundSlotDTORequest;
 import com.senac.bunnyhut.dto.response.BackgroundSlotDTOResponse;
+import com.senac.bunnyhut.entity.Background;
 import com.senac.bunnyhut.entity.BackgroundSlot;
+import com.senac.bunnyhut.entity.Furniture;
+import com.senac.bunnyhut.repository.BackgroundRepository;
 import com.senac.bunnyhut.repository.BackgroundSlotRepository;
+import com.senac.bunnyhut.repository.FurnitureRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,72 +20,81 @@ import java.util.List;
 @Service
 public class BackgroundSlotService {
 
-    private final BackgroundSlotRepository backgroundslotRepository;
+    private final BackgroundSlotRepository backgroundSlotRepository;
+    private final BackgroundRepository backgroundRepository;
+    private final FurnitureRepository furnitureRepository;
 
     @Autowired
     private final ModelMapper modelMapper;
 
-    public BackgroundSlotService(BackgroundSlotRepository backgroundslotRepository,
-                                 ModelMapper modelMapper) {
-        this.backgroundslotRepository = backgroundslotRepository;
+    public BackgroundSlotService(BackgroundSlotRepository backgroundSlotRepository,
+                                 ModelMapper modelMapper,
+                                 BackgroundRepository backgroundRepository,
+                                 FurnitureRepository furnitureRepository) {
+        this.backgroundSlotRepository = backgroundSlotRepository;
         this.modelMapper = modelMapper;
+        this.backgroundRepository = backgroundRepository;
+        this.furnitureRepository = furnitureRepository;
     }
 
     public List<BackgroundSlotDTOResponse> listBackgroundSlots() {
-        return backgroundslotRepository.listBackgroundSlots()
+        return backgroundSlotRepository.listBackgroundSlots()
                 .stream()
                 .map(backgroundslot -> modelMapper.map(backgroundslot, BackgroundSlotDTOResponse.class))
-                .toList()
-                ;
+                .toList();
     }
 
-    public BackgroundSlotDTOResponse listarPorBackgroundSlotId(Integer backgroundslotId) {
-        BackgroundSlot backgroundslot = backgroundslotRepository.obterBackgroundSlotPeloId(backgroundslotId);
-        return (backgroundslot != null) ? modelMapper.map(backgroundslot, BackgroundSlotDTOResponse.class) : null;
-    }
-
-    @Transactional
-    public BackgroundSlotDTOResponse criarBackgroundSlot(BackgroundSlotDTORequest backgroundslotDTORequest) {
-        BackgroundSlot backgroundslot = modelMapper.map(backgroundslotDTORequest, BackgroundSlot.class);
-        BackgroundSlot BackgroundSlotsave = this.backgroundslotRepository.save(backgroundslot);
-        return modelMapper.map(BackgroundSlotsave, BackgroundSlotDTOResponse.class);
+    public BackgroundSlotDTOResponse getBackgroundSlotById(Integer backgroundSlotId) {
+        BackgroundSlot backgroundSlot = backgroundSlotRepository.getBackgroundSlotById(backgroundSlotId);
+        return (backgroundSlot != null) ? modelMapper.map(backgroundSlot, BackgroundSlotDTOResponse.class) : null;
     }
 
     @Transactional
-    public BackgroundSlotDTOResponse atualizarBackgroundSlot(Integer backgroundslotId, BackgroundSlotDTORequest backgroundslotDTORequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        BackgroundSlot backgroundslot = backgroundslotRepository.obterBackgroundSlotPeloId(backgroundslotId);
-        //se encontra o registro a ser atualizado
-        if (backgroundslot != null) {
-            // atualiza dados do backgroundslot a partir do DTO
-            modelMapper.map(backgroundslotDTORequest, backgroundslot);
-            // atualiza a categoria vinculada
-            BackgroundSlot tempResponse = backgroundslotRepository.save(backgroundslot);
+    public BackgroundSlotDTOResponse createBackgroundSlot(BackgroundSlotDTORequest backgroundSlotDTORequest) {
+        BackgroundSlot backgroundSlot = modelMapper.map(backgroundSlotDTORequest, BackgroundSlot.class);
+
+        Background background = backgroundRepository.getBackgroundById(backgroundSlotDTORequest.getBackgroundId());
+        if (background == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Background not found with ID: " + backgroundSlotDTORequest.getBackgroundId());
+        }
+        backgroundSlot.setBackground(background);
+
+        Furniture furniture = furnitureRepository.getFurnitureById(backgroundSlotDTORequest.getFurnitureId());
+        if (furniture == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Furniture not found with ID: " + backgroundSlotDTORequest.getFurnitureId());
+        }
+        backgroundSlot.setFurniture(furniture);
+
+        BackgroundSlot backgroundSlotSave = this.backgroundSlotRepository.save(backgroundSlot);
+        return modelMapper.map(backgroundSlotSave, BackgroundSlotDTOResponse.class);
+    }
+
+    @Transactional
+    public BackgroundSlotDTOResponse updateBackgroundSlot(Integer backgroundSlotId, BackgroundSlotDTORequest backgroundSlotDTORequest) {
+        BackgroundSlot backgroundSlot = backgroundSlotRepository.getBackgroundSlotById(backgroundSlotId);
+        if (backgroundSlot != null) {
+            modelMapper.map(backgroundSlotDTORequest, backgroundSlot);
+
+            if (backgroundSlotDTORequest.getBackgroundId() != null) {
+                Background background = backgroundRepository.getBackgroundById(backgroundSlotDTORequest.getBackgroundId());
+                if (background == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Background not found for update with ID: " + backgroundSlotDTORequest.getBackgroundId());
+                }
+                backgroundSlot.setBackground(background);
+            }
+
+            if (backgroundSlotDTORequest.getFurnitureId() != null) {
+                Furniture furniture = furnitureRepository.getFurnitureById(backgroundSlotDTORequest.getFurnitureId());
+                if (furniture == null) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Furniture not found for update with ID: " + backgroundSlotDTORequest.getFurnitureId());
+                }
+                backgroundSlot.setFurniture(furniture);
+            }
+
+            BackgroundSlot tempResponse = backgroundSlotRepository.save(backgroundSlot);
             return modelMapper.map(tempResponse, BackgroundSlotDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza backgroundslot inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @Transactional
-//    public BackgroundslotDTOUpdateResponse atualizarStatusBackgroundslot(Integer backgroundslotId, BackgroundslotDTORequest backgroundslotDTOUpdateRequest) {
-//        //antes de atualizar busca se existe o registro a ser atualizado
-//        Backgroundslot backgroundslot = backgroundslotRepository.obterBackgroundslotPeloId(backgroundslotId);
-//        //se encontra o registro a ser atualizado
-//        if (backgroundslot != null) {
-//            // atualiza o status do Backgroundslot a partir do DTO
-//            backgroundslot.setStatus(backgroundslotDTOUpdateRequest.getStatus());
-//            Backgroundslot BackgroundSlotsave = backgroundslotRepository.save(backgroundslot);
-//            return modelMapper.map(BackgroundSlotsave, BackgroundslotDTOUpdateResponse.class);
-//        } else {
-//            // Error 400 caso tente atualiza backgroundslot inexistente.
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-//    public void apagarBackgroundslot(Integer backgroundslotId) {
-//        backgroundslotRepository.apagadoLogicoBackgroundslot(backgroundslotId);
-//    }
 }
-

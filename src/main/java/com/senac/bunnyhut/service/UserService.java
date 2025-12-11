@@ -40,7 +40,7 @@ public class UserService {
     private final ModelMapper modelMapper;
 
     public UserService(UserRepository userRepository,
-                         ModelMapper modelMapper) {
+                       ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
@@ -49,82 +49,65 @@ public class UserService {
         return userRepository.listUsers()
                 .stream()
                 .map(user -> modelMapper.map(user, UserDTOResponse.class))
-                .toList()
-                ;
+                .toList();
     }
 
-    public UserDTOResponse listarPorUserId(Integer userId) {
-        User user = userRepository.obterUserPeloId(userId);
+    public UserDTOResponse getUserById(Integer userId) {
+        User user = userRepository.getUserById(userId);
         return (user != null) ? modelMapper.map(user, UserDTOResponse.class) : null;
     }
 
     @Transactional
-    public UserDTOResponse criarUser(UserDTORequest userDTORequest) {
+    public UserDTOResponse createUser(UserDTORequest userDTORequest) {
         User user = modelMapper.map(userDTORequest, User.class);
-        User UserSave = this.userRepository.save(user);
-        return modelMapper.map(UserSave, UserDTOResponse.class);
+        User userSave = this.userRepository.save(user);
+        return modelMapper.map(userSave, UserDTOResponse.class);
     }
 
     @Transactional
-    public UserDTOResponse atualizarUser(Integer userId, UserDTORequest userDTORequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        User user = userRepository.obterUserPeloId(userId);
-        //se encontra o registro a ser atualizado
+    public UserDTOResponse updateUser(Integer userId, UserDTORequest userDTORequest) {
+        User user = userRepository.getUserById(userId);
         if (user != null) {
-            // atualiza dados do user a partir do DTO
             modelMapper.map(userDTORequest, user);
-            // atualiza a categoria vinculada
             User tempResponse = userRepository.save(user);
             return modelMapper.map(tempResponse, UserDTOResponse.class);
         } else {
-            // Error 400 caso tente atualiza user inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
     @Transactional
-    public UserDTOUpdateResponse atualizarStatusUser(Integer userId, UserDTORequest userDTOUpdateRequest) {
-        //antes de atualizar busca se existe o registro a ser atualizado
-        User user = userRepository.obterUserPeloId(userId);
-        //se encontra o registro a ser atualizado
+    public UserDTOUpdateResponse updateUserStatus(Integer userId, UserDTORequest userDTOUpdateRequest) {
+        User user = userRepository.getUserById(userId);
         if (user != null) {
-            // atualiza o status do User a partir do DTO
             user.setStatus(userDTOUpdateRequest.getStatus());
-            User UserSave = userRepository.save(user);
-            return modelMapper.map(UserSave, UserDTOUpdateResponse.class);
+            User userSave = userRepository.save(user);
+            return modelMapper.map(userSave, UserDTOUpdateResponse.class);
         } else {
-            // Error 400 caso tente atualiza user inexistente.
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
 
-    public void apagarUser(Integer userId) {
-        userRepository.apagadoLogicoUser(userId);
+    public void deleteUser(Integer userId) {
+        userRepository.logicalDeleteUser(userId);
     }
 
-    // Método responsável por autenticar um usuário e retornar um token JWT
     public UserDTOLoginResponse login(UserDTOLoginRequest userDTOLoginRequest) {
-        // Cria um objeto de autenticação com o email e a senha do usuário
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(userDTOLoginRequest.getEmail(), userDTOLoginRequest.getPassword_hash());
+                new UsernamePasswordAuthenticationToken(userDTOLoginRequest.getEmail(), userDTOLoginRequest.getPasswordHash());
 
-        // Autentica o usuário com as credenciais fornecidas
         Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-        // Obtém o objeto UserDetails do usuário autenticado
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        // Gera um token JWT para o usuário autenticado
         UserDTOLoginResponse userDTOLoginResponse = new UserDTOLoginResponse();
         userDTOLoginResponse.setId(userDetails.getIdUser());
         userDTOLoginResponse.setEmail(userDetails.getUserEmail());
         userDTOLoginResponse.setToken(jwtTokenService.generateToken(userDetails));
         return userDTOLoginResponse;
-//        return new RecoveryJwtTokenDto(jwtTokenService.generateToken(userDetails));
     }
 
-    // Método responsável por criar um usuário
-    public UserDTOResponse criar(UserDTORequest userDTORequest) {
+    public UserDTOResponse create(UserDTORequest userDTORequest) {
 
         List<Role> roles = new ArrayList<Role>();
         for (int i=0; i<userDTORequest.getRoleList().size(); i++){
@@ -132,36 +115,17 @@ public class UserService {
             role.setName(RoleName.valueOf(userDTORequest.getRoleList().get(i)));
             roles.add(role);
         }
-//        // Atribui ao usuário uma permissão específica
-        Role role = new Role();
-//        role.setName(userDTORequest.getRoles());
-//        newUser.setRoles(List.of(role));
-//
-//        // Cria um novo usuário com os dados fornecidos
-
 
         User user = new User();
         user.setNickname(userDTORequest.getNickname());
         user.setEmail(userDTORequest.getEmail());
-        user.setPassword_hash(securityConfiguration.passwordEncoder().encode(userDTORequest.getPassword_hash()));
+        user.setPasswordHash(securityConfiguration.passwordEncoder().encode(userDTORequest.getPasswordHash()));
         user.setCoin(0);
         user.setStatus(1);
-        user.setCreated_at(LocalDateTime.now());
+        user.setCreatedAt(LocalDateTime.now());
         user.setRoles(roles);
-        User usersave = userRepository.save(user);
-//        newUser.setLogin(userDTORequest.getLogin());
-//        // Codifica a senha do usuário com o algoritmo bcrypt
-//        newUser.setSenha(securityConfiguration.passwordEncoder().encode(userDTORequest.getSenha()));
-//
-//
-//        // Salva o novo usuário no banco de dados
-        UserDTOResponse userDTO = new UserDTOResponse();
-        user.setId(usersave.getId());
-        user.setEmail(usersave.getEmail());
-        user.setNickname(usersave.getNickname());
-        user.setCoin(usersave.getCoin());
-        user.setCreated_at(usersave.getCreated_at());
-        return userDTO;
+        User userSave = userRepository.save(user);
+
+        return modelMapper.map(userSave, UserDTOResponse.class);
     }
 }
-

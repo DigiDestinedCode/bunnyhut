@@ -17,11 +17,11 @@ public interface VisitRepository extends JpaRepository<Visit, Integer> {
 //    @Modifying
 //    @Transactional
 //    @Query("UPDATE Visit p SET p.status = -1 WHERE p.id = :id")
-//    void apagadoLogicoVisit(@Param("id") Integer visitId);
+//    void logicalDeleteVisit(@Param("id") Integer visitId);
 
     @Query("SELECT p from Visit p")
     List<Visit> listVisits();
 
     @Query("SELECT p from Visit p where p.id=:id")
-    Visit obterVisitPeloId(@Param("id") Integer visitId);
+    Visit getVisitById(@Param("id") Integer visitId);
 }

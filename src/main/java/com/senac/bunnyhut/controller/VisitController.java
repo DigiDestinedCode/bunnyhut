@@ -2,7 +2,6 @@ package com.senac.bunnyhut.controller;
 
 import com.senac.bunnyhut.dto.request.VisitDTORequest;
 import com.senac.bunnyhut.dto.response.VisitDTOResponse;
-import com.senac.bunnyhut.dto.response.VisitDTOUpdateResponse;
 import com.senac.bunnyhut.service.VisitService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -22,48 +21,48 @@ public class VisitController {
         this.visitService = visitService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar visits",
-            description = "Endpoint para listar todos os visits"
+            summary = "List all visits",
+            description = "Endpoint to list all visits"
     )
     public ResponseEntity<List<VisitDTOResponse>> listVisits() {
         return ResponseEntity.ok(visitService.listVisits());
     }
 
-    @GetMapping("/listarPorVisitId/{visitId}")
+    @GetMapping("/listById/{visitId}")
     @Operation(
-            summary = "Listar visit pelo id de visit",
-            description = "Endpoint para listar visit por Id de visit"
+            summary = "List visit by ID",
+            description = "Endpoint to list visit by ID"
     )
-    public ResponseEntity<VisitDTOResponse> listarPorVisitId(@PathVariable("visitId") Integer visitId) {
-        VisitDTOResponse visit = visitService.listarPorVisitId(visitId);
+    public ResponseEntity<VisitDTOResponse> getVisitById(@PathVariable("visitId") Integer visitId) {
+        VisitDTOResponse visit = visitService.getVisitById(visitId);
         if (visit == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(visit);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo visit",
-            description = "Endpoint para criar um novo registro de visit"
+            summary = "Create new visit",
+            description = "Endpoint to create a new visit record"
     )
-    public ResponseEntity<VisitDTOResponse> criarVisit(
+    public ResponseEntity<VisitDTOResponse> createVisit(
             @Valid @RequestBody VisitDTORequest visit
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(visitService.criarVisit(visit));
+        return ResponseEntity.status(HttpStatus.CREATED).body(visitService.createVisit(visit));
     }
 
-    @PutMapping("/atualizar/{visitId}")
+    @PutMapping("/update/{visitId}")
     @Operation(
-            summary = "Atualizar todos os dados do visit",
-            description = "Endpoint para atualizar o registro de visit"
+            summary = "Update all visit data",
+            description = "Endpoint to update the visit record"
     )
-    public ResponseEntity<VisitDTOResponse> atualizarVisit(
+    public ResponseEntity<VisitDTOResponse> updateVisit(
             @PathVariable("visitId") Integer visitId,
             @Valid @RequestBody VisitDTORequest visitDTORequest
     ) {
-        return ResponseEntity.ok(visitService.atualizarVisit(visitId, visitDTORequest));
+        return ResponseEntity.ok(visitService.updateVisit(visitId, visitDTORequest));
     }
 }

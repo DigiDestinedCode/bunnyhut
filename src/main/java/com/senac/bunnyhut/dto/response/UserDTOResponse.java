@@ -11,59 +11,59 @@ public class UserDTOResponse {
     private LocalDateTime created_at;
     private Integer status;
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getnickname() {
+    public String getNickname() {
         return nickname;
     }
 
-    public void setnickname(String nickname) {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    public String getemail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setemail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPassword_hash() {
+    public String getPasswordHash() {
         return password_hash;
     }
 
-    public void setPassword_hash(String password_hash) {
+    public void setPasswordHash(String password_hash) {
         this.password_hash = password_hash;
     }
 
-    public Integer getcoin() {
+    public Integer getCoin() {
         return coin;
     }
 
-    public void setcoin(Integer coin) {
+    public void setCoin(Integer coin) {
         this.coin = coin;
     }
 
-    public LocalDateTime getcreated_at() {
+    public LocalDateTime getCreatedAt() {
         return created_at;
     }
 
-    public void setcreated_at(LocalDateTime created_at) {
+    public void setCreatedAt(LocalDateTime created_at) {
         this.created_at = created_at;
     }
 
-    public Integer getstatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setstatus(Integer status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 }

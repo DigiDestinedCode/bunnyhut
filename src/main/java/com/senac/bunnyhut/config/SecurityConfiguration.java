@@ -23,8 +23,8 @@ public class SecurityConfiguration {
     private UserAuthenticationFilter userAuthenticationFilter;
 
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED = {
-            "/api/user/login", // Url que usaremos para fazer login
-            "/api/user/criar", //, Url que usaremos para criar um usuário
+            "/api/user/login",
+            "/api/user/create",
             "/h2-console",
             // Swagger/OpenAPI UI
             "/v3/api-docs/**",
@@ -32,114 +32,113 @@ public class SecurityConfiguration {
             "/swagger-ui.html"
     };
 
-    // Endpoints que requerem autenticação para serem acessados
+    // Endpoints that require authentication
     public static final String [] ENDPOINTS_WITH_AUTHENTICATION_REQUIRED = {
-
             //Background_Slot
-            "/api/background-slot/listar",
-            "/api/background-slot/listarPorBackground_SlotId/**",
+            "/api/backgroundslot/list",
+            "/api/backgroundslot/listById/**",
 
             //Background
-            "/api/background/listar",
-            "/api/background/listarPorBackgroundId/**",
+            "/api/background/list",
+            "/api/background/listById/**",
 
             //Furniture
-            "/api/furniture/listar",
-            "/api/furniture/listarPorFurnitureId/**",
+            "/api/furniture/list",
+            "/api/furniture/listById/**",
 
             //Garden_Spot
-            "/api/garden-spot/listar",
-            "/api/garden-spot/listarPorGarden_SpotId/**",
+            "/api/gardenspot/list",
+            "/api/gardenspot/listById/**",
 
             //Garden
-            "/api/garden/listar",
-            "/api/garden/listarPorGardenId/**",
+            "/api/garden/list",
+            "/api/garden/listById/**",
 
             //Inventory
-            "/api/inventory/listar",
-            "/api/inventory/listarPorInventoryId/**",
+            "/api/inventory/list",
+            "/api/inventory/listById/**",
 
             //Item
-            "/api/item/listar",
-            "/api/item/listarPorItemId/**",
+            "/api/item/list",
+            "/api/item/listById/**",
 
             //Plant
-            "/api/plant/listar",
-            "/api/plant/listarPorPlantId/**",
+            "/api/plant/list",
+            "/api/plant/listById/**",
 
             //Rabbit
-            "/api/rabbit/listar",
-            "/api/rabbit/listarPorRabbitId/**",
+            "/api/rabbit/list",
+            "/api/rabbit/listById/**",
 
             //Transaction_Coin
-            "/api/transaction-coin/listar",
-            "/api/transaction-coin/listarPorTransaction_CoinId/**",
+            "/api/transactioncoin/list",
+            "/api/transactioncoin/listById/**",
 
             //User
-            "/api/user/listar",
-            "/api/user/listarPorUserId/**",
+            "/api/user/list",
+            "/api/user/listById/**",
 
             //Visit
-            "/api/visit/listar",
-            "/api/visit/listarPorVisitId/**",
+            "/api/visit/list",
+            "/api/visit/listById/**",
     };
 
-    // Endpoints que só podem ser acessador por usuários com permissão de cliente
+    // Endpoints for regular users (if needed in the future)
     public static final String [] ENDPOINTS_USER = {
     };
 
-    // Endpoints que só podem ser acessador por usuários com permissão de administrador
+    // Endpoints for administrators
     public static final String [] ENDPOINTS_ADMIN = {
 
             //Background_Slot
-            "/api/background-slot/criar",
-            "/api/background-slot/atualizar/**",
+            "/api/backgroundslot/create",
+            "/api/backgroundslot/update/**",
 
             //Background
-            "/api/background/criar",
-            "/api/background/atualizar/**",
+            "/api/background/create",
+            "/api/background/update/**",
 
             //Furniture
-            "/api/furniture/criar",
-            "/api/furniture/atualizar/**",
+            "/api/furniture/create",
+            "/api/furniture/update/**",
 
             //Garden_Spot
-            "/api/garden-spot/criar",
-            "/api/garden-spot/atualizar/**",
+            "/api/gardenspot/create",
+            "/api/gardenspot/update/**",
 
             //Garden
-            "/api/garden/criar",
-            "/api/garden/atualizar/**",
+            "/api/garden/create",
+            "/api/garden/update/**",
 
             //Inventory
-            "/api/inventory/criar",
-            "/api/inventory/atualizar/**",
+            "/api/inventory/create",
+            "/api/inventory/update/**",
 
             //Item
-            "/api/item/criar",
-            "/api/item/atualizar/**",
-            "/api/item/apagar",
+            "/api/item/create",
+            "/api/item/update/**",
+            "/api/item/delete/**",
 
             //Plant
-            "/api/plant/criar",
-            "/api/plant/atualizar/**",
+            "/api/plant/create",
+            "/api/plant/update/**",
 
             //Rabbit
-            "/api/rabbit/criar",
-            "/api/rabbit/atualizar/**",
+            "/api/rabbit/create",
+            "/api/rabbit/update/**",
 
             //Transaction_Coin
-            "/api/transaction-coin/criar",
-            "/api/transaction-coin/atualizar/**",
+            "/api/transactioncoin/create",
+            "/api/transactioncoin/update/**",
 
             //User
-            "/api/user/criar",
-            "/api/user/atualizar/**",
-            "/api/user/apagar",
+            "/api/user/create",
+            "/api/user/update/**",
+            "/api/user/delete/**",
 
             //Visit
-            "/api/visit/criar",
-            "/api/visit/atualizar/**",
+            "/api/visit/create",
+            "/api/visit/update/**",
     };
 
     @Bean
@@ -149,7 +148,7 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED).permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // adicionando para visualizar em swagger
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(ENDPOINTS_ADMIN).hasRole("ADMIN")
                         .requestMatchers(ENDPOINTS_USER).hasRole("USER")
                         .requestMatchers(ENDPOINTS_WITH_AUTHENTICATION_REQUIRED).authenticated()

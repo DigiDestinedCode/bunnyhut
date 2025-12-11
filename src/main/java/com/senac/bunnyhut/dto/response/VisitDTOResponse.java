@@ -10,11 +10,11 @@ public class VisitDTOResponse {
     private LocalDateTime date;
     private Integer qty;
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -34,19 +34,19 @@ public class VisitDTOResponse {
         this.rabbitId = rabbitId;
     }
 
-    public LocalDateTime getdate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setdate(LocalDateTime date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public Integer getqty() {
+    public Integer getQty() {
         return qty;
     }
 
-    public void setqty(Integer qty) {
+    public void setQty(Integer qty) {
         this.qty = qty;
     }
 }

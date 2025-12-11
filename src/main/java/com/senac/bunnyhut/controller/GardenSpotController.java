@@ -21,48 +21,48 @@ public class GardenSpotController {
         this.gardenspotService = gardenspotService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar gardenspots",
-            description = "Endpoint para listar todos os gardenspots"
+            summary = "List all garden spots",
+            description = "Endpoint to list all garden spots"
     )
-    public ResponseEntity<List<GardenSpotDTOResponse>> listGardenspots() {
+    public ResponseEntity<List<GardenSpotDTOResponse>> listGardenSpots() {
         return ResponseEntity.ok(gardenspotService.listGardenSpots());
     }
 
-    @GetMapping("/listarPorGardenspotId/{gardenspotId}")
+    @GetMapping("/listById/{gardenspotId}")
     @Operation(
-            summary = "Listar gardenspot pelo id de gardenspot",
-            description = "Endpoint para listar gardenspot por Id de gardenspot"
+            summary = "List garden spot by ID",
+            description = "Endpoint to list garden spot by ID"
     )
-    public ResponseEntity<GardenSpotDTOResponse> listarPorGardenspotId(@PathVariable("gardenspotId") Integer gardenspotId) {
-        GardenSpotDTOResponse gardenspot = gardenspotService.listarPorGardenSpotId(gardenspotId);
+    public ResponseEntity<GardenSpotDTOResponse> getGardenSpotById(@PathVariable("gardenspotId") Integer gardenspotId) {
+        GardenSpotDTOResponse gardenspot = gardenspotService.getGardenSpotById(gardenspotId);
         if (gardenspot == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(gardenspot);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo gardenspot",
-            description = "Endpoint para criar um novo registro de gardenspot"
+            summary = "Create new garden spot",
+            description = "Endpoint to create a new garden spot record"
     )
-    public ResponseEntity<GardenSpotDTOResponse> criarGardenspot(
+    public ResponseEntity<GardenSpotDTOResponse> createGardenSpot(
             @Valid @RequestBody GardenSpotDTORequest gardenspot
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(gardenspotService.criarGardenSpot(gardenspot));
+        return ResponseEntity.status(HttpStatus.CREATED).body(gardenspotService.createGardenSpot(gardenspot));
     }
 
-    @PutMapping("/atualizar/{gardenspotId}")
+    @PutMapping("/update/{gardenspotId}")
     @Operation(
-            summary = "Atualizar todos os dados do gardenspot",
-            description = "Endpoint para atualizar o registro de gardenspot"
+            summary = "Update all garden spot data",
+            description = "Endpoint to update the garden spot record"
     )
-    public ResponseEntity<GardenSpotDTOResponse> atualizarGardenspot(
+    public ResponseEntity<GardenSpotDTOResponse> updateGardenSpot(
             @PathVariable("gardenspotId") Integer gardenspotId,
             @Valid @RequestBody GardenSpotDTORequest gardenspotDTORequest
     ) {
-        return ResponseEntity.ok(gardenspotService.atualizarGardenSpot(gardenspotId, gardenspotDTORequest));
+        return ResponseEntity.ok(gardenspotService.updateGardenSpot(gardenspotId, gardenspotDTORequest));
     }
 }

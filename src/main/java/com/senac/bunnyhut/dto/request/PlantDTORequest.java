@@ -15,35 +15,35 @@ public class PlantDTORequest {
         this.itemId = itemId;
     }
 
-    public Integer getgrowth_stages() {
+    public Integer getGrowthStages() {
         return growth_stages;
     }
 
-    public void setgrowth_stages(Integer growth_stages) {
+    public void setGrowthStages(Integer growth_stages) {
         this.growth_stages = growth_stages;
     }
 
-    public Integer getgrowth_time() {
+    public Integer getGrowthTime() {
         return growth_time;
     }
 
-    public void setgrowth_time(Integer growth_time) {
+    public void setGrowthTime(Integer growth_time) {
         this.growth_time = growth_time;
     }
 
-    public Integer getharvest_value() {
+    public Integer getHarvestValue() {
         return harvest_value;
     }
 
-    public void setharvest_value(Integer harvest_value) {
+    public void setHarvestValue(Integer harvest_value) {
         this.harvest_value = harvest_value;
     }
 
-    public Integer getharvestable() {
+    public Integer getHarvestable() {
         return harvestable;
     }
 
-    public void setharvestable(Integer harvestable) {
+    public void setHarvestable(Integer harvestable) {
         this.harvestable = harvestable;
     }
 }

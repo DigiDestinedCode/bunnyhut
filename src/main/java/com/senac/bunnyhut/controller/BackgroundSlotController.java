@@ -21,48 +21,48 @@ public class BackgroundSlotController {
         this.backgroundslotService = backgroundslotService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar backgroundSlots",
-            description = "Endpoint para listar todos os backgroundSlots"
+            summary = "List all background slots",
+            description = "Endpoint to list all background slots"
     )
     public ResponseEntity<List<BackgroundSlotDTOResponse>> listBackgroundSlots() {
         return ResponseEntity.ok(backgroundslotService.listBackgroundSlots());
     }
 
-    @GetMapping("/obterBackgroundslotPeloId/{backgroundSlotId}")
+    @GetMapping("/listById/{backgroundSlotId}")
     @Operation(
-            summary = "Listar backgroundSlot pelo id de backgroundSlot",
-            description = "Endpoint para listar backgroundSlot por Id de backgroundSlot"
+            summary = "List background slot by ID",
+            description = "Endpoint to list background slot by ID"
     )
-    public ResponseEntity<BackgroundSlotDTOResponse> obterBackgroundslotPeloId(@PathVariable("backgroundSlotId") Integer backgroundSlotId) {
-        BackgroundSlotDTOResponse backgroundSlot = backgroundslotService.listarPorBackgroundSlotId(backgroundSlotId);
+    public ResponseEntity<BackgroundSlotDTOResponse> getBackgroundSlotById(@PathVariable("backgroundSlotId") Integer backgroundSlotId) {
+        BackgroundSlotDTOResponse backgroundSlot = backgroundslotService.getBackgroundSlotById(backgroundSlotId);
         if (backgroundSlot == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(backgroundSlot);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo backgroundSlot",
-            description = "Endpoint para criar um novo registro de backgroundSlot"
+            summary = "Create new background slot",
+            description = "Endpoint to create a new background slot record"
     )
-    public ResponseEntity<BackgroundSlotDTOResponse> criarBackgroundSlot(
+    public ResponseEntity<BackgroundSlotDTOResponse> createBackgroundSlot(
             @Valid @RequestBody BackgroundSlotDTORequest backgroundSlot
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(backgroundslotService.criarBackgroundSlot(backgroundSlot));
+        return ResponseEntity.status(HttpStatus.CREATED).body(backgroundslotService.createBackgroundSlot(backgroundSlot));
     }
 
-    @PutMapping("/atualizar/{backgroundSlotId}")
+    @PutMapping("/update/{backgroundSlotId}")
     @Operation(
-            summary = "Atualizar todos os dados do backgroundSlot",
-            description = "Endpoint para atualizar o registro de backgroundSlot"
+            summary = "Update all background slot data",
+            description = "Endpoint to update the background slot record"
     )
-    public ResponseEntity<BackgroundSlotDTOResponse> atualizarBackgroundSlot(
+    public ResponseEntity<BackgroundSlotDTOResponse> updateBackgroundSlot(
             @PathVariable("backgroundSlotId") Integer backgroundSlotId,
             @Valid @RequestBody BackgroundSlotDTORequest backgroundSlotDTORequest
     ) {
-        return ResponseEntity.ok(backgroundslotService.atualizarBackgroundSlot(backgroundSlotId, backgroundSlotDTORequest));
+        return ResponseEntity.ok(backgroundslotService.updateBackgroundSlot(backgroundSlotId, backgroundSlotDTORequest));
     }
 }

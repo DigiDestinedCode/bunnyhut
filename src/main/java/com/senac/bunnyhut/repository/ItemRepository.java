@@ -17,11 +17,11 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
     @Modifying
     @Transactional
     @Query("UPDATE Item p SET p.status = -1 WHERE p.id = :id")
-    void apagadoLogicoItem(@Param("id") Integer itemId);
+    void logicalDeleteItem(@Param("id") Integer itemId);
 
     @Query("SELECT p from Item p")
     List<Item> listItems();
 
     @Query("SELECT p from Item p where p.id=:id")
-    Item obterItemPeloId(@Param("id") Integer itemId);
+    Item getItemById(@Param("id") Integer itemId);
 }

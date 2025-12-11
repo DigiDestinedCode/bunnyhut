@@ -18,12 +18,12 @@ public class Item {
     @Column(name = "item_price")
     private Integer price;
     @Column(name = "item_image_url")
-    private String image_url;
+    private String imageUrl;
     @Column(name = "item_status")
     private Integer status;
-    // Checar se esse é o tipo certo
     @Column(name = "item_type")
-    private EnumType type;
+    @Enumerated(EnumType.STRING)
+    private ItemType type;
 
     @OneToMany(mappedBy = "item")
     private Set<Background> backgrounds;
@@ -69,12 +69,12 @@ public class Item {
         this.price = price;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Integer getStatus() {
@@ -85,11 +85,11 @@ public class Item {
         this.status = status;
     }
 
-    public EnumType getType() {
+    public ItemType getType() {
         return type;
     }
 
-    public void setType(EnumType type) {
+    public void setType(ItemType type) {
         this.type = type;
     }
 

@@ -6,11 +6,11 @@ public class InventoryDTOResponse {
     private Integer itemId;
     private Integer qty;
 
-    public Integer getid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -30,11 +30,11 @@ public class InventoryDTOResponse {
         this.itemId = itemId;
     }
 
-    public Integer getqty() {
+    public Integer getQty() {
         return qty;
     }
 
-    public void setqty(Integer qty) {
+    public void setQty(Integer qty) {
         this.qty = qty;
     }
 }

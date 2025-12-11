@@ -1,11 +1,14 @@
 package com.senac.bunnyhut.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserDTORequest {
     private String nickname;
     private String email;
+    @JsonProperty("passwordHash")
     private String password_hash;
     private Integer coin;
     private LocalDateTime created_at;
@@ -28,11 +31,11 @@ public class UserDTORequest {
         this.email = email;
     }
 
-    public String getPassword_hash() {
+    public String getPasswordHash() {
         return password_hash;
     }
 
-    public void setPassword_hash(String password_hash) {
+    public void setPasswordHash(String password_hash) {
         this.password_hash = password_hash;
     }
 
@@ -44,11 +47,11 @@ public class UserDTORequest {
         this.coin = coin;
     }
 
-    public LocalDateTime getCreated_at() {
+    public LocalDateTime getCreatedAt() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreatedAt(LocalDateTime created_at) {
         this.created_at = created_at;
     }
 

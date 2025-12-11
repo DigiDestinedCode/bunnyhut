@@ -39,19 +39,19 @@ public class Plant {
         this.id = id;
     }
 
-    public Integer getGrowth_stages() {
+    public Integer getGrowthStages() {
         return growth_stages;
     }
 
-    public void setGrowth_stages(Integer growth_stages) {
+    public void setGrowthStages(Integer growth_stages) {
         this.growth_stages = growth_stages;
     }
 
-    public Integer getHarvest_value() {
+    public Integer getHarvestValue() {
         return harvest_value;
     }
 
-    public void setHarvest_value(Integer harvest_value) {
+    public void setHarvestValue(Integer harvest_value) {
         this.harvest_value = harvest_value;
     }
 
@@ -79,11 +79,11 @@ public class Plant {
         this.item = item;
     }
 
-    public Set<GardenSpot> getGarden_spots() {
+    public Set<GardenSpot> getGardenSpots() {
         return garden_spots;
     }
 
-    public void setGarden_spots(Set<GardenSpot> garden_spots) {
+    public void setGardenSpots(Set<GardenSpot> garden_spots) {
         this.garden_spots = garden_spots;
     }
 }

@@ -59,11 +59,11 @@ public class Garden {
         this.user = user;
     }
 
-    public Set<GardenSpot> getGarden_spots() {
+    public Set<GardenSpot> getGardenSpots() {
         return garden_spots;
     }
 
-    public void setGarden_spots(Set<GardenSpot> garden_spots) {
+    public void setGardenSpots(Set<GardenSpot> garden_spots) {
         this.garden_spots = garden_spots;
     }
 }

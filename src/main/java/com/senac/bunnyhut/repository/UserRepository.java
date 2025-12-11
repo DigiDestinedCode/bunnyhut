@@ -18,13 +18,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Transactional
     @Query("UPDATE User p SET p.status = -1 WHERE p.id = :id")
-    void apagadoLogicoUser(@Param("id") Integer userId);
+    void logicalDeleteUser(@Param("id") Integer userId);
 
     @Query("SELECT p from User p WHERE p.status >= 0")
     List<User> listUsers();
 
     @Query("SELECT p from User p where p.id=:id AND p.status >=0")
-    User obterUserPeloId(@Param("id") Integer userId);
+    User getUserById(@Param("id") Integer userId);
 
     Optional<User> findByEmail(String email);
 }

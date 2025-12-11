@@ -2,7 +2,6 @@ package com.senac.bunnyhut.controller;
 
 import com.senac.bunnyhut.dto.request.PlantDTORequest;
 import com.senac.bunnyhut.dto.response.PlantDTOResponse;
-import com.senac.bunnyhut.dto.response.PlantDTOUpdateResponse;
 import com.senac.bunnyhut.service.PlantService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -22,48 +21,48 @@ public class PlantController {
         this.plantService = plantService;
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/list")
     @Operation(
-            summary = "Listar plants",
-            description = "Endpoint para listar todos os plants"
+            summary = "List all plants",
+            description = "Endpoint to list all plants"
     )
     public ResponseEntity<List<PlantDTOResponse>> listPlants() {
         return ResponseEntity.ok(plantService.listPlants());
     }
 
-    @GetMapping("/listarPorPlantId/{plantId}")
+    @GetMapping("/listById/{plantId}")
     @Operation(
-            summary = "Listar plant pelo id de plant",
-            description = "Endpoint para listar plant por Id de plant"
+            summary = "List plant by ID",
+            description = "Endpoint to list plant by ID"
     )
-    public ResponseEntity<PlantDTOResponse> listarPorPlantId(@PathVariable("plantId") Integer plantId) {
-        PlantDTOResponse plant = plantService.listarPorPlantId(plantId);
+    public ResponseEntity<PlantDTOResponse> getPlantById(@PathVariable("plantId") Integer plantId) {
+        PlantDTOResponse plant = plantService.getPlantById(plantId);
         if (plant == null) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.ok(plant);
         }
     }
-    @PostMapping("/criar")
+    @PostMapping("/create")
     @Operation(
-            summary = "Criar novo plant",
-            description = "Endpoint para criar um novo registro de plant"
+            summary = "Create new plant",
+            description = "Endpoint to create a new plant record"
     )
-    public ResponseEntity<PlantDTOResponse> criarPlant(
+    public ResponseEntity<PlantDTOResponse> createPlant(
             @Valid @RequestBody PlantDTORequest plant
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(plantService.criarPlant(plant));
+        return ResponseEntity.status(HttpStatus.CREATED).body(plantService.createPlant(plant));
     }
 
-    @PutMapping("/atualizar/{plantId}")
+    @PutMapping("/update/{plantId}")
     @Operation(
-            summary = "Atualizar todos os dados do plant",
-            description = "Endpoint para atualizar o registro de plant"
+            summary = "Update all plant data",
+            description = "Endpoint to update the plant record"
     )
-    public ResponseEntity<PlantDTOResponse> atualizarPlant(
+    public ResponseEntity<PlantDTOResponse> updatePlant(
             @PathVariable("plantId") Integer plantId,
             @Valid @RequestBody PlantDTORequest plantDTORequest
     ) {
-        return ResponseEntity.ok(plantService.atualizarPlant(plantId, plantDTORequest));
+        return ResponseEntity.ok(plantService.updatePlant(plantId, plantDTORequest));
     }
 }

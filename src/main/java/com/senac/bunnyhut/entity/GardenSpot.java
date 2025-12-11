@@ -40,11 +40,11 @@ public class GardenSpot {
         this.id = id;
     }
 
-    public LocalDateTime getPlanted_at() {
+    public LocalDateTime getPlantedAt() {
         return planted_at;
     }
 
-    public void setPlanted_at(LocalDateTime planted_at) {
+    public void setPlantedAt(LocalDateTime planted_at) {
         this.planted_at = planted_at;
     }
 
