@@ -23,73 +23,115 @@ import java.util.Optional;
 public class UserAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtTokenService jwtTokenService; // Service que definimos anteriormente
+    private JwtTokenService jwtTokenService;
 
     @Autowired
-    private UserRepository userRepository; // Repository que definimos anteriormente
+    private UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // Verifica se o endpoint requer autenticação antes de processar a requisição
+
+        // 1. Skip all logic for OPTIONS pre-flight requests
+        if (request.getMethod().equalsIgnoreCase("OPTIONS")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // Only check for a token if the endpoint is NOT public
         try {
             if (checkIfEndpointIsNotPublic(request)) {
-                String token = recoveryToken(request); // Recupera o token do cabeçalho Authorization da requisição
+                String token = recoveryToken(request); // Retrieve the token from the request Authorization header
 
                 if (token != null) {
-                    String email = jwtTokenService.getSubjectFromToken(token); // Obtém o assunto (neste caso, o nome de usuário) do token
-                    Optional<User> userOptional = userRepository.findByEmail(email); // Busca o usuário pelo email (que é o assunto do token)
+                    // --- DEBUG POINT START ---
+                    System.out.println("DEBUG: Attempting token validation for URI: " + request.getRequestURI());
+                    // --- DEBUG POINT END ---
+
+                    String email = jwtTokenService.getSubjectFromToken(token); // Get the subject (username/email) from the token
+                    Optional<User> userOptional = userRepository.findByEmail(email); // Find the user by email
 
                     if (userOptional.isPresent() && userOptional.get().getStatus() >= 0) {
                         User user = userOptional.get();
-                        UserDetailsImpl userDetails = new UserDetailsImpl(user); // Cria um UserDetails com o usuário encontrado
+                        UserDetailsImpl userDetails = new UserDetailsImpl(user); // Create UserDetails
 
-                        // Cria um objeto de autenticação do Spring Security
+                        // Create Spring Security authentication object
                         Authentication authentication =
                                 new UsernamePasswordAuthenticationToken(
                                         userDetails.getUsername(), null,
                                         userDetails.getAuthorities()
                                 );
 
-                        // Define o objeto de autenticação no contexto de segurança do Spring Security
+                        // Set the authentication object in the Spring Security context
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                     } else  {
                         response.setStatus(401);
                         response.setContentType("application/json");
-                        response.getWriter().write("{\"error\": \"Usuário não encontrado ou inativo\"}");
+                        response.getWriter().write("{\"error\": \"User not found or inactive\"}");
                         return;
                     }
                 } else {
                     response.setStatus(401);
                     response.setContentType("application/json");
-                    response.getWriter().write("{\"error\": \"Token ausente\"}");
+                    response.getWriter().write("{\"error\": \"Token missing\"}");
                     return;
                 }
             }
-            filterChain.doFilter(request, response); // Continua o processamento da requisição
+            filterChain.doFilter(request, response); // Continue the request processing
         } catch (Exception e) {
+            // This catches exceptions thrown by the JwtTokenService when the token is invalid/expired
             response.setStatus(401);
             response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"Token invalido ou expirado\"}");
+            response.getWriter().write("{\"error\": \"Invalid or expired token\"}");
         }
     }
 
-    // Recupera o token do cabeçalho Authorization da requisição
+    // Retrieves the token from the Authorization header
     private String recoveryToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
+
+        // --- CRITICAL DEBUG POINT START ---
+        // This will print the raw header value to the console for every request.
+        System.out.println("DEBUG: RAW Authorization Header: " + authorizationHeader);
+        // --- CRITICAL DEBUG POINT END ---
+
         if (authorizationHeader != null) {
             return authorizationHeader.replace("Bearer ", "");
         }
         return null;
     }
 
-    // Verifica se o endpoint requer autenticação antes de processar a requisição
+    // Checks if the endpoint requires authentication (returns TRUE if it requires a token)
     private boolean checkIfEndpointIsNotPublic(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
-        return Arrays.stream(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED)
-                .noneMatch(publicEndpoint -> {
-                    String cleanEndpoint = publicEndpoint.replace("/**", "");
-                    return requestURI.startsWith(cleanEndpoint);
+        String requestURI = request.getRequestURI().toLowerCase();
+
+        // Normalize the Request URI (remove trailing slash and lowercase)
+        String tempURI = requestURI;
+        if (tempURI.endsWith("/") && tempURI.length() > 1) {
+            tempURI = tempURI.substring(0, tempURI.length() - 1);
+        }
+        final String finalNormalizedURI = tempURI;
+
+        // Check if ANY public endpoint is a match.
+        boolean isPublic = Arrays.stream(SecurityConfiguration.ENDPOINTS_WITH_AUTHENTICATION_NOT_REQUIRED)
+                .anyMatch(publicEndpoint -> {
+                    String normalizedPublicEndpoint = publicEndpoint.toLowerCase().replace("/**", "");
+
+                    // 1. Exact match (e.g., /api/user/create matches /api/user/create)
+                    if (normalizedPublicEndpoint.equals(finalNormalizedURI)) {
+                        return true;
+                    }
+
+                    // 2. Wildcard match (e.g., /v3/api-docs/** matches /v3/api-docs/something)
+                    if (publicEndpoint.endsWith("/**")) {
+                        if (finalNormalizedURI.startsWith(normalizedPublicEndpoint)) {
+                            return true;
+                        }
+                    }
+                    return false;
                 });
+
+        // The method returns TRUE if the endpoint is NOT public (i.e., requires a token)
+        return !isPublic;
     }
 
 }

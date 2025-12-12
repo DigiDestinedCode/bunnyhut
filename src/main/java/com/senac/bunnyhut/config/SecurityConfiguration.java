@@ -132,7 +132,6 @@ public class SecurityConfiguration {
             "/api/transactioncoin/update/**",
 
             //User
-            "/api/user/create",
             "/api/user/update/**",
             "/api/user/delete/**",
 

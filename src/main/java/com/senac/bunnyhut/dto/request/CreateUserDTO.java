@@ -1,11 +1,15 @@
 package com.senac.bunnyhut.dto.request;
 
-import com.senac.bunnyhut.entity.RoleName;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 public record CreateUserDTO(
+        String nickname,
         String email,
+        @JsonProperty("passwordHash")
         String password_hash,
-        RoleName role
+        List<String> roleList
 ) {
 
 }

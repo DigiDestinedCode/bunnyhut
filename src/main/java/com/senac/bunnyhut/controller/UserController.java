@@ -1,5 +1,6 @@
 package com.senac.bunnyhut.controller;
 
+import com.senac.bunnyhut.dto.request.CreateUserDTO;
 import com.senac.bunnyhut.dto.request.UserDTOLoginRequest;
 import com.senac.bunnyhut.dto.request.UserDTORequest;
 import com.senac.bunnyhut.dto.response.UserDTOLoginResponse;
@@ -73,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserDTOResponse> create(@RequestBody UserDTORequest userDTORequest) {
-        return ResponseEntity.ok(userService.create(userDTORequest));
+    public ResponseEntity<UserDTOResponse> create(@RequestBody CreateUserDTO userDTO) {
+        return ResponseEntity.ok(userService.create(userDTO));
     }
 }

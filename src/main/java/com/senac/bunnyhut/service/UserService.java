@@ -1,6 +1,7 @@
 package com.senac.bunnyhut.service;
 
 import com.senac.bunnyhut.config.SecurityConfiguration;
+import com.senac.bunnyhut.dto.request.CreateUserDTO;
 import com.senac.bunnyhut.dto.request.UserDTOLoginRequest;
 import com.senac.bunnyhut.dto.request.UserDTORequest;
 import com.senac.bunnyhut.dto.response.UserDTOLoginResponse;
@@ -107,19 +108,22 @@ public class UserService {
         return userDTOLoginResponse;
     }
 
-    public UserDTOResponse create(UserDTORequest userDTORequest) {
+    @Transactional
+    public UserDTOResponse create(CreateUserDTO userDTO) { // CHANGED: Signature uses CreateUserDTO
 
         List<Role> roles = new ArrayList<Role>();
-        for (int i=0; i<userDTORequest.getRoleList().size(); i++){
+        // Access fields using record accessors (userDTO.roleList())
+        for (int i=0; i<userDTO.roleList().size(); i++){
             Role role = new Role();
-            role.setName(RoleName.valueOf(userDTORequest.getRoleList().get(i)));
+            role.setName(RoleName.valueOf(userDTO.roleList().get(i)));
             roles.add(role);
         }
 
         User user = new User();
-        user.setNickname(userDTORequest.getNickname());
-        user.setEmail(userDTORequest.getEmail());
-        user.setPasswordHash(securityConfiguration.passwordEncoder().encode(userDTORequest.getPasswordHash()));
+        // Access fields using record accessors
+        user.setNickname(userDTO.nickname());
+        user.setEmail(userDTO.email());
+        user.setPasswordHash(securityConfiguration.passwordEncoder().encode(userDTO.password_hash()));
         user.setCoin(0);
         user.setStatus(1);
         user.setCreatedAt(LocalDateTime.now());
